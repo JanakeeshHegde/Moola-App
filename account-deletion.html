@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Deletion &amp; Privacy Rights — MOOLA</title>
+  <meta name="description" content="Request permanent account deletion and data anonymization on MOOLA in compliance with Indian privacy laws.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Top Announcement -->
+  <div class="announcement-bar">
+    <span>Data Privacy Officer: <a href="mailto:privacy@moola.app">privacy@moola.app</a> • Helplines: <a href="tel:+918088653820">+91 80886 53820</a></span>
+  </div>
+
+  <header class="site-header">
+    <div class="container header-content">
+      <a href="index.html" class="brand-logo">
+        <img src="assets/logo_moola.png" alt="MOOLA Logo" class="brand-logo-img">
+        <div class="brand-text-col">
+          <span class="brand-name">MOOLA</span>
+          <span class="brand-tagline">Pure Homemade Food</span>
+        </div>
+      </a>
+      <div class="header-actions">
+        <a href="index.html" class="btn-header btn-maker">Back to Marketplace</a>
+      </div>
+    </div>
+  </header>
+
+  <main style="padding: 48px 0 80px;">
+    <div class="container" style="max-width: 800px;">
+      <h1 style="font-family: var(--font-serif); font-size: 2.2rem; color: var(--color-forest-green); margin-bottom: 8px;">Account Deletion &amp; Data Erasure</h1>
+      <p style="color: var(--color-charcoal-secondary); margin-bottom: 28px;">
+        In compliance with data protection principles and your consumer privacy rights, you may request permanent deletion of your MOOLA buyer or seller account.
+      </p>
+
+      <div style="background: var(--color-error-subtle); border: 1px solid var(--color-error); border-radius: var(--radius-md); padding: 20px; margin-bottom: 28px;">
+        <h3 style="color: var(--color-error); font-size: 1.05rem; margin-bottom: 6px;">Important Consequences of Account Deletion</h3>
+        <ul style="padding-left: 20px; font-size: 0.88rem; color: var(--color-charcoal); line-height: 1.6;">
+          <li>All active login sessions and JWT authentication tokens will be permanently invalidated.</li>
+          <li>Your personal contact information and delivery addresses will be scrubbed and anonymized.</li>
+          <li>If you have pending orders or in-transit postal consignments, deletion will be scheduled upon fulfillment completion.</li>
+          <li>This action is irreversible. You will need to create a new profile to purchase in the future.</li>
+        </ul>
+      </div>
+
+      <div style="background: var(--color-white); border: 1px solid var(--color-sandstone-border); border-radius: var(--radius-md); padding: 28px; box-shadow: var(--shadow-sm);">
+        <h2 style="font-family: var(--font-serif); color: var(--color-charcoal); font-size: 1.4rem; margin-bottom: 16px;">Submit Deletion Request</h2>
+
+        <form id="deletionForm">
+          <div class="order-form-group">
+            <label class="order-form-label" for="deletionReason">Reason for Deletion</label>
+            <textarea id="deletionReason" class="order-form-textarea" rows="3" placeholder="Please let us know why you wish to delete your MOOLA account..." required></textarea>
+          </div>
+
+          <button type="submit" class="btn-primary" id="btnSubmitDeletion" style="background-color: var(--color-error); width: 100%; margin-top: 8px;">
+            Confirm &amp; Queue Permanent Account Deletion
+          </button>
+        </form>
+
+        <div id="deletionNotice" style="display: none; margin-top: 18px; padding: 14px; background: var(--color-forest-green-subtle); border-radius: var(--radius-sm); color: var(--color-forest-green); font-weight: 600;"></div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/api.js"></script>
+  <script>
+    document.getElementById('deletionForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const reason = document.getElementById('deletionReason').value.trim();
+      const btn = document.getElementById('btnSubmitDeletion');
+      const notice = document.getElementById('deletionNotice');
+
+      if (!confirm('Are you sure you want to permanently submit this account deletion request?')) {
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Queueing Deletion...';
+
+      try {
+        const res = await window.moolaApi.requestAccountDeletion(reason);
+        if (res && res.success) {
+          notice.textContent = `Account deletion request submitted (Status: ${res.data.status || 'PENDING'}). Once verified, your credentials and personal data will be completely erased.`;
+          notice.style.display = 'block';
+          document.getElementById('deletionForm').reset();
+        } else {
+          alert('Could not process deletion request: ' + ((res && res.message) || 'Please log in first.'));
+        }
+      } catch (err) {
+        alert('Request failed: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Confirm & Queue Permanent Account Deletion';
+      }
+    });
+  </script>
+</body>
+</html>
