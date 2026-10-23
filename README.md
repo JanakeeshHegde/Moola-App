@@ -60,28 +60,25 @@ Calibrated against the authentic **MOOLA** brand logo:
 
 ## 3. Quick Start & Execution
 
+### ⚡ 1-Click Windows Launchers (Easiest)
+- **Website**: Double-click [run-website.bat](file:///d:/Moola-App/run-website.bat) ➔ Opens browser at `http://localhost:8080/index.html`.
+- **Backend**: Double-click [run-backend.bat](file:///d:/Moola-App/run-backend.bat) ➔ Launches Spring Boot backend on port 5000.
+- **Android**: Double-click [run-android.bat](file:///d:/Moola-App/run-android.bat) ➔ Builds and installs APK on your device/emulator.
+
 ### A. Spring Boot Backend (Port 5000)
 ```powershell
 cd d:\Moola-App\backend
-$env:JAVA_HOME = "C:\Program Files\Android\Android Studio\jbr"
-mvn spring-boot:run
+.\gradlew.bat bootRun
 ```
 - Listens on `http://localhost:5000`.
 - Connects to MongoDB Atlas cluster (`moolacluster`).
 - Automatically seeds Admin, 2 Makers, 2 Buyers, 8 Pantry Categories, and sample products.
 
 ### B. Native Android App (Java & XML Only)
-Open `d:\Moola-App\android-app` in **Android Studio**.
+Open `d:\Moola-App\android-app` in **Android Studio** and click **Run (▶)**.  
 Or compile and install via command line:
 ```powershell
 cd d:\Moola-App\android-app
-$env:JAVA_HOME = "C:\Program Files\Android\Android Studio\jbr"
-$env:ANDROID_HOME = "C:\Users\hegde\AppData\Local\Android\Sdk"
-
-# Assemble Debug APK
-.\gradlew.bat assembleDebug
-
-# Install on Emulator or connected Android Device
 .\gradlew.bat installDebug
 ```
 Output APK: `android-app/app/build/outputs/apk/debug/app-debug.apk` (8.89 MB).
@@ -90,7 +87,11 @@ Output APK: `android-app/app/build/outputs/apk/debug/app-debug.apk` (8.89 MB).
 ```powershell
 python -m http.server 8080 --directory d:\Moola-App\website
 ```
-Open in browser: `http://localhost:8080/index.html`.
+Open in browser: `http://localhost:8080/index.html` (or simply double-click `website/index.html`).
+
+---
+
+See [docs/SETUP.md](file:///d:/Moola-App/docs/SETUP.md) for full step-by-step instructions and demo credentials.
 
 ---
 
