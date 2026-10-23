@@ -15,10 +15,9 @@ import java.util.concurrent.TimeUnit;
 
 public class ApiClient {
 
-    // Default Android Emulator loopback to host machine port 5000
-    // For physical devices (e.g. POCO M4 Pro over Wi-Fi), change this to your PC's LAN IP
-    // or call ApiClient.setCustomBaseUrl(context, "http://192.168.1.X:5000/")
-    public static final String DEFAULT_BASE_URL = "http://10.0.2.2:5000/";
+    // Default development API URL for POCO M4 Pro physical device over Wi-Fi
+    // Can also be dynamically updated via SessionManager or ApiClient.setCustomBaseUrl()
+    public static final String DEFAULT_BASE_URL = "http://192.168.1.40:5000/";
 
     private static Retrofit retrofit = null;
     private static MoolaApiService apiService = null;
@@ -27,7 +26,8 @@ public class ApiClient {
         if (context != null) {
             String savedUrl = SessionManager.getInstance(context).getServerUrl();
             if (savedUrl != null && !savedUrl.trim().isEmpty()) {
-                return savedUrl.trim();
+                String trimmed = savedUrl.trim();
+                return trimmed.endsWith("/") ? trimmed : trimmed + "/";
             }
         }
         return DEFAULT_BASE_URL;
@@ -42,9 +42,9 @@ public class ApiClient {
     }
 
     public static synchronized MoolaApiService getService(Context context) {
-        if (apiService == null) {
+        String baseUrl = getBaseUrl(context);
+        if (apiService == null || retrofit == null || !retrofit.baseUrl().toString().equals(baseUrl)) {
             final SessionManager sessionManager = SessionManager.getInstance(context);
-            String baseUrl = getBaseUrl(context);
 
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
