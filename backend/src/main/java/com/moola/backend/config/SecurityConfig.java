@@ -47,7 +47,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/v1/products/**", "/api/v1/categories/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/account-deletion/public-request").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/enquiries").permitAll()
-                        .requestMatchers("/api/v1/health", "/error", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/api/v1/health", "/api/health", "/error", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
 
                         // Role-specific endpoints
                         .requestMatchers("/api/v1/seller/**").hasAnyRole("SELLER", "ADMIN")
