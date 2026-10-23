@@ -1,148 +1,124 @@
-# MOOLA — Complete Beginner-Friendly Setup & Run Guide
+# MOOLA — Developer Setup & Run Guide
 
-Welcome to **MOOLA**! This guide walks you through running each part of the project step-by-step:
-1. **The Website** (Storefront in your web browser)
-2. **The Backend** (Spring Boot server & database API)
-3. **The Android App** (Native Android phone application)
+Welcome to **MOOLA**! This guide walks you through setting up and running each part of the project using standard terminal commands:
+1. **The Backend** (Spring Boot server & database API)
+2. **The Website** (Web storefront development server)
+3. **The Android App** (Native Android application via Gradle & ADB)
 
----
-
-## ⚡ Super-Fast Method: 1-Click Launchers
-
-For Windows users, 3 double-clickable batch files are ready in the root folder:
-
-| File | What It Does |
-|---|---|
-| [run-website.bat](file:///d:/Moola-App/run-website.bat) | Starts the local web server and automatically opens `http://localhost:8080/index.html` in your default browser. |
-| [run-backend.bat](file:///d:/Moola-App/run-backend.bat) | Starts the Spring Boot backend on port 5000 using the pre-packaged Gradle wrapper (no Maven installation needed!). |
-| [run-android.bat](file:///d:/Moola-App/run-android.bat) | Builds the debug APK and installs it onto your running Android emulator or connected phone. |
+For comprehensive CLI instructions, see [docs/TERMINAL_SETUP.md](file:///d:/Moola-App/docs/TERMINAL_SETUP.md).
 
 ---
 
-## 🌐 1. Running the Website
-
-The website is located in [website/](file:///d:/Moola-App/website). It does not require any build step or NPM installation.
-
-### Method A: Local Web Server (Recommended)
-1. Open Windows PowerShell or Command Prompt.
-2. Run this command:
-   ```powershell
-   python -m http.server 8080 --directory "d:\Moola-App\website"
-   ```
-3. Open your browser to:  
-   👉 **[http://localhost:8080/index.html](http://localhost:8080/index.html)**
-
-### Method B: Double-Click Directly
-Simply navigate to `d:\Moola-App\website\` in Windows File Explorer and double-click [index.html](file:///d:/Moola-App/website/index.html). It will open immediately in Chrome, Edge, or Firefox.
-
-### What You Can Explore on the Website:
-- **Homepage ([index.html](file:///d:/Moola-App/website/index.html))**: Brand hero banner, category navigation (Chips, Honey, Sweets, Pickles, Spices), live search with debounce, product catalog, and WhatsApp direct ordering modal.
-- **Seller Onboarding ([seller.html](file:///d:/Moola-App/website/seller.html))**: Maker registration and KYC verification.
-- **Customer Care ([complaints.html](file:///d:/Moola-App/website/complaints.html))**: 48-hour SLA grievance and complaint ticketing.
-- **Privacy & GDPR ([account-deletion.html](file:///d:/Moola-App/website/account-deletion.html))**: User account erasure requests.
-
----
-
-## ☕ 2. Running the Spring Boot Backend
+## ☕ 1. Running the Spring Boot Backend
 
 The backend is located in [backend/](file:///d:/Moola-App/backend). It provides REST APIs for authentication, product catalogs, order requests, and MongoDB database storage.
 
-### Step 1: Open PowerShell
-Press `Win + X` and select **Terminal** or **PowerShell**, then navigate to the backend folder:
+### Step 1: Open PowerShell in `backend/`
 ```powershell
 cd d:\Moola-App\backend
 ```
 
 ### Step 2: Start the Server
-Run the Gradle wrapper:
+Run using the Gradle wrapper:
 ```powershell
 .\gradlew.bat bootRun
 ```
-*(The script automatically uses Android Studio's bundled Java runtime — you do not need to configure `JAVA_HOME` or install Maven manually).*
+*(Or with Maven if installed: `mvn spring-boot:run`)*.
 
 ### Step 3: Verify It Is Running
-Once started, you will see a log line similar to:
-```text
-Started MoolaBackendApplication in 4.2 seconds
-```
-Open your browser to:
-👉 **[http://localhost:5000/api/health](http://localhost:5000/api/health)**  
-You should see:
-```json
-{
-  "status": "UP",
-  "app": "MOOLA Backend",
-  "version": "1.0.0"
-}
-```
-
----
-
-## 📱 3. Running the Native Android App
-
-The Android app is located in [android-app/](file:///d:/Moola-App/android-app). It is written in pure **Java and XML** (no Kotlin or Jetpack Compose required).
-
-### Option A: Using Android Studio (Recommended)
-
-1. Open **Android Studio**.
-2. Click **File** ➔ **Open...**
-3. Browse to and select:
-   ```
-   d:\Moola-App\android-app
-   ```
-   Click **OK**.
-4. Wait 15–30 seconds for the bottom status bar to display:
-   ```text
-   Gradle sync finished
-   ```
-5. In the top toolbar, select your virtual device (e.g. `Medium_Phone_API_37.0` or any API 26+ device). If you don't have one, click **Device Manager** ➔ **Create Device** (e.g. Pixel 8 with API 34).
-6. Click the green **Run (Play ▶)** button (or press `Shift + F10`).
-7. The app will launch showing the MOOLA splash screen with the authentic brand logo!
-
----
-
-### Option B: Installing the Pre-Built APK via ADB
-
-The debug APK has already been compiled and verified:
-- File path: [android-app/app/build/outputs/apk/debug/app-debug.apk](file:///d:/Moola-App/android-app/app/build/outputs/apk/debug/app-debug.apk)
-
-With an Android phone plugged in via USB (USB debugging enabled) or an emulator open:
+Once started, verify the health-check endpoint:
 ```powershell
-adb install -r "d:\Moola-App\android-app\app\build\outputs\apk\debug\app-debug.apk"
+curl http://localhost:5000/api/health
+```
+Response:
+```json
+{"status":"UP","app":"MOOLA Backend","version":"1.0.0"}
+```
+
+To stop the server: Press `Ctrl + C`.
+
+---
+
+## 🌐 2. Running the Website
+
+The website is located in [website/](file:///d:/Moola-App/website). It uses HTML5, CSS3, ES6 JavaScript, and Vite.
+
+### Step 1: Open PowerShell in `website/`
+```powershell
+cd d:\Moola-App\website
+```
+
+### Step 2: Install Dependencies (First-Time Only)
+```powershell
+npm install
+```
+
+### Step 3: Start Development Server
+```powershell
+npm run dev
+```
+
+Visit **[http://localhost:8080/](http://localhost:8080/)** in your browser.
+
+To compile a production build:
+```powershell
+npm run build
+```
+
+To stop the dev server: Press `Ctrl + C`.
+
+---
+
+## 📱 3. Building & Running the Native Android App
+
+The Android app is located in [android-app/](file:///d:/Moola-App/android-app). It is written in pure **Java and XML** targeting Android SDK 34 with minSdk 26.
+
+### Option A: Via Terminal (Gradle & ADB)
+```powershell
+cd d:\Moola-App\android-app
+
+# 1. Compile debug sources
+.\gradlew.bat compileDebugSources
+
+# 2. Build debug APK
+.\gradlew.bat assembleDebug
+
+# 3. Check connected device or emulator
+adb devices
+
+# 4. Install onto device/emulator
+adb install -r app\build\outputs\apk\debug\app-debug.apk
+
+# 5. Launch the app
 adb shell am start -n com.moola.app/.ui.splash.SplashActivity
 ```
+Output APK path: [android-app/app/build/outputs/apk/debug/app-debug.apk](file:///d:/Moola-App/android-app/app/build/outputs/apk/debug/app-debug.apk)
+
+### Option B: Using Android Studio GUI
+1. Open **Android Studio**.
+2. Click **File** ➔ **Open...** ➔ select `d:\Moola-App\android-app`.
+3. Wait for Gradle sync to complete.
+4. Select your virtual device or connected phone.
+5. Click **Run 'app'** (`Shift + F10`).
 
 ---
 
 ## 🔑 4. Demo Login Accounts (Pre-Seeded)
 
-When the backend starts, [DataSeedService.java](file:///d:/Moola-App/backend/src/main/java/com/moola/backend/service/DataSeedService.java) automatically populates demo accounts and sample products in the database:
+When the backend starts, [DataSeedService.java](file:///d:/Moola-App/backend/src/main/java/com/moola/backend/service/DataSeedService.java) automatically initializes sample food items and these test accounts:
 
 | Role | Phone Number | Password | What You Can Test |
 |---|---|---|---|
-| **Admin** | `+91 90000 00000` | `admin123` | View sales analytics, review maker KYC applications, approve products, resolve complaint tickets. |
-| **Artisan Maker** | `+91 90000 00001` | `admin123` | Access Maker Dashboard, list new homemade food products (photos, prices, stock), manage orders. |
-| **Artisan Maker 2** | `+91 90000 00002` | `admin123` | Smt. Shailaja (Malnad Homemade Crisps). |
-| **Buyer** | `+91 90000 00003` | `admin123` | Browse catalog, place orders, chat with makers on WhatsApp, submit complaints. |
-
-*(You can also click **Register** on either the app or website to create a brand-new account).*
+| **Admin** | `+91 90000 00000` | `admin123` | View sales metrics, review seller KYC, approve products, resolve complaint tickets. |
+| **Maker (Seller)** | `+91 90000 00001` | `admin123` | Seller Dashboard: list new homemade snacks/honey, set prices, check orders. |
+| **Maker 2** | `+91 90000 00002` | `admin123` | Smt. Shailaja (Malnad Homemade Crisps). |
+| **Buyer** | `+91 90000 00003` | `admin123` | Browse catalog, place orders, chat with makers on WhatsApp, file complaints. |
 
 ---
 
-## 🔌 5. How Networking Works (FAQ)
+## 🔌 5. Local Networking Overview
 
-### How does the Android App talk to the Backend?
-- **In the Android Emulator**: Android emulators access the computer's `localhost` via the special IP **`http://10.0.2.2:5000/api/`**. This is pre-configured in [ApiClient.java](file:///d:/Moola-App/android-app/app/src/main/java/com/moola/app/data/api/ApiClient.java). No changes are needed!
-- **On a Physical Android Phone over Wi-Fi**:
-  1. Find your computer's local Wi-Fi IP by running `ipconfig` (e.g. `192.168.1.50`).
-  2. Open [ApiClient.java](file:///d:/Moola-App/android-app/app/src/main/java/com/moola/app/data/api/ApiClient.java#L16) and change `BASE_URL` to `http://192.168.1.50:5000/api/`.
-
-### What if Port 5000 is already in use?
-In PowerShell, find what is using port 5000:
-```powershell
-Get-NetTCPConnection -LocalPort 5000 | Select-Object OwningProcess
-```
-Then stop the process using `Stop-Process -Id <OwningProcess>`.
-
-### Where are the database settings?
-The database is configured in [application.yml](file:///d:/Moola-App/backend/src/main/resources/application.yml). It connects to MongoDB Atlas by default. If connecting from a new Wi-Fi network, make sure your current IP address is whitelisted in your MongoDB Atlas cluster network security settings.
+- **Android Emulator**: Uses `http://10.0.2.2:5000/api/` (pre-configured in [ApiClient.java](file:///d:/Moola-App/android-app/app/src/main/java/com/moola/app/data/api/ApiClient.java)).
+- **Physical Android Phone**: Update `BASE_URL` in [ApiClient.java](file:///d:/Moola-App/android-app/app/src/main/java/com/moola/app/data/api/ApiClient.java#L16) to your PC's local Wi-Fi IP (e.g. `http://192.168.1.50:5000/api/`).
+- **Website**: Connects directly to `http://localhost:5000/api/`.
+- **Database**: Configured in [application.yml](file:///d:/Moola-App/backend/src/main/resources/application.yml) connecting to MongoDB Atlas.
