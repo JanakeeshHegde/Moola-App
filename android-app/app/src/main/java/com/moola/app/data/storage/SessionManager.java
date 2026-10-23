@@ -99,6 +99,22 @@ public class SessionManager {
         return null;
     }
 
+    public void setServerUrl(String url) {
+        if (url != null && !url.trim().isEmpty()) {
+            String cleanUrl = url.trim();
+            if (!cleanUrl.endsWith("/")) {
+                cleanUrl += "/";
+            }
+            prefs.edit().putString("custom_server_url", cleanUrl).apply();
+        } else {
+            prefs.edit().remove("custom_server_url").apply();
+        }
+    }
+
+    public String getServerUrl() {
+        return prefs.getString("custom_server_url", null);
+    }
+
     public void clear() {
         prefs.edit().clear().apply();
     }

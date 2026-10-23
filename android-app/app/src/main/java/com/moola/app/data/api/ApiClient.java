@@ -16,14 +16,35 @@ import java.util.concurrent.TimeUnit;
 public class ApiClient {
 
     // Default Android Emulator loopback to host machine port 5000
+    // For physical devices (e.g. POCO M4 Pro over Wi-Fi), change this to your PC's LAN IP
+    // or call ApiClient.setCustomBaseUrl(context, "http://192.168.1.X:5000/")
     public static final String DEFAULT_BASE_URL = "http://10.0.2.2:5000/";
 
     private static Retrofit retrofit = null;
     private static MoolaApiService apiService = null;
 
+    public static String getBaseUrl(Context context) {
+        if (context != null) {
+            String savedUrl = SessionManager.getInstance(context).getServerUrl();
+            if (savedUrl != null && !savedUrl.trim().isEmpty()) {
+                return savedUrl.trim();
+            }
+        }
+        return DEFAULT_BASE_URL;
+    }
+
+    public static synchronized void setCustomBaseUrl(Context context, String newBaseUrl) {
+        if (context != null) {
+            SessionManager.getInstance(context).setServerUrl(newBaseUrl);
+        }
+        retrofit = null;
+        apiService = null;
+    }
+
     public static synchronized MoolaApiService getService(Context context) {
         if (apiService == null) {
             final SessionManager sessionManager = SessionManager.getInstance(context);
+            String baseUrl = getBaseUrl(context);
 
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -53,7 +74,7 @@ public class ApiClient {
                     .build();
 
             retrofit = new Retrofit.Builder()
-                    .baseUrl(DEFAULT_BASE_URL)
+                    .baseUrl(baseUrl)
                     .client(client)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
