@@ -37,6 +37,7 @@ public class ProductController {
 
         Map<String, Object> data = new HashMap<>();
         data.put("data", products);
+        data.put("products", products);
         data.put("total", products.size());
 
         return ResponseEntity.ok(ApiResponse.ok(data));

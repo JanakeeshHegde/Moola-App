@@ -126,8 +126,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (currentSort) params.sort = currentSort;
 
       const res = await window.moolaApi.getProducts(params);
-      if (res && res.success && res.data && res.data.products) {
-        renderProducts(res.data.products);
+      const items = (res && res.data && (res.data.products || res.data.data)) || [];
+      if (res && res.success && items.length > 0) {
+        renderProducts(items);
       } else {
         renderEmpty();
       }
