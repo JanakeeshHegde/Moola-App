@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MOOLA — Pure Indian Homemade Food Marketplace</title>
+  <meta name="description" content="MOOLA connects you directly with independent Indian home food artisans. Fresh batch jackfruit chips, wild forest honey, heritage pickles, cold-pressed oils, and traditional sweets.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Top Support Announcement -->
+  <div class="announcement-bar">
+    <span>Direct from Artisanal Makers • Zero Artificial Preservatives • Dedicated Helplines: 
+      <a href="tel:+918088653820">+91 80886 53820</a> / 
+      <a href="tel:+916362095126">+91 63620 95126</a>
+    </span>
+  </div>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container header-content">
+      <a href="index.html" class="brand-logo" id="headerLogo">
+        <img src="assets/logo_moola.png" alt="MOOLA Logo" class="brand-logo-img">
+        <div class="brand-text-col">
+          <span class="brand-name">MOOLA</span>
+          <span class="brand-tagline">Pure Homemade Food</span>
+        </div>
+      </a>
+
+      <div class="search-box">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="searchInput" class="search-input" placeholder="Search jackfruit chips, raw honey, spices, pickles..." aria-label="Search homemade food products">
+      </div>
+
+      <div class="header-actions">
+        <a href="seller.html" class="btn-header btn-maker" id="btnMakerPortal">Become a Maker</a>
+        <button class="btn-header btn-auth" id="btnHeaderAuth">Customer Login</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Editorial Hero Section -->
+  <section class="hero-section">
+    <div class="container hero-grid">
+      <div class="hero-content-col">
+        <div class="hero-pill">
+          <span>★</span> 100% Homemade • Direct from Rural & Small-Town Makers
+        </div>
+        <h1 class="hero-title">
+          Authentic Regional Flavours, <span>Straight from the Maker’s Kitchen</span>
+        </h1>
+        <p class="hero-desc">
+          Experience small-batch food crafted using sacred family recipes. From sun-dried jackfruit crisps in Malnad to deep-forest raw honey from the Western Ghats—every batch is cooked fresh with zero industrial preservatives.
+        </p>
+
+        <div class="hero-features">
+          <div class="hero-feature-item">
+            <svg class="hero-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+            <span>Verified FSSAI Makers</span>
+          </div>
+          <div class="hero-feature-item">
+            <svg class="hero-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="1" y="3" width="15" height="13"></rect>
+              <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+              <circle cx="5.5" cy="18.5" r="2.5"></circle>
+              <circle cx="18.5" cy="18.5" r="2.5"></circle>
+            </svg>
+            <span>India Post Consignments</span>
+          </div>
+        </div>
+
+        <div class="hero-cta-group">
+          <a href="#productsSection" class="btn-primary" id="btnHeroExplore">Explore Fresh Batches</a>
+          <a href="tel:+918088653820" class="btn-secondary" id="btnHeroHelpline">Call Care: Line 1</a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-image-card">
+          <img src="https://images.unsplash.com/photo-1527842891421-42eec6e703ea?auto=format&fit=crop&w=800&q=80" alt="Crisp homemade chips made from raw organic produce" id="heroImageMain">
+        </div>
+        <div class="hero-floating-badge">
+          <div class="badge-dot"></div>
+          <div>
+            <div class="badge-text-primary">Freshly Fried in Coconut Oil</div>
+            <div class="badge-text-secondary">Udupi Village Kitchen • Shipped within 24h</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories Horizontal Navigation -->
+  <section class="categories-section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Artisanal Pantries</h2>
+          <p class="section-subtitle">Select a specialty homemade food category</p>
+        </div>
+      </div>
+
+      <div class="category-scroll" id="categoryScroll">
+        <!-- Dynamically rendered via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Products Showcase -->
+  <section class="products-section" id="productsSection">
+    <div class="container">
+      <div class="products-filter-bar">
+        <span class="products-count" id="productsCount">Loading batches...</span>
+        <div>
+          <label for="sortSelect" style="font-size: 0.82rem; margin-right: 6px; color: #5A6065;">Sort:</label>
+          <select id="sortSelect" class="sort-select">
+            <option value="newest">Recently Prepared</option>
+            <option value="price_asc">Price: Low to High</option>
+            <option value="price_desc">Price: High to Low</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="products-grid" id="productsGrid">
+        <!-- Rendered dynamically via app.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust & Integrity Section -->
+  <section class="trust-section">
+    <div class="container">
+      <div class="trust-grid">
+        <div class="trust-card">
+          <h3 class="trust-title">Zero Cold Storage</h3>
+          <p class="trust-desc">Our independent village makers fry, bake, and press batches only upon order placement so you receive peak aroma and crispness.</p>
+        </div>
+        <div class="trust-card">
+          <h3 class="trust-title">Direct Fair Maker Pricing</h3>
+          <p class="trust-desc">No corporate middlemen markups. Makers receive fair payment directly to their bank accounts or UPI IDs with complete price transparency.</p>
+        </div>
+        <div class="trust-card">
+          <h3 class="trust-title">Consignment Traceability</h3>
+          <p class="trust-desc">Every parcel is dispatched with an official India Post Speed Post or courier tracking reference. Monitor delivery right to your door.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Detail & Direct Order Modal -->
+  <div class="modal-overlay" id="productModal">
+    <div class="modal-content">
+      <button class="modal-close-btn" id="modalCloseBtn" aria-label="Close modal">&times;</button>
+      <div class="modal-body">
+        <div class="modal-grid">
+          <div>
+            <img src="" alt="" id="modalImage" class="modal-image">
+            <div class="modal-maker-card">
+              <div class="modal-maker-name" id="modalMaker">Maker Name</div>
+              <div class="modal-maker-location">Western Ghats • FSSAI Registered</div>
+            </div>
+            <div id="modalIngredients" class="modal-ingredients"></div>
+          </div>
+
+          <div>
+            <h2 class="modal-title" id="modalTitle">Product Title</h2>
+            <div id="modalTitleKn" style="color: #8C939A; font-size: 0.9rem; margin-bottom: 8px;"></div>
+            
+            <div style="display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px;">
+              <span id="modalPrice" style="font-size: 1.6rem; font-weight: 800; color: #1E3F20;">₹0</span>
+              <span id="modalUnit" style="font-size: 0.88rem; color: #5A6065;">/ unit</span>
+            </div>
+
+            <p class="modal-desc" id="modalDesc"></p>
+
+            <!-- Direct Order Form -->
+            <form id="orderForm" style="background: #F4EFE6; padding: 16px; border-radius: 8px; margin-top: 14px;">
+              <h4 style="font-size: 0.88rem; font-weight: 700; color: #1E3F20; margin-bottom: 10px;">Direct Order Request to Maker</h4>
+              
+              <div class="order-form-group">
+                <label class="order-form-label" for="orderQty">Quantity (Units / Packets)</label>
+                <input type="number" id="orderQty" class="order-form-input" min="1" max="20" value="1" required>
+              </div>
+
+              <div class="order-form-group">
+                <label class="order-form-label" for="buyerName">Your Full Name</label>
+                <input type="text" id="buyerName" class="order-form-input" placeholder="e.g. Ramesh Hegde" required>
+              </div>
+
+              <div class="order-form-group">
+                <label class="order-form-label" for="buyerPhone">Your Phone Number</label>
+                <input type="tel" id="buyerPhone" class="order-form-input" placeholder="+91 98765 43210" required>
+              </div>
+
+              <div class="order-form-group">
+                <label class="order-form-label" for="buyerAddress">Postal Delivery Address (with PIN code)</label>
+                <textarea id="buyerAddress" class="order-form-textarea" rows="2" placeholder="House #, Street, City, PIN" required></textarea>
+              </div>
+
+              <div class="modal-actions">
+                <button type="submit" class="btn-order-request" id="btnSubmitOrder">Confirm Order Request</button>
+                <button type="button" class="btn-whatsapp-enquiry" id="btnWhatsApp">
+                  <span>Chat with Maker on WhatsApp</span>
+                </button>
+              </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Simple Customer Login Modal -->
+  <div class="modal-overlay" id="authModal">
+    <div class="modal-content" style="max-width: 420px;">
+      <button class="modal-close-btn" id="closeAuthBtn">&times;</button>
+      <div class="modal-body">
+        <h2 style="font-family: var(--font-serif); color: #1E3F20; margin-bottom: 6px;">Sign In to MOOLA</h2>
+        <p style="font-size: 0.85rem; color: #5A6065; margin-bottom: 20px;">Access your order history, maker dashboard, or customer support tickets.</p>
+
+        <form id="loginForm">
+          <div class="order-form-group">
+            <label class="order-form-label" for="authPhone">Phone Number</label>
+            <input type="tel" id="authPhone" class="order-form-input" placeholder="+91 90000 00003" required>
+          </div>
+          <div class="order-form-group">
+            <label class="order-form-label" for="authPassword">Password</label>
+            <input type="password" id="authPassword" class="order-form-input" placeholder="••••••••" required>
+          </div>
+          <button type="submit" class="btn-primary" style="width: 100%; margin-top: 14px;">Log In</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <div class="footer-brand-title">MOOLA</div>
+        <p class="footer-brand-desc">
+          MOOLA is a dedicated direct-to-consumer marketplace connecting discerning households with independent home food artisans across India. Preserving traditional recipes, authentic tastes, and rural maker livelihoods.
+        </p>
+        <div class="footer-helplines">
+          <span style="font-size: 0.78rem; text-transform: uppercase; color: #A9B8AB;">Customer Care Helplines</span>
+          <a href="tel:+918088653820" class="footer-phone-link">Line 1: +91 80886 53820</a>
+          <a href="tel:+916362095126" class="footer-phone-link">Line 2: +91 63620 95126</a>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="footer-heading">Artisanal Categories</h4>
+        <ul class="footer-links">
+          <li><a href="#productsSection">Jackfruit &amp; Banana Chips</a></li>
+          <li><a href="#productsSection">Western Ghats Raw Honey</a></li>
+          <li><a href="#productsSection">Heritage Pickles &amp; Chutneys</a></li>
+          <li><a href="#productsSection">Pounded Masalas &amp; Spices</a></li>
+          <li><a href="#productsSection">Handmade Sweets &amp; Savouries</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-heading">Support &amp; Ethics</h4>
+        <ul class="footer-links">
+          <li><a href="complaints.html">Support &amp; Complaints SLA</a></li>
+          <li><a href="seller.html">Apply as Food Artisan</a></li>
+          <li><a href="account-deletion.html">Privacy &amp; Account Deletion</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-heading">Direct Maker Model</h4>
+        <p style="font-size: 0.82rem; color: #A9B8AB; line-height: 1.6;">
+          All batches are prepared directly by registered homemakers and rural farmers in compliant home kitchens. Dispatches are fulfilled with official postal consignment numbers.
+        </p>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <div>© 2026 MOOLA Homemade Food Technologies. All rights reserved.</div>
+      <div>Grievance Officer: Hegde • Response SLA: Within 48 Hours</div>
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

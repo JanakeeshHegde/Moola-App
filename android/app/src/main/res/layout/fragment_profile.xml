@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/moola_cream"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_base"
+        android:paddingBottom="@dimen/spacing_3xl">
+
+        <!-- User Identity Header Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            app:cardBackgroundColor="@color/moola_white"
+            app:cardCornerRadius="@dimen/radius_md"
+            app:cardElevation="1dp"
+            app:strokeColor="@color/moola_sandstone_border"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/spacing_lg">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    app:cardBackgroundColor="@color/moola_forest_green_subtle"
+                    app:cardCornerRadius="28dp"
+                    app:cardElevation="0dp"
+                    app:strokeWidth="0dp">
+
+                    <TextView
+                        android:id="@+id/tvProfileInitials"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="U"
+                        android:textColor="@color/moola_forest_green"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_md"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvProfileName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Arjun Sharma"
+                        android:textColor="@color/moola_charcoal"
+                        android:textSize="@dimen/text_lg"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvProfilePhone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="+91 9000000003"
+                        android:textColor="@color/moola_charcoal_secondary"
+                        android:textSize="@dimen/text_sm" />
+
+                    <TextView
+                        android:id="@+id/tvProfileRoleBadge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_xs"
+                        android:background="@drawable/bg_tag_organic"
+                        android:text="CUSTOMER"
+                        android:textColor="@color/moola_forest_green"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Role Portals (Conditional) -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardSellerPortalEntry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_md"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardBackgroundColor="@color/moola_forest_green"
+            app:cardCornerRadius="@dimen/radius_md"
+            app:cardElevation="2dp"
+            app:strokeWidth="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_base">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Maker Dashboard"
+                    android:textColor="@color/moola_white"
+                    android:textSize="@dimen/text_md"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Manage products, incoming orders, and shipments"
+                    android:textColor="#D8E2D6"
+                    android:textSize="@dimen/text_sm" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardAdminPortalEntry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardBackgroundColor="@color/moola_terracotta"
+            app:cardCornerRadius="@dimen/radius_md"
+            app:cardElevation="2dp"
+            app:strokeWidth="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_base">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Admin Operations Portal"
+                    android:textColor="@color/moola_white"
+                    android:textSize="@dimen/text_md"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="KYC approvals, catalog moderation, and audit reports"
+                    android:textColor="#FBECE3"
+                    android:textSize="@dimen/text_sm" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Customer Support Helplines -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_xl"
+            android:text="Customer Care &amp; Support"
+            android:textColor="@color/moola_charcoal"
+            android:textSize="@dimen/text_md"
+            android:textStyle="bold" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            app:cardBackgroundColor="@color/moola_white"
+            app:cardCornerRadius="@dimen/radius_md"
+            app:cardElevation="1dp"
+            app:strokeColor="@color/moola_sandstone_border"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_base">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dedicated Support Helplines"
+                    android:textColor="@color/moola_charcoal"
+                    android:textSize="@dimen/text_base"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Direct assistance for orders, dispatch, and quality concerns:"
+                    android:textColor="@color/moola_charcoal_secondary"
+                    android:textSize="@dimen/text_sm" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_md"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnHelpline1"
+                        style="@style/Widget.MOOLA.Button.Outlined"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:layout_marginEnd="@dimen/spacing_xs"
+                        android:layout_weight="1"
+                        android:text="Call Line 1"
+                        android:textSize="12sp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnHelpline2"
+                        style="@style/Widget.MOOLA.Button.Outlined"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:layout_marginStart="@dimen/spacing_xs"
+                        android:layout_weight="1"
+                        android:text="Call Line 2"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Complaints Hub Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnComplaintsHub"
+            style="@style/Widget.MOOLA.Button.Outlined"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="@dimen/spacing_base"
+            android:text="Complaints &amp; Support Tickets" />
+
+        <!-- Account Deletion Action -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAccountDeletion"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="@dimen/spacing_md"
+            android:text="Request Account Deletion"
+            android:textColor="@color/moola_charcoal_secondary" />
+
+        <!-- Log Out Action -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLogout"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="Log Out"
+            android:textColor="@color/moola_error" />
+
+    </LinearLayout>
+</ScrollView>

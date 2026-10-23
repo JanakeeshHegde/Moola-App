@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/moola_cream"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/spacing_xl">
+
+        <!-- Brand Logo & Header -->
+        <ImageView
+            android:id="@+id/ivLoginLogo"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginTop="@dimen/spacing_xl"
+            android:adjustViewBounds="true"
+            android:contentDescription="MOOLA Brand Logo"
+            android:src="@drawable/logo_moola"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:letterSpacing="0.08"
+            android:text="MOOLA"
+            android:textColor="@color/moola_primary_brown"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivLoginLogo" />
+
+        <TextView
+            android:id="@+id/tvSubtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_xs"
+            android:text="Welcome back. Discover authentic homemade flavours."
+            android:textColor="@color/moola_charcoal_secondary"
+            android:textSize="@dimen/text_base"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvLogo" />
+
+        <!-- Phone Field -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPhone"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_2xl"
+            android:hint="Mobile Number (10 digits)"
+            app:boxCornerRadiusBottomEnd="@dimen/radius_md"
+            app:boxCornerRadiusBottomStart="@dimen/radius_md"
+            app:boxCornerRadiusTopEnd="@dimen/radius_md"
+            app:boxCornerRadiusTopStart="@dimen/radius_md"
+            app:boxStrokeColor="@color/moola_forest_green"
+            app:boxStrokeWidth="1.5dp"
+            app:layout_constraintTop_toBottomOf="@+id/tvSubtitle"
+            app:prefixText="+91 ">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:maxLength="10"
+                android:textColor="@color/moola_charcoal" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Password Field -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPassword"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_base"
+            android:hint="Password"
+            app:boxCornerRadiusBottomEnd="@dimen/radius_md"
+            app:boxCornerRadiusBottomStart="@dimen/radius_md"
+            app:boxCornerRadiusTopEnd="@dimen/radius_md"
+            app:boxCornerRadiusTopStart="@dimen/radius_md"
+            app:boxStrokeColor="@color/moola_forest_green"
+            app:boxStrokeWidth="1.5dp"
+            app:endIconMode="password_toggle"
+            app:layout_constraintTop_toBottomOf="@+id/tilPhone">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:textColor="@color/moola_charcoal" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Error Banner -->
+        <TextView
+            android:id="@+id/tvError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:textColor="@color/moola_error"
+            android:textSize="@dimen/text_sm"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/tilPassword" />
+
+        <!-- Login Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLogin"
+            style="@style/Widget.MOOLA.Button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginTop="@dimen/spacing_xl"
+            android:text="Sign In"
+            app:layout_constraintTop_toBottomOf="@+id/tvError" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="@dimen/spacing_base"
+            android:indeterminateTint="@color/moola_forest_green"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
+
+        <!-- Register Link -->
+        <LinearLayout
+            android:id="@+id/llRegisterLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_2xl"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/progressBar">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New to MOOLA? "
+                android:textColor="@color/moola_charcoal_secondary"
+                android:textSize="@dimen/text_base" />
+
+            <TextView
+                android:id="@+id/tvRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Create Account"
+                android:textColor="@color/moola_forest_green"
+                android:textSize="@dimen/text_base"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Helper hint for test credentials -->
+        <TextView
+            android:id="@+id/tvDemoCredentials"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_2xl"
+            android:background="@drawable/bg_tag_organic"
+            android:lineSpacingExtra="2dp"
+            android:padding="@dimen/spacing_md"
+            android:text="Demo Accounts:\nBuyer: 9000000003 / buyer@123\nSeller: 9000000001 / seller@123\nAdmin: 9000000000 / admin@moola123"
+            android:textColor="@color/moola_forest_green"
+            android:textSize="@dimen/text_xs"
+            app:layout_constraintTop_toBottomOf="@+id/llRegisterLink" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

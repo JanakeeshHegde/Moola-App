@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardOrder"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/spacing_md"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardBackgroundColor="@color/moola_white"
+    app:cardCornerRadius="@dimen/radius_md"
+    app:cardElevation="1dp"
+    app:strokeColor="@color/moola_sandstone_border"
+    app:strokeWidth="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_base">
+
+        <!-- Order Header: Number & Status Badge -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvOrderNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ORD-849201"
+                android:textColor="@color/moola_charcoal"
+                android:textSize="@dimen/text_base"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvOrderStatusBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_tag_organic"
+                android:text="SHIPPED"
+                android:textColor="@color/moola_forest_green"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="@dimen/spacing_sm"
+            android:background="@color/moola_sandstone_divider" />
+
+        <!-- Seller shop name -->
+        <TextView
+            android:id="@+id/tvOrderSellerShop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lakshmi Homemade Pickles &amp; Chips"
+            android:textColor="@color/moola_charcoal_secondary"
+            android:textSize="@dimen/text_sm" />
+
+        <!-- Order Items Preview -->
+        <TextView
+            android:id="@+id/tvOrderItemsSummary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="2x Malnad Raw Jackfruit Chips (250g)"
+            android:textColor="@color/moola_charcoal"
+            android:textSize="@dimen/text_base" />
+
+        <!-- Total and Tracking info -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm">
+
+            <TextView
+                android:id="@+id/tvOrderTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total: ₹400"
+                android:textColor="@color/moola_forest_green"
+                android:textSize="@dimen/text_base"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvTrackingInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Speed Post: EK982341902IN"
+                android:textColor="@color/moola_terracotta"
+                android:textSize="12sp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

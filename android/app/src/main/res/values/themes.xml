@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base Application Theme: MOOLA Warm Homemade Food Brand -->
+    <style name="Theme.MOOLA" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Brand Colors from Logo -->
+        <item name="colorPrimary">@color/moola_primary_brown</item>
+        <item name="colorPrimaryVariant">@color/moola_deep_chocolate</item>
+        <item name="colorOnPrimary">@color/moola_cream</item>
+
+        <item name="colorSecondary">@color/moola_honey_amber</item>
+        <item name="colorSecondaryVariant">@color/moola_golden_accent</item>
+        <item name="colorOnSecondary">@color/moola_white</item>
+
+        <item name="android:colorBackground">@color/moola_cream</item>
+        <item name="colorSurface">@color/moola_card_surface</item>
+        <item name="colorOnSurface">@color/moola_primary_text</item>
+
+        <item name="android:statusBarColor">@color/moola_cream</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:navigationBarColor">@color/moola_cream_surface</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+
+        <!-- Component Themes -->
+        <item name="materialCardViewStyle">@style/Widget.MOOLA.Card</item>
+        <item name="materialButtonStyle">@style/Widget.MOOLA.Button</item>
+    </style>
+
+    <!-- Custom Card Style -->
+    <style name="Widget.MOOLA.Card" parent="Widget.Material3.CardView.Filled">
+        <item name="cardBackgroundColor">@color/moola_card_surface</item>
+        <item name="cardCornerRadius">@dimen/radius_md</item>
+        <item name="cardElevation">1dp</item>
+        <item name="strokeColor">@color/moola_subtle_border</item>
+        <item name="strokeWidth">1dp</item>
+    </style>
+
+    <!-- Primary Button Style (Deep Brown / Chocolate with Cream text) -->
+    <style name="Widget.MOOLA.Button" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/moola_primary_brown</item>
+        <item name="android:textColor">@color/moola_cream</item>
+        <item name="cornerRadius">@dimen/radius_md</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:minHeight">@dimen/button_height</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Honey Amber Accent Button Style -->
+    <style name="Widget.MOOLA.Button.Accent" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/moola_honey_amber</item>
+        <item name="android:textColor">@color/moola_white</item>
+        <item name="cornerRadius">@dimen/radius_md</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:minHeight">@dimen/button_height</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Terracotta Button Style -->
+    <style name="Widget.MOOLA.Button.Terracotta" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/moola_terracotta</item>
+        <item name="android:textColor">@color/moola_white</item>
+        <item name="cornerRadius">@dimen/radius_md</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:minHeight">@dimen/button_height</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Outlined Button Style (Primary Brown Stroke & Text) -->
+    <style name="Widget.MOOLA.Button.Outlined" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="strokeColor">@color/moola_primary_brown</item>
+        <item name="strokeWidth">1.5dp</item>
+        <item name="android:textColor">@color/moola_primary_brown</item>
+        <item name="cornerRadius">@dimen/radius_md</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:minHeight">@dimen/button_height</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- WhatsApp Click-to-Chat Button -->
+    <style name="Widget.MOOLA.Button.WhatsApp" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/whatsapp_green</item>
+        <item name="android:textColor">@color/moola_white</item>
+        <item name="cornerRadius">@dimen/radius_md</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:minHeight">@dimen/button_height</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Badge / Chip Style -->
+    <style name="Widget.MOOLA.Badge" parent="Widget.Material3.Chip.Assist">
+        <item name="chipBackgroundColor">@color/moola_golden_subtle</item>
+        <item name="android:textColor">@color/moola_primary_brown</item>
+        <item name="chipCornerRadius">@dimen/radius_xs</item>
+        <item name="chipMinHeight">24dp</item>
+        <item name="chipStrokeWidth">0dp</item>
+    </style>
+</resources>

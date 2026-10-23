@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/moola_cream"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/spacing_xl">
+
+        <!-- Brand Logo & Title -->
+        <ImageView
+            android:id="@+id/ivRegisterLogo"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="@dimen/spacing_lg"
+            android:adjustViewBounds="true"
+            android:contentDescription="MOOLA Brand Logo"
+            android:src="@drawable/logo_moola"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="Join MOOLA"
+            android:textColor="@color/moola_primary_brown"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivRegisterLogo" />
+
+        <TextView
+            android:id="@+id/tvSubtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_xs"
+            android:text="Create an account to order pure homemade foods or register as an independent artisan maker."
+            android:textColor="@color/moola_charcoal_secondary"
+            android:textSize="@dimen/text_base"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
+        <!-- Role Selector -->
+        <RadioGroup
+            android:id="@+id/rgRole"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_lg"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/tvSubtitle">
+
+            <RadioButton
+                android:id="@+id/rbBuyer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="Customer / Buyer"
+                android:textColor="@color/moola_charcoal" />
+
+            <RadioButton
+                android:id="@+id/rbSeller"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Artisan Maker"
+                android:textColor="@color/moola_charcoal" />
+        </RadioGroup>
+
+        <!-- Name Field -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilName"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_base"
+            android:hint="Full Name"
+            app:boxCornerRadiusBottomEnd="@dimen/radius_md"
+            app:boxCornerRadiusBottomStart="@dimen/radius_md"
+            app:boxCornerRadiusTopEnd="@dimen/radius_md"
+            app:boxCornerRadiusTopStart="@dimen/radius_md"
+            app:boxStrokeColor="@color/moola_forest_green"
+            app:layout_constraintTop_toBottomOf="@+id/rgRole">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:textColor="@color/moola_charcoal" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Shop Name Field (visible if seller) -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilShopName"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_base"
+            android:hint="Shop / Kitchen Name"
+            android:visibility="gone"
+            app:boxCornerRadiusBottomEnd="@dimen/radius_md"
+            app:boxCornerRadiusBottomStart="@dimen/radius_md"
+            app:boxCornerRadiusTopEnd="@dimen/radius_md"
+            app:boxCornerRadiusTopStart="@dimen/radius_md"
+            app:boxStrokeColor="@color/moola_forest_green"
+            app:layout_constraintTop_toBottomOf="@+id/tilName">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etShopName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/moola_charcoal" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Phone Field -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPhone"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_base"
+            android:hint="Mobile Number"
+            app:boxCornerRadiusBottomEnd="@dimen/radius_md"
+            app:boxCornerRadiusBottomStart="@dimen/radius_md"
+            app:boxCornerRadiusTopEnd="@dimen/radius_md"
+            app:boxCornerRadiusTopStart="@dimen/radius_md"
+            app:boxStrokeColor="@color/moola_forest_green"
+            app:layout_constraintTop_toBottomOf="@+id/tilShopName"
+            app:prefixText="+91 ">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:maxLength="10"
+                android:textColor="@color/moola_charcoal" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Password Field -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPassword"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_base"
+            android:hint="Password (min 6 characters)"
+            app:boxCornerRadiusBottomEnd="@dimen/radius_md"
+            app:boxCornerRadiusBottomStart="@dimen/radius_md"
+            app:boxCornerRadiusTopEnd="@dimen/radius_md"
+            app:boxCornerRadiusTopStart="@dimen/radius_md"
+            app:boxStrokeColor="@color/moola_forest_green"
+            app:endIconMode="password_toggle"
+            app:layout_constraintTop_toBottomOf="@+id/tilPhone">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:textColor="@color/moola_charcoal" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Error Text -->
+        <TextView
+            android:id="@+id/tvError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:textColor="@color/moola_error"
+            android:textSize="@dimen/text_sm"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/tilPassword" />
+
+        <!-- Register Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnRegister"
+            style="@style/Widget.MOOLA.Button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginTop="@dimen/spacing_lg"
+            android:text="Create Account"
+            app:layout_constraintTop_toBottomOf="@+id/tvError" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="@dimen/spacing_base"
+            android:indeterminateTint="@color/moola_forest_green"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnRegister" />
+
+        <!-- Login Link -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_xl"
+            android:layout_marginBottom="@dimen/spacing_2xl"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/progressBar">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Already have an account? "
+                android:textColor="@color/moola_charcoal_secondary"
+                android:textSize="@dimen/text_base" />
+
+            <TextView
+                android:id="@+id/tvLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sign In"
+                android:textColor="@color/moola_forest_green"
+                android:textSize="@dimen/text_base"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

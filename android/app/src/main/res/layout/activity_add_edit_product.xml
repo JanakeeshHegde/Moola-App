@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/moola_cream">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/headerAddProduct"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/header_height"
+        android:paddingHorizontal="@dimen/spacing_base"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/btnBackAddProd"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Back"
+            android:src="@drawable/ic_arrow_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/moola_charcoal" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_sm"
+            android:text="Add Homemade Product"
+            android:textColor="@color/moola_charcoal"
+            android:textSize="@dimen/text_lg"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btnBackAddProd"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@+id/footerAddProd"
+        app:layout_constraintTop_toBottomOf="@+id/headerAddProduct">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_base">
+
+            <!-- Name (English) -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilAddNameEn"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Product Name (English)"
+                app:boxStrokeColor="@color/moola_forest_green">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etAddNameEn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/moola_charcoal" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Name (Kannada/Regional) -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilAddNameKn"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:hint="Regional Name (e.g. ಹಲಸಿನಕಾಯಿ ಚಿಪ್ಸ್)"
+                app:boxStrokeColor="@color/moola_forest_green">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etAddNameKn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/moola_charcoal" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Price & Unit -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilAddPrice"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Price (₹)"
+                    app:boxStrokeColor="@color/moola_forest_green">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etAddPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/moola_charcoal" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilAddUnit"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_sm"
+                    android:layout_weight="1"
+                    android:hint="Unit (e.g. 250g, 500g)"
+                    app:boxStrokeColor="@color/moola_forest_green">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etAddUnit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/moola_charcoal" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <!-- Stock & Image URL -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilAddStock"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Available Quantity"
+                    app:boxStrokeColor="@color/moola_forest_green">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etAddStock"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:textColor="@color/moola_charcoal" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilAddMrp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_sm"
+                    android:layout_weight="1"
+                    android:hint="MRP (₹ optional)"
+                    app:boxStrokeColor="@color/moola_forest_green">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etAddMrp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/moola_charcoal" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <!-- Image URL -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilAddImageUrl"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:hint="Food Photography Image URL"
+                app:boxStrokeColor="@color/moola_forest_green">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etAddImageUrl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textUri"
+                    android:textColor="@color/moola_charcoal" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Description -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilAddDescription"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:hint="Product Description &amp; Traditional Recipe Details"
+                app:boxStrokeColor="@color/moola_forest_green">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etAddDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:lines="4"
+                    android:textColor="@color/moola_charcoal" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Organic Checkbox -->
+            <CheckBox
+                android:id="@+id/cbIsOrganic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:checked="true"
+                android:text="Organic &amp; Zero Chemical Preservatives"
+                android:textColor="@color/moola_charcoal" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Footer Save Button -->
+    <LinearLayout
+        android:id="@+id/footerAddProd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/moola_white"
+        android:elevation="8dp"
+        android:padding="@dimen/spacing_base"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSaveProduct"
+            style="@style/Widget.MOOLA.Button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:text="Save &amp; Publish Listing" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/spacing_md"
+    app:cardBackgroundColor="@color/moola_white"
+    app:cardCornerRadius="@dimen/radius_md"
+    app:cardElevation="1dp"
+    app:strokeColor="@color/moola_sandstone_border"
+    app:strokeWidth="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_base">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvTicketId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TKT-20261023-1049"
+                android:textColor="@color/moola_charcoal"
+                android:textSize="@dimen/text_base"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvComplaintStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_tag_organic"
+                android:text="SUBMITTED"
+                android:textColor="@color/moola_forest_green"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tvComplaintCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="Order Quality / Packaging"
+            android:textColor="@color/moola_terracotta"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvComplaintSubject"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_xs"
+            android:text="Package arrived with minor seal rupture"
+            android:textColor="@color/moola_charcoal"
+            android:textSize="@dimen/text_base"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvComplaintDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="Received the jackfruit chips box today, but the outer seal had mild damage."
+            android:textColor="@color/moola_charcoal_secondary"
+            android:textSize="@dimen/text_sm" />
+
+        <!-- Public reply section if available -->
+        <LinearLayout
+            android:id="@+id/layoutPublicReply"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_md"
+            android:background="@drawable/bg_tag_organic"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_sm"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MOOLA Support Response:"
+                android:textColor="@color/moola_forest_green"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvPublicReplyText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="We have reviewed with maker Ramesh and dispatched a complimentary replacement packet."
+                android:textColor="@color/moola_charcoal"
+                android:textSize="@dimen/text_sm" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

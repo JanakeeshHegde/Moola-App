@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brand -->
+    <string name="app_name">MOOLA</string>
+    <string name="tagline">From the Source. To Your Home.</string>
+    <string name="brand_philosophy">Connecting conscious consumers with authentic homemade food products, traditional crisps, pure forest honey, and heritage pickles directly from independent makers across India.</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_explore">Explore</string>
+    <string name="nav_orders">Orders</string>
+    <string name="nav_profile">Profile</string>
+
+    <!-- Home -->
+    <string name="home_search_placeholder">Search chips, raw honey, pickles, spices…</string>
+    <string name="home_hero_title">Traditional Flavours,\nMade with Purity.</string>
+    <string name="home_hero_subtitle">Directly from heritage kitchens and Western Ghats artisans.</string>
+    <string name="home_hero_cta">Explore Collection</string>
+    <string name="section_categories">Shop by Craft</string>
+    <string name="section_featured">Artisanal Specialties</string>
+    <string name="section_new_arrivals">Freshly Made Batches</string>
+    <string name="view_all">View All</string>
+
+    <!-- Product -->
+    <string name="btn_whatsapp_enquiry">Enquire on WhatsApp</string>
+    <string name="btn_order_now">Request Order</string>
+    <string name="badge_organic">Organic</string>
+    <string name="badge_certified">Certified</string>
+    <string name="badge_homemade">Artisanal</string>
+    <string name="seller_verification_label">Verified Independent Maker</string>
+
+    <!-- Common UI States -->
+    <string name="loading">Loading delicious items…</string>
+    <string name="empty_products">No products found for this selection.</string>
+    <string name="empty_orders">You haven\'t placed any orders yet.</string>
+    <string name="retry">Try Again</string>
+    <string name="network_error">Unable to connect to MOOLA. Check your connection.</string>
+
+    <!-- Support Helplines -->
+    <string name="support_helpline_1">+91 80886 53820</string>
+    <string name="support_helpline_2">+91 63620 95126</string>
+</resources>

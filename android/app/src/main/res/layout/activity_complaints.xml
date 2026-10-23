@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/moola_cream">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/headerComplaints"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/header_height"
+        android:paddingHorizontal="@dimen/spacing_base"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/btnBackComplaints"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Back"
+            android:src="@drawable/ic_arrow_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/moola_charcoal" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_sm"
+            android:text="Support &amp; Complaints"
+            android:textColor="@color/moola_charcoal"
+            android:textSize="@dimen/text_lg"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btnBackComplaints"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@+id/footerSubmitTicket"
+        app:layout_constraintTop_toBottomOf="@+id/headerComplaints">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_base">
+
+            <!-- Helplines banner -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/moola_forest_green_subtle"
+                app:cardCornerRadius="@dimen/radius_md"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/moola_forest_green"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_base">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dedicated Support Helplines"
+                        android:textColor="@color/moola_forest_green"
+                        android:textSize="@dimen/text_base"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Line 1: +91 80886 53820\nLine 2: +91 63620 95126\nSLA Response Target: within 48 hours"
+                        android:textColor="@color/moola_charcoal"
+                        android:textSize="@dimen/text_sm" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_xl"
+                android:text="Your Submitted Tickets"
+                android:textColor="@color/moola_charcoal"
+                android:textSize="@dimen/text_md"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvComplaints"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:nestedScrollingEnabled="false" />
+
+            <ProgressBar
+                android:id="@+id/pbComplaints"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/spacing_xl"
+                android:indeterminateTint="@color/moola_forest_green"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tvEmptyComplaints"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_2xl"
+                android:gravity="center"
+                android:text="No open complaint tickets. Everything is running smoothly!"
+                android:textColor="@color/moola_charcoal_secondary"
+                android:textSize="@dimen/text_base"
+                android:visibility="gone" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/footerSubmitTicket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/moola_white"
+        android:elevation="8dp"
+        android:padding="@dimen/spacing_base"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnOpenSubmitTicket"
+            style="@style/Widget.MOOLA.Button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:text="+ File a New Complaint Ticket" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

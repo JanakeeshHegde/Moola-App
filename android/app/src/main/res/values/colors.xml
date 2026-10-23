@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- MOOLA Brand-Matched Premium Palette (From Logo) -->
+    <!-- Primary Dark Brown & Deep Chocolate -->
+    <color name="moola_primary_brown">#54230F</color>
+    <color name="moola_deep_chocolate">#351609</color>
+    <color name="moola_brown_light">#6D3219</color>
+    <color name="moola_brown_subtle">#F7EBE5</color>
+
+    <!-- Warm Cream Backgrounds & Surfaces -->
+    <color name="moola_cream">#FFF9EF</color>
+    <color name="moola_cream_surface">#FDF6EB</color>
+    <color name="moola_cream_subtle">#F7EFE1</color>
+    <color name="moola_card_surface">#FFFFFF</color>
+    <color name="moola_white">#FFFFFF</color>
+
+    <!-- Honey Amber & Soft Golden Accents -->
+    <color name="moola_honey_amber">#D99124</color>
+    <color name="moola_honey_amber_dark">#B67517</color>
+    <color name="moola_golden_accent">#E9B65B</color>
+    <color name="moola_golden_subtle">#FCF4E4</color>
+
+    <!-- Muted Terracotta Accent -->
+    <color name="moola_terracotta">#A94F2B</color>
+    <color name="moola_terracotta_dark">#8B3D1D</color>
+    <color name="moola_terracotta_subtle">#F9ECE6</color>
+
+    <!-- Typography (Warm Browns & Espresso) -->
+    <color name="moola_primary_text">#2B1B14</color>
+    <color name="moola_secondary_text">#78675B</color>
+    <color name="moola_muted_text">#A3958A</color>
+
+    <!-- Borders & Dividers -->
+    <color name="moola_subtle_border">#E9DED1</color>
+    <color name="moola_subtle_divider">#F2EAE0</color>
+
+    <!-- Semantic Status & Feedback (Accessible Contrast) -->
+    <color name="moola_success">#2E6930</color>
+    <color name="moola_success_subtle">#EAF3EB</color>
+    <color name="moola_warning">#D99124</color>
+    <color name="moola_warning_subtle">#FCF4E4</color>
+    <color name="moola_error">#BA2D1D</color>
+    <color name="moola_error_subtle">#FBECE9</color>
+    <color name="moola_info">#285B88</color>
+
+    <!-- WhatsApp Direct Maker Accent -->
+    <color name="whatsapp_green">#25D366</color>
+    <color name="whatsapp_green_dark">#128C7E</color>
+
+    <!-- Compatibility Aliases mapped to brand tokens -->
+    <color name="moola_forest_green">#54230F</color>
+    <color name="moola_forest_green_dark">#351609</color>
+    <color name="moola_forest_green_light">#6D3219</color>
+    <color name="moola_forest_green_subtle">#FCF4E4</color>
+    <color name="moola_charcoal">#2B1B14</color>
+    <color name="moola_charcoal_secondary">#78675B</color>
+    <color name="moola_charcoal_muted">#A3958A</color>
+    <color name="moola_sandstone_border">#E9DED1</color>
+    <color name="moola_sandstone_divider">#F2EAE0</color>
+</resources>
