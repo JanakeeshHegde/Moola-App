@@ -141,6 +141,10 @@ class MoolaApiClient {
     return this.request('/api/v1/orders/my');
   }
 
+  async getBuyerDashboard() {
+    return this.request('/api/v1/buyer/dashboard');
+  }
+
   // WhatsApp Enquiry
   async createWhatsAppEnquiry(enquiryData) {
     return this.request('/api/v1/enquiries', {
