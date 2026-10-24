@@ -34,6 +34,7 @@ public class SeasonalHubActivity extends AppCompatActivity implements SeasonalCa
 
     private RecyclerView rvCampaigns;
     private ProgressBar progressBar;
+    private View layoutNoSeasonalCampaigns;
     private SeasonalCampaignAdapter adapter;
     private MoolaApiService apiService;
 
@@ -47,6 +48,7 @@ public class SeasonalHubActivity extends AppCompatActivity implements SeasonalCa
         findViewById(R.id.btnBackSeasonal).setOnClickListener(v -> finish());
         rvCampaigns = findViewById(R.id.rvSeasonalCampaigns);
         progressBar = findViewById(R.id.pbSeasonal);
+        layoutNoSeasonalCampaigns = findViewById(R.id.layoutNoSeasonalCampaigns);
 
         rvCampaigns.setLayoutManager(new LinearLayoutManager(this));
         adapter = new SeasonalCampaignAdapter(this);
@@ -63,8 +65,18 @@ public class SeasonalHubActivity extends AppCompatActivity implements SeasonalCa
                                    @NonNull Response<ApiResponse<List<SeasonalCampaign>>> response) {
                 progressBar.setVisibility(View.GONE);
                 if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
-                    adapter.setCampaigns(response.body().getData());
+                    List<SeasonalCampaign> list = response.body().getData();
+                    if (list.isEmpty()) {
+                        rvCampaigns.setVisibility(View.GONE);
+                        layoutNoSeasonalCampaigns.setVisibility(View.VISIBLE);
+                    } else {
+                        rvCampaigns.setVisibility(View.VISIBLE);
+                        layoutNoSeasonalCampaigns.setVisibility(View.GONE);
+                        adapter.setCampaigns(list);
+                    }
                 } else {
+                    rvCampaigns.setVisibility(View.GONE);
+                    layoutNoSeasonalCampaigns.setVisibility(View.VISIBLE);
                     Toast.makeText(SeasonalHubActivity.this, "Could not load seasonal campaigns", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -72,6 +84,8 @@ public class SeasonalHubActivity extends AppCompatActivity implements SeasonalCa
             @Override
             public void onFailure(@NonNull Call<ApiResponse<List<SeasonalCampaign>>> call, @NonNull Throwable t) {
                 progressBar.setVisibility(View.GONE);
+                rvCampaigns.setVisibility(View.GONE);
+                layoutNoSeasonalCampaigns.setVisibility(View.VISIBLE);
                 Toast.makeText(SeasonalHubActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

@@ -43,12 +43,6 @@ public class ProductController {
         return ResponseEntity.ok(ApiResponse.ok(data));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<ProductDto.ProductDetailResponse>> getProductById(@PathVariable String id) {
-        ProductDto.ProductDetailResponse resp = productService.getProductDetail(id);
-        return ResponseEntity.ok(ApiResponse.ok(resp));
-    }
-
     @GetMapping("/my")
     @PreAuthorize("hasAnyRole('SELLER', 'ADMIN')")
     public ResponseEntity<ApiResponse<Map<String, Object>>> getMyProducts(Authentication authentication) {
@@ -59,6 +53,12 @@ public class ProductController {
         data.put("products", products);
         data.put("total", products.size());
         return ResponseEntity.ok(ApiResponse.ok(data));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<ProductDto.ProductDetailResponse>> getProductById(@PathVariable String id) {
+        ProductDto.ProductDetailResponse resp = productService.getProductDetail(id);
+        return ResponseEntity.ok(ApiResponse.ok(resp));
     }
 
     @PostMapping

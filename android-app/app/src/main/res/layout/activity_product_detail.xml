@@ -192,7 +192,7 @@
                             android:layout_height="32dp"
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:contentDescription="Minus"
-                            android:src="@drawable/ic_orders"
+                            android:src="@drawable/ic_minus"
                             app:tint="@color/moola_forest_green" />
 
                         <TextView
@@ -211,7 +211,7 @@
                             android:layout_height="32dp"
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:contentDescription="Plus"
-                            android:src="@drawable/ic_home"
+                            android:src="@drawable/ic_plus"
                             app:tint="@color/moola_forest_green" />
                     </LinearLayout>
 

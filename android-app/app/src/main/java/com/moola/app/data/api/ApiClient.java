@@ -88,7 +88,11 @@ public class ApiClient {
                             }
 
                             builder.header("Accept", "application/json");
-                            builder.header("Content-Type", "application/json");
+                            if (original.body() != null && original.body().contentType() != null) {
+                                builder.header("Content-Type", original.body().contentType().toString());
+                            } else if ("POST".equalsIgnoreCase(original.method()) || "PUT".equalsIgnoreCase(original.method()) || "PATCH".equalsIgnoreCase(original.method())) {
+                                builder.header("Content-Type", "application/json");
+                            }
 
                             return chain.proceed(builder.build());
                         }

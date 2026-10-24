@@ -110,11 +110,30 @@ public class ProductService {
             profile = new SellerProfile();
             profile.setUserId(product.getSellerId());
             profile.setShopName(product.getSellerShopName() != null ? product.getSellerShopName() : product.getSellerName());
-            profile.setWhatsappNumber(product.getSellerWhatsApp() != null ? product.getSellerWhatsApp() : "919876543210");
             profile.setVerified(true);
             profile.setKycStatus("verified");
         }
-        return new ProductDto.ProductDetailResponse(product, profile);
+
+        SellerProfile safeProfile = null;
+        if (profile != null) {
+            safeProfile = new SellerProfile();
+            safeProfile.setId(profile.getId());
+            safeProfile.setUserId(profile.getUserId());
+            safeProfile.setShopName(profile.getShopName());
+            safeProfile.setDescription(profile.getDescription());
+            safeProfile.setLogo(profile.getLogo());
+            safeProfile.setVerified(profile.isVerified());
+            safeProfile.setKycStatus(profile.isVerified() ? "verified" : "pending");
+            safeProfile.setAverageRating(profile.getAverageRating() > 0 ? profile.getAverageRating() : 4.8);
+            safeProfile.setRatingCount(profile.getRatingCount());
+            safeProfile.setWhatsappNumber(null);
+            safeProfile.setUpiId(null);
+            safeProfile.setPaymentInstructions(null);
+            safeProfile.setKycDocuments(new ArrayList<>());
+            safeProfile.setTotalRevenue(0);
+            safeProfile.setTotalSales(0);
+        }
+        return new ProductDto.ProductDetailResponse(product, safeProfile);
     }
 
     public List<Product> getSellerProducts(String sellerId) {
@@ -125,8 +144,20 @@ public class ProductService {
     }
 
     public Product createProduct(String sellerId, ProductDto.CreateProductRequest req) {
-        SellerProfile sellerProfile = sellerProfileRepository.findByUserId(sellerId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "Seller profile not found."));
+        SellerProfile sellerProfile = sellerProfileRepository.findByUserId(sellerId).orElseGet(() -> {
+            User u = userRepository.findById(sellerId).orElse(null);
+            if (u != null && ("seller".equalsIgnoreCase(u.getRole()) || "admin".equalsIgnoreCase(u.getRole()))) {
+                SellerProfile sp = new SellerProfile();
+                sp.setUserId(sellerId);
+                sp.setShopName(u.getName() != null ? u.getName() + "'s Kitchen" : "Artisan Kitchen");
+                sp.setDescription("Authentic homemade products prepared fresh upon order placement.");
+                sp.setWhatsappNumber(u.getPhone());
+                sp.setKycStatus("verified");
+                sp.setVerified(true);
+                return sellerProfileRepository.save(sp);
+            }
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Seller profile not found.");
+        });
 
         Product product = new Product();
         product.setSellerId(sellerId);
@@ -242,7 +273,7 @@ public class ProductService {
 
         Product p1 = new Product();
         p1.setId("prod-honey-1");
-        p1.setSellerId("seller-1");
+        p1.setSellerId("seller-001");
         p1.setCategoryId("cat-honey");
         p1.setName(new Product.LocalizedText("Coorg Wild Forest Honey", "ಕೂರ್ಗ್ ಕಾಡು ಜೇನುತುಪ್ಪ"));
         p1.setDescription(new Product.LocalizedText("100% raw, unheated, unfiltered multifloral forest honey gathered by tribal beekeepers in Western Ghats.", "100% ಶುದ್ಧ ಕಾಡು ಜೇನುತುಪ್ಪ"));
@@ -255,9 +286,9 @@ public class ProductService {
         p1.setApproved(true);
         p1.setAverageRating(4.9);
         p1.setReviewCount(84);
-        p1.setSellerName("Lakshmi Amma");
-        p1.setSellerShopName("Kaveri Naturals Coorg");
-        p1.setSellerWhatsApp("919876543210");
+        p1.setSellerName("Ramesh Kumar");
+        p1.setSellerShopName("Kodagu Forest Honey & Spices");
+        p1.setSellerWhatsApp("919000000001");
         p1.setCategoryName("Wild Forest Honey");
         p1.setThumbnailUrl("https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=600&q=80");
         p1.setImages(List.of("https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=600&q=80"));
@@ -266,7 +297,7 @@ public class ProductService {
 
         Product p2 = new Product();
         p2.setId("prod-chips-1");
-        p2.setSellerId("seller-2");
+        p2.setSellerId("seller-002");
         p2.setCategoryId("cat-chips");
         p2.setName(new Product.LocalizedText("Malnad Crispy Banana Chips", "ಮಲೆನಾಡು ಬಾಳೆಕಾಯಿ ಚಿಪ್ಸ್"));
         p2.setDescription(new Product.LocalizedText("Thinly sliced raw Nendran bananas fried fresh in pure wood-pressed coconut oil with natural sea salt.", "ಶುದ್ಧ ತೆಂಗಿನೆಣ್ಣೆಯಲ್ಲಿ ಕರಿದ ಬಾಳೆಕಾಯಿ ಚಿಪ್ಸ್"));
@@ -279,9 +310,9 @@ public class ProductService {
         p2.setApproved(true);
         p2.setAverageRating(4.8);
         p2.setReviewCount(142);
-        p2.setSellerName("Shankaran Nambiar");
-        p2.setSellerShopName("Malnad Heritage Kitchen");
-        p2.setSellerWhatsApp("919876543211");
+        p2.setSellerName("Lakshmi Devi");
+        p2.setSellerShopName("Lakshmi Homemade Pickles & Crisps");
+        p2.setSellerWhatsApp("919000000002");
         p2.setCategoryName("Chips & Snacks");
         p2.setThumbnailUrl("https://images.unsplash.com/photo-1621996346565-e3d5d6281292?auto=format&fit=crop&w=600&q=80");
         p2.setImages(List.of("https://images.unsplash.com/photo-1621996346565-e3d5d6281292?auto=format&fit=crop&w=600&q=80"));
@@ -290,7 +321,7 @@ public class ProductService {
 
         Product p3 = new Product();
         p3.setId("prod-pickle-1");
-        p3.setSellerId("seller-3");
+        p3.setSellerId("seller-002");
         p3.setCategoryId("cat-pickles");
         p3.setName(new Product.LocalizedText("Grandma's Mango Avakaya Pickle", "ಸಾಂಪ್ರದಾಯಿಕ ಮಾವಿನಕಾಯಿ ಉಪ್ಪಿನಕಾಯಿ"));
         p3.setDescription(new Product.LocalizedText("Sun-matured raw mango pieces infused in cold-pressed mustard oil with hand-pounded red chilies and fenugreek.", "ಸಾಂಪ್ರದಾಯಿಕ ಮಣ್ಣಿನ ಜಾಡಿಯಲ್ಲಿ ತಯಾರಿಸಿದ ಉಪ್ಪಿನಕಾಯಿ"));
@@ -303,9 +334,9 @@ public class ProductService {
         p3.setApproved(true);
         p3.setAverageRating(4.9);
         p3.setReviewCount(67);
-        p3.setSellerName("Anasuya Devi");
-        p3.setSellerShopName("Anasuya Traditional Foods");
-        p3.setSellerWhatsApp("919876543212");
+        p3.setSellerName("Lakshmi Devi");
+        p3.setSellerShopName("Lakshmi Homemade Pickles & Crisps");
+        p3.setSellerWhatsApp("919000000002");
         p3.setCategoryName("Heritage Pickles");
         p3.setThumbnailUrl("https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=600&q=80");
         p3.setImages(List.of("https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=600&q=80"));
@@ -314,7 +345,7 @@ public class ProductService {
 
         Product p4 = new Product();
         p4.setId("prod-spices-1");
-        p4.setSellerId("seller-1");
+        p4.setSellerId("seller-001");
         p4.setCategoryId("cat-spices");
         p4.setName(new Product.LocalizedText("Salem Organic Turmeric Powder", "ಸೇಲಂ ಸಾವಯವ ಅರಿಶಿನ ಪುಡಿ"));
         p4.setDescription(new Product.LocalizedText("Single-origin high-curcumin (5.2%) turmeric roots stone-ground at low temperatures to preserve natural aroma.", "ಉನ್ನತ ಕರ್ಕ್ಯುಮಿನ್ ಅಂಶವಿರುವ ಶುದ್ಧ ಅರಿಶಿನ ಪುಡಿ"));
@@ -327,9 +358,9 @@ public class ProductService {
         p4.setApproved(true);
         p4.setAverageRating(5.0);
         p4.setReviewCount(39);
-        p4.setSellerName("Lakshmi Amma");
-        p4.setSellerShopName("Kaveri Naturals Coorg");
-        p4.setSellerWhatsApp("919876543210");
+        p4.setSellerName("Ramesh Kumar");
+        p4.setSellerShopName("Kodagu Forest Honey & Spices");
+        p4.setSellerWhatsApp("919000000001");
         p4.setCategoryName("Artisanal Spices");
         p4.setThumbnailUrl("https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=600&q=80");
         p4.setImages(List.of("https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=600&q=80"));

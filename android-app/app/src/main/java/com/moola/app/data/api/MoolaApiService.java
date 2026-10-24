@@ -266,4 +266,8 @@ public interface MoolaApiService {
     // Global Commerce & Regional Settings
     @GET("api/v1/config/commerce")
     Call<ApiResponse<Map<String, Object>>> getCommerceConfig();
+
+    // Unified Buyer Workspace / Dashboard
+    @GET("api/v1/buyer/dashboard")
+    Call<ApiResponse<BuyerDashboardData>> getBuyerDashboard();
 }

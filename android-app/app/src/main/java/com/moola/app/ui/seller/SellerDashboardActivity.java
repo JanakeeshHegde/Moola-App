@@ -20,8 +20,11 @@ import com.moola.app.data.model.ApiResponse;
 import com.moola.app.data.model.Order;
 import com.moola.app.data.model.Product;
 import com.moola.app.data.model.SellerProfile;
+import com.moola.app.data.storage.SessionManager;
 import com.moola.app.databinding.ActivitySellerDashboardBinding;
+import com.moola.app.ui.auth.LoginActivity;
 import com.moola.app.ui.chat.ConversationsActivity;
+import com.moola.app.ui.home.MainActivity;
 import com.moola.app.ui.order.OrderAdapter;
 import com.moola.app.ui.request.SellerRequestsBoardActivity;
 import com.moola.app.ui.seasonal.SeasonalHubActivity;
@@ -39,6 +42,7 @@ public class SellerDashboardActivity extends AppCompatActivity {
     private ActivitySellerDashboardBinding binding;
     private SellerProductAdapter adapter;
     private final Gson gson = new Gson();
+    private SellerProfile currentProfile;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,6 +52,11 @@ public class SellerDashboardActivity extends AppCompatActivity {
 
         binding.btnBackSeller.setOnClickListener(v -> finish());
         binding.btnAddProduct.setOnClickListener(v -> {
+            Intent intent = new Intent(this, AddEditProductActivity.class);
+            startActivity(intent);
+        });
+
+        binding.btnAddFirstProductEmpty.setOnClickListener(v -> {
             Intent intent = new Intent(this, AddEditProductActivity.class);
             startActivity(intent);
         });
@@ -70,15 +79,26 @@ public class SellerDashboardActivity extends AppCompatActivity {
 
         binding.btnEditShopProfile.setOnClickListener(v -> showEditShopProfileDialog());
 
+        binding.btnExploreMarketplaceAsCustomer.setOnClickListener(v -> {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        });
+
+        binding.btnSellerLogout.setOnClickListener(v -> {
+            SessionManager sessionManager = new SessionManager(this);
+            sessionManager.clear();
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        });
+
         setupRecyclerView();
         loadDashboardData();
     }
 
-    private SellerProfile currentProfile;
-
     private void setupRecyclerView() {
         adapter = new SellerProductAdapter(product -> {
-            // Edit or toggle product
             showProductOptionsDialog(product);
         });
 
@@ -122,8 +142,10 @@ public class SellerDashboardActivity extends AppCompatActivity {
                     if (data != null) {
                         Object active = data.get("totalProducts");
                         Object pending = data.get("pendingOrders");
+                        Object followers = data.get("followerCount");
                         if (active != null) binding.tvSellerActiveProductsCount.setText(String.valueOf(active));
                         if (pending != null) binding.tvSellerNewOrdersCount.setText(String.valueOf(pending));
+                        if (followers != null) binding.tvSellerFollowersCount.setText(String.valueOf(followers));
                     }
                 }
             }
@@ -146,12 +168,26 @@ public class SellerDashboardActivity extends AppCompatActivity {
                         Type listType = new TypeToken<List<Product>>() {}.getType();
                         String json = gson.toJson(listObj);
                         List<Product> products = gson.fromJson(json, listType);
-                        adapter.setProducts(products);
-                        if (products != null) {
+
+                        if (products != null && !products.isEmpty()) {
+                            binding.rvSellerProducts.setVisibility(View.VISIBLE);
+                            binding.layoutNoSellerProducts.setVisibility(View.GONE);
+                            adapter.setProducts(products);
                             binding.tvSellerActiveProductsCount.setText(String.valueOf(products.size()));
+                        } else {
+                            binding.rvSellerProducts.setVisibility(View.GONE);
+                            binding.layoutNoSellerProducts.setVisibility(View.VISIBLE);
+                            adapter.setProducts(null);
+                            binding.tvSellerActiveProductsCount.setText("0");
                         }
+                    } else {
+                        binding.rvSellerProducts.setVisibility(View.GONE);
+                        binding.layoutNoSellerProducts.setVisibility(View.VISIBLE);
+                        adapter.setProducts(null);
                     }
                 } else {
+                    binding.rvSellerProducts.setVisibility(View.GONE);
+                    binding.layoutNoSellerProducts.setVisibility(View.VISIBLE);
                     Toast.makeText(SellerDashboardActivity.this, "Could not fetch listings", Toast.LENGTH_SHORT).show();
                 }
             }

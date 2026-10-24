@@ -153,7 +153,8 @@ public class CustomRequestService {
         Number qtyNum = (Number) body.get("quantity");
         double offerQty = qtyNum != null ? qtyNum.doubleValue() : req.getQuantity();
 
-        Number daysNum = (Number) body.get("deliveryEstimateDays");
+        Number daysNum = body.containsKey("deliveryEstimateDays") ? (Number) body.get("deliveryEstimateDays") :
+                (body.containsKey("deliveryDays") ? (Number) body.get("deliveryDays") : null);
         int estDays = daysNum != null ? daysNum.intValue() : 3;
 
         String message = (String) body.get("message");

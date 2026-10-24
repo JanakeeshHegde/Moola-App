@@ -100,12 +100,13 @@
                             app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <!-- Metrics Grid -->
+                    <!-- Metrics Grid (4 items) -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_md"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:weightSum="4">
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -124,7 +125,7 @@
                                 android:id="@+id/tvSellerActiveProductsCount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="6"
+                                android:text="0"
                                 android:textColor="@color/moola_forest_green"
                                 android:textSize="18sp"
                                 android:textStyle="bold" />
@@ -147,8 +148,31 @@
                                 android:id="@+id/tvSellerNewOrdersCount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="2"
+                                android:text="0"
                                 android:textColor="@color/moola_terracotta"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Followers"
+                                android:textColor="@color/moola_charcoal_secondary"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/tvSellerFollowersCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textColor="@color/moola_forest_green"
                                 android:textSize="18sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -269,6 +293,53 @@
                 android:layout_marginTop="@dimen/spacing_sm"
                 android:nestedScrollingEnabled="false" />
 
+            <!-- Empty Product Listings Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/layoutNoSellerProducts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:visibility="gone"
+                app:cardBackgroundColor="@color/moola_white"
+                app:cardCornerRadius="@dimen/radius_md"
+                app:cardElevation="1dp"
+                app:strokeColor="@color/moola_sandstone_border"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_lg">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No products in your catalog yet."
+                        android:textColor="@color/moola_charcoal"
+                        android:textSize="@dimen/text_base"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:gravity="center"
+                        android:text="Add your homemade pickles, spice powders, sweets, or forest honey to start selling."
+                        android:textColor="@color/moola_charcoal_secondary"
+                        android:textSize="@dimen/text_sm" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnAddFirstProductEmpty"
+                        style="@style/Widget.MOOLA.Button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="42dp"
+                        android:layout_marginTop="@dimen/spacing_md"
+                        android:text="+ Add Your First Product" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
             <ProgressBar
                 android:id="@+id/pbSeller"
                 android:layout_width="36dp"
@@ -277,6 +348,24 @@
                 android:layout_marginTop="@dimen/spacing_xl"
                 android:indeterminateTint="@color/moola_forest_green"
                 android:visibility="gone" />
+
+            <!-- Marketplace & Navigation Actions -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnExploreMarketplaceAsCustomer"
+                style="@style/Widget.MOOLA.Button.Outlined"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="@dimen/spacing_xl"
+                android:text="🛍️ Explore Marketplace as Customer" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSellerLogout"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:text="Log Out from Maker Account"
+                android:textColor="@color/moola_error" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

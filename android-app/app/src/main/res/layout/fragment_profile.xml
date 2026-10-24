@@ -1,293 +1,712 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipeRefreshProfile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/moola_cream"
-    android:fillViewport="true">
+    android:background="@color/moola_cream">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/spacing_base"
-        android:paddingBottom="@dimen/spacing_3xl">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-        <!-- User Identity Header Card -->
-        <com.google.android.material.card.MaterialCardView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_sm"
-            app:cardBackgroundColor="@color/moola_white"
-            app:cardCornerRadius="@dimen/radius_md"
-            app:cardElevation="1dp"
-            app:strokeColor="@color/moola_sandstone_border"
-            app:strokeWidth="1dp">
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_base"
+            android:paddingBottom="@dimen/spacing_3xl">
 
-            <LinearLayout
+            <!-- 1. Buyer Identity Header Card -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="@dimen/spacing_lg">
-
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    app:cardBackgroundColor="@color/moola_forest_green_subtle"
-                    app:cardCornerRadius="28dp"
-                    app:cardElevation="0dp"
-                    app:strokeWidth="0dp">
-
-                    <TextView
-                        android:id="@+id/tvProfileInitials"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="U"
-                        android:textColor="@color/moola_forest_green"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
-                </com.google.android.material.card.MaterialCardView>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_md"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tvProfileName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Arjun Sharma"
-                        android:textColor="@color/moola_charcoal"
-                        android:textSize="@dimen/text_lg"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tvProfilePhone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:text="+91 9000000003"
-                        android:textColor="@color/moola_charcoal_secondary"
-                        android:textSize="@dimen/text_sm" />
-
-                    <TextView
-                        android:id="@+id/tvProfileRoleBadge"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_xs"
-                        android:background="@drawable/bg_tag_organic"
-                        android:text="CUSTOMER"
-                        android:textColor="@color/moola_forest_green"
-                        android:textSize="10sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- Role Portals (Conditional) -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardSellerPortalEntry"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_md"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?attr/selectableItemBackground"
-            app:cardBackgroundColor="@color/moola_forest_green"
-            app:cardCornerRadius="@dimen/radius_md"
-            app:cardElevation="2dp"
-            app:strokeWidth="0dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/spacing_base">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Maker Dashboard"
-                    android:textColor="@color/moola_white"
-                    android:textSize="@dimen/text_md"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:text="Manage products, incoming orders, and shipments"
-                    android:textColor="#D8E2D6"
-                    android:textSize="@dimen/text_sm" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardAdminPortalEntry"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_sm"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?attr/selectableItemBackground"
-            app:cardBackgroundColor="@color/moola_terracotta"
-            app:cardCornerRadius="@dimen/radius_md"
-            app:cardElevation="2dp"
-            app:strokeWidth="0dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/spacing_base">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Admin Operations Portal"
-                    android:textColor="@color/moola_white"
-                    android:textSize="@dimen/text_md"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:text="KYC approvals, catalog moderation, and audit reports"
-                    android:textColor="#FBECE3"
-                    android:textSize="@dimen/text_sm" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- Buyer Marketplace Shortcuts -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnProfileCustomRequests"
-            style="@style/Widget.MOOLA.Button.Outlined"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="@dimen/spacing_md"
-            android:text="📋 My Custom Product Demands" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnProfileSeasonalCampaigns"
-            style="@style/Widget.MOOLA.Button.Outlined"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="@dimen/spacing_sm"
-            android:text="🍯 Seasonal Harvest &amp; Festival Hub" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnProfileServerUrl"
-            style="@style/Widget.Material3.Button.TextButton"
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:layout_marginTop="@dimen/spacing_sm"
-            android:text="⚙️ Backend Server Endpoint"
-            android:textColor="@color/moola_forest_green" />
-
-        <!-- Customer Support Helplines -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_xl"
-            android:text="Customer Care &amp; Support"
-            android:textColor="@color/moola_charcoal"
-            android:textSize="@dimen/text_md"
-            android:textStyle="bold" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_sm"
-            app:cardBackgroundColor="@color/moola_white"
-            app:cardCornerRadius="@dimen/radius_md"
-            app:cardElevation="1dp"
-            app:strokeColor="@color/moola_sandstone_border"
-            app:strokeWidth="1dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/spacing_base">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Dedicated Support Helplines"
-                    android:textColor="@color/moola_charcoal"
-                    android:textSize="@dimen/text_base"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:text="Direct assistance for orders, dispatch, and quality concerns:"
-                    android:textColor="@color/moola_charcoal_secondary"
-                    android:textSize="@dimen/text_sm" />
+                android:layout_marginTop="@dimen/spacing_xs"
+                app:cardBackgroundColor="@color/moola_white"
+                app:cardCornerRadius="@dimen/radius_md"
+                app:cardElevation="1dp"
+                app:strokeColor="@color/moola_sandstone_border"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_md"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:padding="@dimen/spacing_base">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        app:cardBackgroundColor="@color/moola_forest_green_subtle"
+                        app:cardCornerRadius="28dp"
+                        app:cardElevation="0dp"
+                        app:strokeWidth="0dp">
+
+                        <TextView
+                            android:id="@+id/tvProfileInitials"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="U"
+                            android:textColor="@color/moola_forest_green"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_md"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvProfileName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Arjun Sharma"
+                            android:textColor="@color/moola_charcoal"
+                            android:textSize="@dimen/text_lg"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvProfilePhone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="+91 9000000003"
+                            android:textColor="@color/moola_charcoal_secondary"
+                            android:textSize="@dimen/text_sm" />
+
+                        <TextView
+                            android:id="@+id/tvProfileLocation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="📍 Bengaluru Urban, Karnataka"
+                            android:textColor="@color/moola_charcoal_secondary"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/tvProfileRoleBadge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_xs"
+                            android:background="@drawable/bg_tag_organic"
+                            android:text="CUSTOMER WORKSPACE"
+                            android:textColor="@color/moola_forest_green"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- 2. Buyer Metrics / Live Counters Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:orientation="horizontal"
+                android:weightSum="4">
+
+                <!-- Metric 1: Orders -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardMetricOrders"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardBackgroundColor="@color/moola_white"
+                    app:cardCornerRadius="@dimen/radius_sm"
+                    app:cardElevation="1dp"
+                    app:strokeColor="@color/moola_sandstone_border"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:id="@+id/tvMetricOrdersCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textColor="@color/moola_forest_green"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Orders"
+                            android:textColor="@color/moola_charcoal_secondary"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Metric 2: Demands -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardMetricDemands"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="2dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardBackgroundColor="@color/moola_white"
+                    app:cardCornerRadius="@dimen/radius_sm"
+                    app:cardElevation="1dp"
+                    app:strokeColor="@color/moola_sandstone_border"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:id="@+id/tvMetricDemandsCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textColor="@color/moola_terracotta"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Demands"
+                            android:textColor="@color/moola_charcoal_secondary"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Metric 3: Following -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardMetricFollowing"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="2dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardBackgroundColor="@color/moola_white"
+                    app:cardCornerRadius="@dimen/radius_sm"
+                    app:cardElevation="1dp"
+                    app:strokeColor="@color/moola_sandstone_border"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:id="@+id/tvMetricFollowingCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textColor="@color/moola_forest_green"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Following"
+                            android:textColor="@color/moola_charcoal_secondary"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Metric 4: Messages -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardMetricChats"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardBackgroundColor="@color/moola_white"
+                    app:cardCornerRadius="@dimen/radius_sm"
+                    app:cardElevation="1dp"
+                    app:strokeColor="@color/moola_sandstone_border"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:id="@+id/tvMetricChatsCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textColor="@color/moola_charcoal"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Chats"
+                            android:textColor="@color/moola_charcoal_secondary"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <!-- 3. Active Shipment / Latest Order Card -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_lg"
+                android:text="Active Order &amp; Dispatch Status"
+                android:textColor="@color/moola_charcoal"
+                android:textSize="@dimen/text_md"
+                android:textStyle="bold" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardActiveOrder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_xs"
+                app:cardBackgroundColor="@color/moola_white"
+                app:cardCornerRadius="@dimen/radius_md"
+                app:cardElevation="1dp"
+                app:strokeColor="@color/moola_sandstone_border"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_base">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tvActiveOrderNumber"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="Order #ORD-849201"
+                            android:textColor="@color/moola_charcoal"
+                            android:textSize="@dimen/text_base"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/tvActiveOrderStatusBadge"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tvActiveOrderStatusBadge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_tag_organic"
+                            android:text="DISPATCHED"
+                            android:textColor="@color/moola_forest_green"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <TextView
+                        android:id="@+id/tvActiveOrderItemsSummary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="1 item • Total ₹400.00"
+                        android:textColor="@color/moola_charcoal_secondary"
+                        android:textSize="@dimen/text_sm" />
+
+                    <TextView
+                        android:id="@+id/tvActiveOrderCarrierInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Speed Post: EK982341902IN"
+                        android:textColor="@color/moola_forest_green"
+                        android:textSize="@dimen/text_sm"
+                        android:textStyle="bold" />
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnHelpline1"
+                        android:id="@+id/btnTrackActiveOrder"
                         style="@style/Widget.MOOLA.Button.Outlined"
-                        android:layout_width="0dp"
-                        android:layout_height="44dp"
-                        android:layout_marginEnd="@dimen/spacing_xs"
-                        android:layout_weight="1"
-                        android:text="Call Line 1"
-                        android:textSize="12sp" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnHelpline2"
-                        style="@style/Widget.MOOLA.Button.Outlined"
-                        android:layout_width="0dp"
-                        android:layout_height="44dp"
-                        android:layout_marginStart="@dimen/spacing_xs"
-                        android:layout_weight="1"
-                        android:text="Call Line 2"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="@dimen/spacing_sm"
+                        android:text="📦 View Order &amp; Courier Stepper"
                         android:textSize="12sp" />
                 </LinearLayout>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+            </com.google.android.material.card.MaterialCardView>
 
-        <!-- Complaints Hub Button -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnComplaintsHub"
-            style="@style/Widget.MOOLA.Button.Outlined"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="@dimen/spacing_base"
-            android:text="Complaints &amp; Support Tickets" />
+            <!-- Empty Active Order Banner (Shown when no active order) -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardNoActiveOrders"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_xs"
+                android:visibility="gone"
+                app:cardBackgroundColor="@color/moola_white"
+                app:cardCornerRadius="@dimen/radius_md"
+                app:cardElevation="1dp"
+                app:strokeColor="@color/moola_sandstone_border"
+                app:strokeWidth="1dp">
 
-        <!-- Account Deletion Action -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnAccountDeletion"
-            style="@style/Widget.Material3.Button.TextButton"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="@dimen/spacing_md"
-            android:text="Request Account Deletion"
-            android:textColor="@color/moola_charcoal_secondary" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_base">
 
-        <!-- Log Out Action -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnLogout"
-            style="@style/Widget.Material3.Button.TextButton"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="@dimen/spacing_sm"
-            android:text="Log Out"
-            android:textColor="@color/moola_error" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No active orders in transit."
+                        android:textColor="@color/moola_charcoal"
+                        android:textSize="@dimen/text_sm" />
 
-    </LinearLayout>
-</ScrollView>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnExploreMarketplaceEmpty"
+                        style="@style/Widget.Material3.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Discover Artisan Foods →"
+                        android:textColor="@color/moola_forest_green" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- 4. Followed Maker Kitchens Carousel -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutFollowedHeading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_lg">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Artisan Kitchens You Follow"
+                    android:textColor="@color/moola_charcoal"
+                    android:textSize="@dimen/text_md"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvExploreMoreMakers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Explore All →"
+                    android:textColor="@color/moola_forest_green"
+                    android:textSize="@dimen/text_sm"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvFollowedMakers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_xs"
+                android:clipToPadding="false"
+                android:orientation="horizontal" />
+
+            <!-- Empty Followed Makers View -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardNoFollowedMakers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_xs"
+                android:visibility="gone"
+                app:cardBackgroundColor="@color/moola_white"
+                app:cardCornerRadius="@dimen/radius_md"
+                app:cardElevation="1dp"
+                app:strokeColor="@color/moola_sandstone_border"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_base">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="You haven't followed any artisan kitchens yet."
+                        android:textColor="@color/moola_charcoal"
+                        android:textSize="@dimen/text_sm" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Follow makers to receive alerts on small-batch preparations."
+                        android:textColor="@color/moola_charcoal_secondary"
+                        android:textSize="11sp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnDiscoverMakersAction"
+                        style="@style/Widget.MOOLA.Button.Outlined"
+                        android:layout_width="wrap_content"
+                        android:layout_height="38dp"
+                        android:layout_marginTop="@dimen/spacing_sm"
+                        android:text="Discover Artisanal Makers"
+                        android:textSize="11sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- 5. Role Portals (Conditional for Seller / Admin) -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardSellerPortalEntry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_lg"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/moola_forest_green"
+                app:cardCornerRadius="@dimen/radius_md"
+                app:cardElevation="2dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_base">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Maker Dashboard"
+                        android:textColor="@color/moola_white"
+                        android:textSize="@dimen/text_md"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Manage products, incoming orders, and dispatches"
+                        android:textColor="#D8E2D6"
+                        android:textSize="@dimen/text_sm" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardAdminPortalEntry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/moola_terracotta"
+                app:cardCornerRadius="@dimen/radius_md"
+                app:cardElevation="2dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_base">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Admin Operations Portal"
+                        android:textColor="@color/moola_white"
+                        android:textSize="@dimen/text_md"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="KYC approvals, catalog moderation, and audit reports"
+                        android:textColor="#FBECE3"
+                        android:textSize="@dimen/text_sm" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- 6. Buyer Marketplace Shortcuts -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_lg"
+                android:text="Marketplace Actions &amp; Services"
+                android:textColor="@color/moola_charcoal"
+                android:textSize="@dimen/text_md"
+                android:textStyle="bold" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnProfileCustomRequests"
+                style="@style/Widget.MOOLA.Button.Outlined"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="@dimen/spacing_xs"
+                android:text="📋 My Custom Product Demands" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnProfileSeasonalCampaigns"
+                style="@style/Widget.MOOLA.Button.Outlined"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="@dimen/spacing_xs"
+                android:text="🍯 Seasonal Harvest &amp; Festival Hub" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnProfileDirectMessages"
+                style="@style/Widget.MOOLA.Button.Outlined"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="@dimen/spacing_xs"
+                android:text="💬 Direct Messages with Artisans" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnProfileNotifications"
+                style="@style/Widget.MOOLA.Button.Outlined"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="@dimen/spacing_xs"
+                android:text="🔔 Notifications &amp; Batch Alerts" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnProfileServerUrl"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="@dimen/spacing_xs"
+                android:text="⚙️ Backend Server Endpoint"
+                android:textColor="@color/moola_forest_green" />
+
+            <!-- 7. Customer Support Helplines -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_lg"
+                android:text="Customer Care &amp; Support"
+                android:textColor="@color/moola_charcoal"
+                android:textSize="@dimen/text_md"
+                android:textStyle="bold" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_xs"
+                app:cardBackgroundColor="@color/moola_white"
+                app:cardCornerRadius="@dimen/radius_md"
+                app:cardElevation="1dp"
+                app:strokeColor="@color/moola_sandstone_border"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_base">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dedicated Support Helplines"
+                        android:textColor="@color/moola_charcoal"
+                        android:textSize="@dimen/text_base"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Direct assistance for orders, dispatch, and quality concerns:"
+                        android:textColor="@color/moola_charcoal_secondary"
+                        android:textSize="@dimen/text_sm" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_md"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnHelpline1"
+                            style="@style/Widget.MOOLA.Button.Outlined"
+                            android:layout_width="0dp"
+                            android:layout_height="44dp"
+                            android:layout_marginEnd="@dimen/spacing_xs"
+                            android:layout_weight="1"
+                            android:text="Call Line 1"
+                            android:textSize="12sp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnHelpline2"
+                            style="@style/Widget.MOOLA.Button.Outlined"
+                            android:layout_width="0dp"
+                            android:layout_height="44dp"
+                            android:layout_marginStart="@dimen/spacing_xs"
+                            android:layout_weight="1"
+                            android:text="Call Line 2"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Complaints Hub Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnComplaintsHub"
+                style="@style/Widget.MOOLA.Button.Outlined"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="@dimen/spacing_base"
+                android:text="Complaints &amp; Support Tickets" />
+
+            <!-- Account Deletion Action -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAccountDeletion"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="@dimen/spacing_md"
+                android:text="Request Account Deletion"
+                android:textColor="@color/moola_charcoal_secondary" />
+
+            <!-- Log Out Action -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnLogout"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:text="Log Out"
+                android:textColor="@color/moola_error" />
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

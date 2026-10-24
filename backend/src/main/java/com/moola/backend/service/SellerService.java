@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.moola.backend.repository.UserRepository;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,20 +22,38 @@ public class SellerService {
     private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
     private final WhatsAppEnquiryRepository enquiryRepository;
+    private final UserRepository userRepository;
+    private final com.moola.backend.repository.SellerFollowRepository sellerFollowRepository;
 
     public SellerService(SellerProfileRepository sellerProfileRepository,
                          ProductRepository productRepository,
                          OrderRepository orderRepository,
-                         WhatsAppEnquiryRepository enquiryRepository) {
+                         WhatsAppEnquiryRepository enquiryRepository,
+                         UserRepository userRepository,
+                         com.moola.backend.repository.SellerFollowRepository sellerFollowRepository) {
         this.sellerProfileRepository = sellerProfileRepository;
         this.productRepository = productRepository;
         this.orderRepository = orderRepository;
         this.enquiryRepository = enquiryRepository;
+        this.userRepository = userRepository;
+        this.sellerFollowRepository = sellerFollowRepository;
     }
 
     public SellerProfile getProfile(String userId) {
-        return sellerProfileRepository.findByUserId(userId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Seller profile not found."));
+        return sellerProfileRepository.findByUserId(userId).orElseGet(() -> {
+            com.moola.backend.model.User user = userRepository.findById(userId).orElse(null);
+            if (user != null && ("seller".equalsIgnoreCase(user.getRole()) || "admin".equalsIgnoreCase(user.getRole()))) {
+                SellerProfile profile = new SellerProfile();
+                profile.setUserId(userId);
+                profile.setShopName(user.getName() != null ? user.getName() + "'s Kitchen" : "Artisan Kitchen");
+                profile.setDescription("Authentic homemade products prepared fresh upon order placement.");
+                profile.setWhatsappNumber(user.getPhone());
+                profile.setKycStatus("verified");
+                profile.setVerified(true);
+                return sellerProfileRepository.save(profile);
+            }
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Seller profile not found.");
+        });
     }
 
     public SellerProfile updateProfile(String userId, SellerProfile req) {
@@ -82,6 +101,10 @@ public class SellerService {
         long pendingOrders = orderRepository.countBySellerIdAndStatus(userId, "ORDER_CONFIRMED")
                 + orderRepository.countBySellerIdAndStatus(userId, "PAID");
         long pendingEnquiries = enquiryRepository.countBySellerIdAndStatus(userId, "initiated");
+        long followerCount = 0;
+        try {
+            followerCount = sellerFollowRepository.countBySellerId(userId);
+        } catch (Exception ignored) {}
 
         Map<String, Object> res = new HashMap<>();
         res.put("totalProducts", totalProducts);
@@ -89,6 +112,7 @@ public class SellerService {
         res.put("newOrderRequests", newOrderRequests);
         res.put("pendingOrders", pendingOrders);
         res.put("whatsappEnquiries", pendingEnquiries);
+        res.put("followerCount", followerCount);
         res.put("totalSales", profile.getTotalSales());
         res.put("totalRevenue", profile.getTotalRevenue());
         res.put("averageRating", profile.getAverageRating());

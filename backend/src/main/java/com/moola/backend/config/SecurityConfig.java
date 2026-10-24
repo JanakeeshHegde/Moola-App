@@ -45,6 +45,7 @@ public class SecurityConfig {
                         // Public endpoints
                         .requestMatchers("/api/v1/auth/login", "/api/v1/auth/register", "/api/v1/auth/refresh").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/sellers/following", "/api/v1/sellers/feed/followed").hasRole("BUYER")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/products/my").hasAnyRole("SELLER", "ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/v1/products/**", "/api/v1/categories/**", "/api/v1/campaigns/**", "/api/v1/sellers", "/api/v1/sellers/*", "/api/v1/sellers/*/shop", "/api/v1/sellers/search").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/account-deletion/public-request").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/enquiries").permitAll()
@@ -53,6 +54,7 @@ public class SecurityConfig {
                         // Role-specific endpoints
                         .requestMatchers("/api/v1/seller/**").hasAnyRole("SELLER", "ADMIN")
                         .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/buyer/**").authenticated()
 
                         // All other endpoints require authentication
                         .anyRequest().authenticated()

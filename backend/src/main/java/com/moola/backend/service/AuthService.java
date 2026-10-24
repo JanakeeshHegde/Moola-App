@@ -129,10 +129,13 @@ public class AuthService {
         if (sellerProfile == null && "seller".equals(user.getRole())) {
             sellerProfile = new SellerProfile();
             sellerProfile.setUserId(user.getId());
-            sellerProfile.setShopName("Kaveri Naturals Coorg");
+            sellerProfile.setShopName(user.getName() != null ? user.getName() + "'s Kitchen" : "Artisan Kitchen");
             sellerProfile.setWhatsappNumber(user.getPhone());
             sellerProfile.setKycStatus("verified");
             sellerProfile.setVerified(true);
+            try {
+                sellerProfile = sellerProfileRepository.save(sellerProfile);
+            } catch (Exception ignored) {}
         }
 
         String accessToken = tokenProvider.generateAccessToken(user.getId(), user.getRole());
@@ -155,7 +158,16 @@ public class AuthService {
         } else if ("9000000001".equals(phone) || "9876543211".equals(phone)) {
             User seller = new User();
             seller.setId("seller-001");
-            seller.setName("Lakshmi Amma");
+            seller.setName("Ramesh Kumar");
+            seller.setPhone(phone);
+            seller.setRole("seller");
+            seller.setActive(true);
+            seller.setPasswordHash(passwordEncoder.encode("seller@123"));
+            return seller;
+        } else if ("9000000002".equals(phone)) {
+            User seller = new User();
+            seller.setId("seller-002");
+            seller.setName("Lakshmi Devi");
             seller.setPhone(phone);
             seller.setRole("seller");
             seller.setActive(true);
@@ -165,6 +177,15 @@ public class AuthService {
             User buyer = new User();
             buyer.setId("buyer-001");
             buyer.setName("Arjun Sharma");
+            buyer.setPhone(phone);
+            buyer.setRole("buyer");
+            buyer.setActive(true);
+            buyer.setPasswordHash(passwordEncoder.encode("buyer@123"));
+            return buyer;
+        } else if ("9000000004".equals(phone)) {
+            User buyer = new User();
+            buyer.setId("buyer-002");
+            buyer.setName("Priya Naik");
             buyer.setPhone(phone);
             buyer.setRole("buyer");
             buyer.setActive(true);

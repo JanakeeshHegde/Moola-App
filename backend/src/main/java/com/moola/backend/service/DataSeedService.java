@@ -70,6 +70,7 @@ public class DataSeedService implements CommandLineRunner {
 
         // 1. Admin
         User admin = new User();
+        admin.setId("admin-001");
         admin.setName("MOOLA Admin");
         admin.setPhone("9000000000");
         admin.setPasswordHash(passwordEncoder.encode("admin@moola123"));
@@ -79,6 +80,7 @@ public class DataSeedService implements CommandLineRunner {
 
         // 2. Sellers
         User seller1 = new User();
+        seller1.setId("seller-001");
         seller1.setName("Ramesh Kumar");
         seller1.setPhone("9000000001");
         seller1.setPasswordHash(passwordEncoder.encode("seller@123"));
@@ -104,6 +106,7 @@ public class DataSeedService implements CommandLineRunner {
         sellerProfileRepository.save(profile1);
 
         User seller2 = new User();
+        seller2.setId("seller-002");
         seller2.setName("Lakshmi Devi");
         seller2.setPhone("9000000002");
         seller2.setPasswordHash(passwordEncoder.encode("seller@123"));
@@ -130,6 +133,7 @@ public class DataSeedService implements CommandLineRunner {
 
         // 3. Buyers
         User buyer1 = new User();
+        buyer1.setId("buyer-001");
         buyer1.setName("Arjun Sharma");
         buyer1.setPhone("9000000003");
         buyer1.setPasswordHash(passwordEncoder.encode("buyer@123"));
@@ -138,6 +142,7 @@ public class DataSeedService implements CommandLineRunner {
         buyer1 = userRepository.save(buyer1);
 
         User buyer2 = new User();
+        buyer2.setId("buyer-002");
         buyer2.setName("Priya Naik");
         buyer2.setPhone("9000000004");
         buyer2.setPasswordHash(passwordEncoder.encode("buyer@123"));
