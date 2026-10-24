@@ -79,22 +79,28 @@ class MoolaApiClient {
       body: JSON.stringify({ phone, password }),
     });
     if (data && data.success && data.data) {
-      this.setToken(data.data.token);
+      const token = (data.data.tokens && data.data.tokens.accessToken) || data.data.token || data.data.accessToken;
+      this.setToken(token);
       this.setUser(data.data.user);
     }
     return data;
   }
 
-  async register(phone, password, name) {
+  async register(phone, password, name, role = 'buyer', shopName = '') {
     const data = await this.request('/api/v1/auth/register', {
       method: 'POST',
-      body: JSON.stringify({ phone, password, name }),
+      body: JSON.stringify({ phone, password, name, role, shopName }),
     });
     if (data && data.success && data.data) {
-      this.setToken(data.data.token);
+      const token = (data.data.tokens && data.data.tokens.accessToken) || data.data.token || data.data.accessToken;
+      this.setToken(token);
       this.setUser(data.data.user);
     }
     return data;
+  }
+
+  async getCommerceConfig() {
+    return this.request('/api/v1/config/commerce');
   }
 
   async getMe() {
@@ -172,6 +178,123 @@ class MoolaApiClient {
     return this.request('/api/v1/seller/apply', {
       method: 'POST',
       body: JSON.stringify(sellerData),
+    });
+  }
+
+  // Seller Shop & Social Follow
+  async getPublicSellers(search) {
+    const q = search ? `?search=${encodeURIComponent(search)}` : '';
+    return this.request(`/api/v1/sellers${q}`);
+  }
+
+  async getSellerShop(sellerId) {
+    return this.request(`/api/v1/sellers/${sellerId}/shop`);
+  }
+
+  async followSeller(sellerId) {
+    return this.request(`/api/v1/sellers/${sellerId}/follow`, {
+      method: 'POST',
+    });
+  }
+
+  async unfollowSeller(sellerId) {
+    return this.request(`/api/v1/sellers/${sellerId}/unfollow`, {
+      method: 'POST',
+    });
+  }
+
+  async getFollowStatus(sellerId) {
+    return this.request(`/api/v1/sellers/${sellerId}/follow-status`);
+  }
+
+  async getFollowedFeed() {
+    return this.request('/api/v1/sellers/feed/followed');
+  }
+
+  async getFollowedSellers() {
+    return this.request('/api/v1/sellers/following');
+  }
+
+  // Buyer Demand Posts (Reverse Marketplace)
+  async createDemandPost(demandData) {
+    return this.request('/api/v1/custom-requests', {
+      method: 'POST',
+      body: JSON.stringify(demandData),
+    });
+  }
+
+  async getMyDemandPosts() {
+    return this.request('/api/v1/custom-requests/my');
+  }
+
+  async getSellerRequestsBoard() {
+    return this.request('/api/v1/custom-requests/board');
+  }
+
+  async submitOffer(requestId, offerData) {
+    return this.request(`/api/v1/custom-requests/${requestId}/offers`, {
+      method: 'POST',
+      body: JSON.stringify(offerData),
+    });
+  }
+
+  async acceptOffer(requestId, offerId) {
+    return this.request(`/api/v1/custom-requests/${requestId}/offers/${offerId}/accept`, {
+      method: 'POST',
+    });
+  }
+
+  // Notification Centre
+  async getNotifications() {
+    return this.request('/api/v1/notifications');
+  }
+
+  async getUnreadNotificationCount() {
+    return this.request('/api/v1/notifications/unread-count');
+  }
+
+  async markNotificationRead(id) {
+    return this.request(`/api/v1/notifications/${id}/read`, {
+      method: 'PATCH',
+    });
+  }
+
+  async markAllNotificationsRead() {
+    return this.request('/api/v1/notifications/read-all', {
+      method: 'POST',
+    });
+  }
+
+  // Messenger / Chat System
+  async getConversations() {
+    return this.request('/api/v1/conversations');
+  }
+
+  async getUnreadChatCount() {
+    return this.request('/api/v1/conversations/unread-count');
+  }
+
+  async startConversation(data) {
+    return this.request('/api/v1/conversations', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async getMessages(conversationId) {
+    return this.request(`/api/v1/conversations/${conversationId}/messages`);
+  }
+
+  async sendMessage(conversationId, data) {
+    return this.request(`/api/v1/conversations/${conversationId}/messages`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async markConversationRead(conversationId) {
+    return this.request(`/api/v1/conversations/${conversationId}/read`, {
+      method: 'PATCH',
     });
   }
 }

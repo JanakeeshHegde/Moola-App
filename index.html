@@ -40,6 +40,20 @@
       </div>
 
       <div class="header-actions">
+        <button class="btn-header btn-maker" id="btnHeaderDemand" style="background:#2C5E3B; color:#FFFFFF; border:none; cursor:pointer;">+ Post Requirement</button>
+        <button class="btn-header" id="btnHeaderMessages" title="Messages" style="position: relative; display: inline-flex; align-items: center; justify-content: center; width: 40px; padding: 0;">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+          <span id="chatBadge" style="display:none; position:absolute; top:-4px; right:-4px; background:#C84B31; color:#fff; border-radius:10px; font-size:10px; font-weight:bold; padding:1px 5px;">0</span>
+        </button>
+        <button class="btn-header" id="btnHeaderNotifications" title="Notifications" style="position: relative; display: inline-flex; align-items: center; justify-content: center; width: 40px; padding: 0;">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+          <span id="notificationBadge" style="display:none; position:absolute; top:-4px; right:-4px; background:#C84B31; color:#fff; border-radius:10px; font-size:10px; font-weight:bold; padding:1px 5px;">0</span>
+        </button>
         <a href="seller.html" class="btn-header btn-maker" id="btnMakerPortal">Become a Maker</a>
         <button class="btn-header btn-auth" id="btnHeaderAuth">Customer Login</button>
       </div>
@@ -81,7 +95,7 @@
 
         <div class="hero-cta-group">
           <a href="#productsSection" class="btn-primary" id="btnHeroExplore">Explore Fresh Batches</a>
-          <a href="tel:+918088653820" class="btn-secondary" id="btnHeroHelpline">Call Care: Line 1</a>
+          <button class="btn-secondary" id="btnHeroDemand" style="cursor: pointer;">Post Requirement</button>
         </div>
       </div>
 
@@ -112,6 +126,21 @@
 
       <div class="category-scroll" id="categoryScroll">
         <!-- Dynamically rendered via JS -->
+      </div>
+  </section>
+
+  <!-- Artisan Makers & Verified Kitchens Showcase -->
+  <section class="categories-section" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Artisan Makers &amp; Village Kitchens</h2>
+          <p class="section-subtitle">Discover independent makers, follow their kitchens, and order fresh batches</p>
+        </div>
+      </div>
+
+      <div class="category-scroll" id="makersScroll">
+        <!-- Dynamically rendered via JS or fallbacks -->
       </div>
     </div>
   </section>
@@ -244,6 +273,153 @@
     </div>
   </div>
 
+  <!-- Dedicated Public Seller Shop Modal -->
+  <div class="modal-overlay" id="sellerShopModal">
+    <div class="modal-content" style="max-width: 820px;">
+      <button class="modal-close-btn" id="closeShopBtn">&times;</button>
+      <div class="modal-body">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; border-bottom:1px solid #E2D9CC; padding-bottom:16px; margin-bottom:18px;">
+          <div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <h2 id="shopModalName" style="font-family: var(--font-serif); color: #1E3F20; margin:0;">Artisan Shop</h2>
+              <span id="shopModalBadge" style="background:#2C5E3B; color:#fff; font-size:0.72rem; padding:2px 8px; border-radius:12px; font-weight:600;">VERIFIED MAKER</span>
+            </div>
+            <p id="shopModalDesc" style="color:#5A6065; font-size:0.88rem; margin:6px 0 0 0;"></p>
+            <div style="font-size:0.82rem; color:#8C939A; margin-top:4px;">
+              <span id="shopModalFollowers" style="font-weight:700; color:#1E3F20;">0</span> Followers • Handcrafted Kitchen
+            </div>
+          </div>
+          <div style="display:flex; gap:8px;">
+            <button id="btnShopShare" class="btn-primary" style="background:#FAF7F2; color:#1E3F20; border:1px solid #D5CCBF; padding:8px 14px; font-size:0.85rem; font-weight:600; cursor:pointer;">🔗 Share Shop</button>
+            <button id="btnShopChat" class="btn-primary" style="background:#FAF7F2; color:#1E3F20; border:1px solid #D5CCBF; padding:8px 14px; font-size:0.85rem; font-weight:600; cursor:pointer;">💬 Chat with Maker</button>
+            <button id="btnShopFollow" class="btn-primary" style="padding: 8px 18px; font-size:0.85rem;">Follow Maker</button>
+          </div>
+        </div>
+
+        <h4 style="font-size:0.92rem; color:#1E3F20; font-weight:700; margin-bottom:12px;">Maker Catalogue (Fresh Batches &amp; Seasonal Harvests)</h4>
+        <div class="products-grid" id="shopModalProducts" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:14px;">
+          <!-- Dynamically filled with products from /api/v1/sellers/{id}/shop -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Buyer Demand Post Modal (Reverse Marketplace) -->
+  <div class="modal-overlay" id="demandPostModal">
+    <div class="modal-content" style="max-width: 520px;">
+      <button class="modal-close-btn" id="closeDemandBtn">&times;</button>
+      <div class="modal-body">
+        <h2 style="font-family: var(--font-serif); color: #1E3F20; margin-bottom: 4px;">Post Product Requirement</h2>
+        <p style="font-size: 0.85rem; color: #5A6065; margin-bottom: 16px;">
+          Describe traditional food or ingredients you need. Verified home artisans will submit quotes and preparation dates.
+        </p>
+
+        <form id="demandPostForm">
+          <div class="order-form-group">
+            <label class="order-form-label" for="demandTitle">Product Name / What do you need?</label>
+            <input type="text" id="demandTitle" class="order-form-input" placeholder="e.g. 5 kg Pure Wild Forest Honey" required>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+            <div class="order-form-group">
+              <label class="order-form-label" for="demandQty">Quantity</label>
+              <input type="number" id="demandQty" class="order-form-input" min="1" value="1" required>
+            </div>
+            <div class="order-form-group">
+              <label class="order-form-label" for="demandUnit">Unit / Packaging</label>
+              <input type="text" id="demandUnit" class="order-form-input" placeholder="kg / liters / packets" required>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+            <div class="order-form-group">
+              <label class="order-form-label" for="demandBudget">Expected Budget (₹)</label>
+              <input type="number" id="demandBudget" class="order-form-input" placeholder="Optional">
+            </div>
+            <div class="order-form-group">
+              <label class="order-form-label" for="demandLocation">Delivery PIN / Location</label>
+              <input type="text" id="demandLocation" class="order-form-input" placeholder="e.g. 560001, Bangalore">
+            </div>
+          </div>
+
+          <div class="order-form-group">
+            <label class="order-form-label" for="demandDescription">Special Preparation Details</label>
+            <textarea id="demandDescription" class="order-form-textarea" rows="3" placeholder="Describe dietary preference, festival date, or traditional taste requirement..."></textarea>
+          </div>
+
+          <button type="submit" class="btn-primary" style="width: 100%; margin-top: 10px;">Publish Requirement to Makers</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Centre Modal -->
+  <div class="modal-overlay" id="notificationsModal">
+    <div class="modal-content" style="max-width: 480px;">
+      <button class="modal-close-btn" id="closeNotificationsBtn">&times;</button>
+      <div class="modal-body">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid #E2D9CC; padding-bottom:10px;">
+          <h2 style="font-family: var(--font-serif); color: #1E3F20; margin:0; font-size:1.3rem;">Notifications</h2>
+          <button id="btnMarkAllRead" style="background:none; border:none; color:#2C5E3B; font-weight:600; font-size:0.8rem; cursor:pointer;">Mark All as Read</button>
+        </div>
+
+        <div id="notificationsList" style="max-height: 400px; overflow-y: auto;">
+          <p style="text-align:center; color:#8C939A; font-size:0.88rem; padding:20px 0;">Loading notifications...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Built-In Social Messenger Modal -->
+  <div class="modal-overlay" id="messengerModal">
+    <div class="modal-content" style="max-width: 840px; height: 600px; padding: 0; overflow: hidden; border-radius: 12px; display: flex; flex-direction: column;">
+      <div style="display: flex; height: 100%; width: 100%;">
+        <!-- Conversations Inbox Sidebar -->
+        <div id="messengerSidebar" style="width: 310px; border-right: 1px solid #E2D9CC; display: flex; flex-direction: column; background: #FAF7F2;">
+          <div style="padding: 14px 16px; border-bottom: 1px solid #E2D9CC; display: flex; justify-content: space-between; align-items: center;">
+            <h3 style="font-family: var(--font-serif); color: #1E3F20; margin: 0; font-size: 1.15rem;">Messages</h3>
+            <span id="messengerLiveBadge" style="font-size: 0.72rem; color: #2C5E3B; font-weight: 700; background: #E1EBE2; padding: 2px 6px; border-radius: 8px;">● Live</span>
+          </div>
+          <div style="padding: 8px 12px; border-bottom: 1px solid #E2D9CC;">
+            <input type="text" id="messengerSearch" placeholder="Search conversations..." style="width: 100%; padding: 6px 10px; font-size: 0.82rem; border: 1px solid #D5CCBF; border-radius: 6px; box-sizing: border-box; background: #fff;">
+          </div>
+          <div id="messengerConversationsList" style="flex: 1; overflow-y: auto;">
+            <p style="text-align: center; color: #8C939A; font-size: 0.85rem; padding: 24px 12px;">Loading messages...</p>
+          </div>
+        </div>
+
+        <!-- Active Chat Window -->
+        <div id="messengerChatArea" style="flex: 1; display: flex; flex-direction: column; background: #FFFDF9; position: relative;">
+          <!-- Chat Header -->
+          <div style="padding: 12px 16px; border-bottom: 1px solid #E2D9CC; display: flex; justify-content: space-between; align-items: center; background: #FAF7F2;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div id="chatPartnerAvatar" style="width: 36px; height: 36px; border-radius: 50%; background: #2C5E3B; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem;">M</div>
+              <div>
+                <div id="chatPartnerName" style="font-weight: 700; color: #1E3F20; font-size: 0.95rem;">Select a Conversation</div>
+                <div id="chatContextBadge" style="font-size: 0.75rem; color: #C84B31; font-weight: 600;"></div>
+              </div>
+            </div>
+            <button class="modal-close-btn" id="closeMessengerBtn" style="position: static; font-size: 1.4rem; padding: 0 4px;">&times;</button>
+          </div>
+
+          <!-- Messages Container -->
+          <div id="chatMessagesList" style="flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px;">
+            <div style="text-align: center; color: #8C939A; font-size: 0.88rem; margin: auto;">Select a maker or customer to view chat history.</div>
+          </div>
+
+          <!-- Typing Indicator -->
+          <div id="chatTypingIndicator" style="display: none; padding: 4px 16px; font-size: 0.75rem; color: #5A6065; font-style: italic;">Maker is typing...</div>
+
+          <!-- Chat Input Composer -->
+          <form id="chatComposerForm" style="padding: 10px 14px; border-top: 1px solid #E2D9CC; display: flex; gap: 8px; background: #fff; align-items: center;">
+            <input type="text" id="chatMessageInput" placeholder="Write a message to maker..." style="flex: 1; padding: 9px 14px; border: 1px solid #D5CCBF; border-radius: 20px; font-size: 0.88rem; outline: none;" disabled>
+            <button type="submit" id="btnSendChatMessage" style="background: #2C5E3B; color: #fff; border: none; border-radius: 20px; padding: 8px 18px; font-weight: 600; cursor: pointer; font-size: 0.85rem;" disabled>Send</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Site Footer -->
   <footer class="site-footer">
     <div class="container footer-grid">
@@ -293,7 +469,7 @@
     </div>
   </footer>
 
-  <script src="js/api.js"></script>
-  <script src="js/app.js"></script>
+  <script type="module" src="js/api.js"></script>
+  <script type="module" src="js/app.js"></script>
 </body>
 </html>
