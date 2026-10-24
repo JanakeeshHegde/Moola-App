@@ -8,8 +8,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.chip.ChipGroup;
 import com.google.gson.Gson;
@@ -18,8 +20,10 @@ import com.moola.app.R;
 import com.moola.app.data.api.ApiClient;
 import com.moola.app.data.model.ApiResponse;
 import com.moola.app.data.model.Product;
+import com.moola.app.data.model.PublicSellerProfile;
 import com.moola.app.ui.home.ProductAdapter;
 import com.moola.app.ui.product.ProductDetailActivity;
+import com.moola.app.ui.seller.SellerShopActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -28,7 +32,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
-public class SearchActivity extends AppCompatActivity implements ProductAdapter.OnProductClickListener {
+public class SearchActivity extends AppCompatActivity implements ProductAdapter.OnProductClickListener, SellerRowAdapter.OnSellerClickListener {
 
     private EditText etSearchQuery;
     private ChipGroup chipGroupCategories;
@@ -38,8 +42,11 @@ public class SearchActivity extends AppCompatActivity implements ProductAdapter.
     private TextView tvEmptyMessage;
 
     private ProductAdapter productAdapter;
+    private SellerRowAdapter sellerRowAdapter;
+
     private String selectedCategory = null;
     private Boolean isOrganicFilter = null;
+    private boolean isMakersMode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,17 +66,23 @@ public class SearchActivity extends AppCompatActivity implements ProductAdapter.
             chipGroupCategories.check(R.id.chipAll);
             selectedCategory = null;
             isOrganicFilter = null;
+            isMakersMode = false;
             executeSearch();
         });
 
-        rvSearchResults.setLayoutManager(new GridLayoutManager(this, 2));
         productAdapter = new ProductAdapter(this);
-        rvSearchResults.setAdapter(productAdapter);
+        sellerRowAdapter = new SellerRowAdapter(this);
 
         // Pre-selection from intent
-        String initialCat = getIntent().getStringExtra("CATEGORY_ID");
-        if (initialCat != null) {
-            selectedCategory = initialCat;
+        String searchMode = getIntent().getStringExtra("SEARCH_MODE");
+        if ("MAKERS".equalsIgnoreCase(searchMode)) {
+            isMakersMode = true;
+            chipGroupCategories.check(R.id.chipMakers);
+        } else {
+            String initialCat = getIntent().getStringExtra("CATEGORY_ID");
+            if (initialCat != null) {
+                selectedCategory = initialCat;
+            }
         }
 
         setupFilters();
@@ -91,22 +104,32 @@ public class SearchActivity extends AppCompatActivity implements ProductAdapter.
             if (checkedIds.isEmpty()) return;
             int id = checkedIds.get(0);
 
-            if (id == R.id.chipAll) {
+            if (id == R.id.chipMakers) {
+                isMakersMode = true;
+                selectedCategory = null;
+                isOrganicFilter = null;
+            } else if (id == R.id.chipAll) {
+                isMakersMode = false;
                 selectedCategory = null;
                 isOrganicFilter = null;
             } else if (id == R.id.chipChips) {
+                isMakersMode = false;
                 selectedCategory = "chips";
                 isOrganicFilter = null;
             } else if (id == R.id.chipHoney) {
+                isMakersMode = false;
                 selectedCategory = "honey";
                 isOrganicFilter = null;
             } else if (id == R.id.chipPickles) {
+                isMakersMode = false;
                 selectedCategory = "pickles";
                 isOrganicFilter = null;
             } else if (id == R.id.chipSpices) {
+                isMakersMode = false;
                 selectedCategory = "spices";
                 isOrganicFilter = null;
             } else if (id == R.id.chipOrganicOnly) {
+                isMakersMode = false;
                 selectedCategory = null;
                 isOrganicFilter = true;
             }
@@ -121,39 +144,82 @@ public class SearchActivity extends AppCompatActivity implements ProductAdapter.
         pbSearch.setVisibility(View.VISIBLE);
         emptyStateView.setVisibility(View.GONE);
 
-        ApiClient.getService(this).getProducts(query, selectedCategory, null, null, isOrganicFilter, "newest")
-                .enqueue(new Callback<ApiResponse<Map<String, Object>>>() {
-                    @Override
-                    public void onResponse(Call<ApiResponse<Map<String, Object>>> call, Response<ApiResponse<Map<String, Object>>> response) {
-                        pbSearch.setVisibility(View.GONE);
-                        if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
-                            Map<String, Object> data = response.body().getData();
-                            if (data != null && data.containsKey("data")) {
-                                Gson gson = new Gson();
-                                Type type = new TypeToken<List<Product>>() {}.getType();
-                                List<Product> list = gson.fromJson(gson.toJson(data.get("data")), type);
+        if (isMakersMode) {
+            rvSearchResults.setLayoutManager(new LinearLayoutManager(this));
+            rvSearchResults.setAdapter(sellerRowAdapter);
 
-                                if (list != null && !list.isEmpty()) {
-                                    productAdapter.setProducts(list);
-                                    emptyStateView.setVisibility(View.GONE);
-                                    rvSearchResults.setVisibility(View.VISIBLE);
-                                } else {
-                                    productAdapter.setProducts(null);
-                                    rvSearchResults.setVisibility(View.GONE);
-                                    emptyStateView.setVisibility(View.VISIBLE);
-                                    tvEmptyMessage.setText("No homemade foods match your search.");
-                                }
-                            }
+            ApiClient.getService(this).getPublicSellers(query).enqueue(new Callback<ApiResponse<List<PublicSellerProfile>>>() {
+                @Override
+                public void onResponse(@NonNull Call<ApiResponse<List<PublicSellerProfile>>> call, @NonNull Response<ApiResponse<List<PublicSellerProfile>>> response) {
+                    pbSearch.setVisibility(View.GONE);
+                    if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
+                        List<PublicSellerProfile> list = response.body().getData();
+                        if (list != null && !list.isEmpty()) {
+                            sellerRowAdapter.setSellers(list);
+                            emptyStateView.setVisibility(View.GONE);
+                            rvSearchResults.setVisibility(View.VISIBLE);
+                        } else {
+                            sellerRowAdapter.setSellers(null);
+                            rvSearchResults.setVisibility(View.GONE);
+                            emptyStateView.setVisibility(View.VISIBLE);
+                            tvEmptyMessage.setText("No artisan makers found matching your search.");
                         }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ApiResponse<Map<String, Object>>> call, Throwable t) {
+                    } else {
                         pbSearch.setVisibility(View.GONE);
                         emptyStateView.setVisibility(View.VISIBLE);
-                        tvEmptyMessage.setText("Search request failed. Please check network.");
+                        tvEmptyMessage.setText("Unable to load artisan makers. Please check your connection.");
                     }
-                });
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<ApiResponse<List<PublicSellerProfile>>> call, @NonNull Throwable t) {
+                    pbSearch.setVisibility(View.GONE);
+                    emptyStateView.setVisibility(View.VISIBLE);
+                    tvEmptyMessage.setText("Network error: Unable to reach server.");
+                }
+            });
+        } else {
+            rvSearchResults.setLayoutManager(new GridLayoutManager(this, 2));
+            rvSearchResults.setAdapter(productAdapter);
+
+            ApiClient.getService(this).getProducts(query, selectedCategory, null, null, isOrganicFilter, "newest")
+                    .enqueue(new Callback<ApiResponse<Map<String, Object>>>() {
+                        @Override
+                        public void onResponse(@NonNull Call<ApiResponse<Map<String, Object>>> call, @NonNull Response<ApiResponse<Map<String, Object>>> response) {
+                            pbSearch.setVisibility(View.GONE);
+                            if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                                Map<String, Object> data = response.body().getData();
+                                if (data != null && data.containsKey("data")) {
+                                    Gson gson = new Gson();
+                                    Type type = new TypeToken<List<Product>>() {}.getType();
+                                    List<Product> list = gson.fromJson(gson.toJson(data.get("data")), type);
+
+                                    if (list != null && !list.isEmpty()) {
+                                        productAdapter.setProducts(list);
+                                        emptyStateView.setVisibility(View.GONE);
+                                        rvSearchResults.setVisibility(View.VISIBLE);
+                                    } else {
+                                        productAdapter.setProducts(null);
+                                        rvSearchResults.setVisibility(View.GONE);
+                                        emptyStateView.setVisibility(View.VISIBLE);
+                                        tvEmptyMessage.setText("No homemade foods match your search.");
+                                    }
+                                }
+                            } else {
+                                pbSearch.setVisibility(View.GONE);
+                                emptyStateView.setVisibility(View.VISIBLE);
+                                tvEmptyMessage.setText("Unable to load search results.");
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<ApiResponse<Map<String, Object>>> call, @NonNull Throwable t) {
+                            pbSearch.setVisibility(View.GONE);
+                            emptyStateView.setVisibility(View.VISIBLE);
+                            tvEmptyMessage.setText("Network error: Unable to reach server.");
+                        }
+                    });
+        }
     }
 
     @Override
@@ -161,6 +227,14 @@ public class SearchActivity extends AppCompatActivity implements ProductAdapter.
         Intent intent = new Intent(this, ProductDetailActivity.class);
         intent.putExtra("PRODUCT_ID", product.getId());
         intent.putExtra("PRODUCT_OBJ", product);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onSellerClick(PublicSellerProfile seller) {
+        Intent intent = new Intent(this, SellerShopActivity.class);
+        intent.putExtra(SellerShopActivity.EXTRA_SELLER_ID, seller.getSellerId());
+        intent.putExtra(SellerShopActivity.EXTRA_SELLER_NAME, seller.getShopName());
         startActivity(intent);
     }
 }

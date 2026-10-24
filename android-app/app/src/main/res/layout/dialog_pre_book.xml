@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/tvDialogCampaignTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Western Ghats Raw Multifloral Wild Forest Honey"
+        android:textColor="@color/moola_charcoal"
+        android:textSize="@dimen/text_base"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvDialogPricePerUnit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="Price: ₹420 per 500g Jar"
+        android:textColor="@color/moola_forest_green"
+        android:textSize="@dimen/text_sm"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_md"
+        android:text="Select Pre-Order Quantity:"
+        android:textColor="@color/moola_charcoal_secondary"
+        android:textSize="@dimen/text_sm" />
+
+    <EditText
+        android:id="@+id/etPreBookQuantity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:inputType="number"
+        android:text="1" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_sm"
+        android:text="Delivery Address for Festival Dispatch:"
+        android:textColor="@color/moola_charcoal_secondary"
+        android:textSize="@dimen/text_sm" />
+
+    <EditText
+        android:id="@+id/etPreBookAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:hint="Apartment / Street / City / Pincode"
+        android:inputType="textPostalAddress" />
+
+    <TextView
+        android:id="@+id/tvPreBookEstimatedTotal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_md"
+        android:text="Total Amount: ₹420"
+        android:textColor="@color/moola_terracotta"
+        android:textSize="@dimen/text_base"
+        android:textStyle="bold" />
+
+</LinearLayout>

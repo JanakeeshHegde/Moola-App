@@ -78,6 +78,18 @@ public class ProfileFragment extends Fragment {
             startActivity(intent);
         });
 
+        binding.btnProfileCustomRequests.setOnClickListener(v -> {
+            startActivity(new Intent(requireContext(), com.moola.app.ui.request.CustomRequestsActivity.class));
+        });
+
+        binding.btnProfileSeasonalCampaigns.setOnClickListener(v -> {
+            startActivity(new Intent(requireContext(), com.moola.app.ui.seasonal.SeasonalHubActivity.class));
+        });
+
+        binding.btnProfileServerUrl.setOnClickListener(v -> {
+            showServerUrlDialog();
+        });
+
         binding.btnHelpline1.setOnClickListener(v -> dialHelpline("+918088653820"));
         binding.btnHelpline2.setOnClickListener(v -> dialHelpline("+916362095126"));
 
@@ -143,5 +155,37 @@ public class ProfileFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    private void showServerUrlDialog() {
+        android.widget.EditText input = new android.widget.EditText(requireContext());
+        input.setText(ApiClient.getBaseUrl(requireContext()));
+        input.setSingleLine(true);
+        input.setPadding(40, 30, 40, 30);
+
+        new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                .setTitle("Configure Server Endpoint")
+                .setMessage("Current URL: " + ApiClient.getBaseUrl(requireContext()) + "\nEnter new IP/Port for Spring Boot backend:")
+                .setView(input)
+                .setPositiveButton("Save", (dialog, which) -> {
+                    String newUrl = input.getText().toString().trim();
+                    if (!newUrl.isEmpty()) {
+                        if (!newUrl.startsWith("http://") && !newUrl.startsWith("https://")) {
+                            newUrl = "http://" + newUrl;
+                        }
+                        if (!newUrl.endsWith("/")) {
+                            newUrl += "/";
+                        }
+                        ApiClient.setCustomBaseUrl(requireContext(), newUrl);
+                        Toast.makeText(requireContext(), "Backend URL updated to: " + newUrl, Toast.LENGTH_LONG).show();
+                        refreshUserProfile();
+                    }
+                })
+                .setNegativeButton("Reset to Default", (dialog, which) -> {
+                    ApiClient.setCustomBaseUrl(requireContext(), null);
+                    Toast.makeText(requireContext(), "Reset to default: " + ApiClient.getBaseUrl(requireContext()), Toast.LENGTH_LONG).show();
+                    refreshUserProfile();
+                })
+                .show();
     }
 }

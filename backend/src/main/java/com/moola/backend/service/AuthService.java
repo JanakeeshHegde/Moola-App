@@ -33,8 +33,12 @@ public class AuthService {
     }
 
     public AuthDto.AuthResponseData register(AuthDto.RegisterRequest req) {
-        if ("admin".equalsIgnoreCase(req.getRole())) {
+        String intendedRole = req.getRole() != null ? req.getRole().trim().toLowerCase() : "buyer";
+        if ("admin".equalsIgnoreCase(intendedRole)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Public admin registration is strictly prohibited.");
+        }
+        if (!"buyer".equals(intendedRole) && !"seller".equals(intendedRole)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid role. Only 'buyer' or 'seller' registrations are permitted.");
         }
 
         try {
@@ -45,12 +49,10 @@ public class AuthService {
             throw rse;
         } catch (Exception ignored) {}
 
-        String intendedRole = req.getRole() != null ? req.getRole().toLowerCase() : "buyer";
         if ("seller".equals(intendedRole) && (req.getShopName() == null || req.getShopName().isBlank())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Shop name is required for sellers.");
         }
 
-        // All public registrations begin as "buyer" (if seller, an unverified SellerProfile application is created)
         User user = new User();
         user.setId("user-" + System.currentTimeMillis());
         user.setName(req.getName());
@@ -83,6 +85,17 @@ public class AuthService {
         AuthDto.Tokens tokens = new AuthDto.Tokens(accessToken, refreshToken);
 
         return new AuthDto.AuthResponseData(user, tokens, sellerProfile);
+    }
+
+    public AuthDto.Tokens refreshToken(String refreshToken) {
+        if (refreshToken == null || !tokenProvider.validateToken(refreshToken)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid or expired refresh token. Please sign in again.");
+        }
+        String userId = tokenProvider.getUserIdFromToken(refreshToken);
+        String role = tokenProvider.getRoleFromToken(refreshToken);
+        String newAccess = tokenProvider.generateAccessToken(userId, role);
+        String newRefresh = tokenProvider.generateRefreshToken(userId, role);
+        return new AuthDto.Tokens(newAccess, newRefresh);
     }
 
     public AuthDto.AuthResponseData login(AuthDto.LoginRequest req) {
@@ -137,25 +150,25 @@ public class AuthService {
             admin.setPhone("9000000000");
             admin.setRole("admin");
             admin.setActive(true);
-            admin.setPasswordHash(passwordEncoder.encode(rawPassword));
+            admin.setPasswordHash(passwordEncoder.encode("admin@moola123"));
             return admin;
-        } else if ("9876543211".equals(phone)) {
+        } else if ("9000000001".equals(phone) || "9876543211".equals(phone)) {
             User seller = new User();
             seller.setId("seller-001");
             seller.setName("Lakshmi Amma");
-            seller.setPhone("9876543211");
+            seller.setPhone(phone);
             seller.setRole("seller");
             seller.setActive(true);
-            seller.setPasswordHash(passwordEncoder.encode(rawPassword));
+            seller.setPasswordHash(passwordEncoder.encode("seller@123"));
             return seller;
-        } else if ("9876543210".equals(phone) || (phone != null && phone.length() >= 10)) {
+        } else if ("9000000003".equals(phone) || "9876543210".equals(phone)) {
             User buyer = new User();
-            buyer.setId("buyer-" + phone);
-            buyer.setName("MOOLA Patron");
+            buyer.setId("buyer-001");
+            buyer.setName("Arjun Sharma");
             buyer.setPhone(phone);
             buyer.setRole("buyer");
             buyer.setActive(true);
-            buyer.setPasswordHash(passwordEncoder.encode(rawPassword));
+            buyer.setPasswordHash(passwordEncoder.encode("buyer@123"));
             return buyer;
         }
         return null;

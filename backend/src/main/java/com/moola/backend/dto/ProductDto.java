@@ -37,6 +37,9 @@ public class ProductDto {
         private Integer minOrderQty = 1;
         private List<String> tags = new ArrayList<>();
         private List<String> images = new ArrayList<>();
+        private List<String> ingredients = new ArrayList<>();
+        private String origin;
+        private String shelfLife;
         private Boolean isOrganic = false;
         private Boolean isCertified = false;
         private String certificationDetails;
@@ -85,6 +88,15 @@ public class ProductDto {
 
         public String getCertificationDetails() { return certificationDetails; }
         public void setCertificationDetails(String certificationDetails) { this.certificationDetails = certificationDetails; }
+
+        public List<String> getIngredients() { return ingredients; }
+        public void setIngredients(List<String> ingredients) { this.ingredients = ingredients; }
+
+        public String getOrigin() { return origin; }
+        public void setOrigin(String origin) { this.origin = origin; }
+
+        public String getShelfLife() { return shelfLife; }
+        public void setShelfLife(String shelfLife) { this.shelfLife = shelfLife; }
     }
 
     public static class ProductDetailResponse {

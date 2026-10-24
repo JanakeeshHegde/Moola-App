@@ -51,6 +51,86 @@
             android:orientation="vertical"
             android:padding="@dimen/spacing_base">
 
+            <!-- AI Voice Listing Banner -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardVoiceAssist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_md"
+                app:cardBackgroundColor="#F5EFE6"
+                app:cardCornerRadius="@dimen/radius_md"
+                app:cardElevation="1dp"
+                app:strokeColor="@color/moola_forest_green"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_md">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:src="@drawable/ic_mic"
+                            app:tint="@color/moola_forest_green" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/spacing_xs"
+                            android:layout_weight="1"
+                            android:text="AI VOICE-ASSISTED LISTING"
+                            android:textColor="@color/moola_forest_green"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_tag_organic"
+                            android:paddingHorizontal="6dp"
+                            android:paddingVertical="2dp"
+                            android:text="KANNADA / ENG"
+                            android:textColor="@color/moola_forest_green"
+                            android:textSize="9sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Speak your homemade product details"
+                        android:textColor="@color/moola_charcoal"
+                        android:textSize="@dimen/text_base"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Say: &quot;500g Wild Forest Honey from Coorg, price 450 rupees, 100% raw unpasteurized&quot;"
+                        android:textColor="@color/moola_charcoal_secondary"
+                        android:textSize="@dimen/text_sm" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnStartVoiceListing"
+                        style="@style/Widget.MOOLA.Button.Primary"
+                        android:layout_width="match_parent"
+                        android:layout_height="42dp"
+                        android:layout_marginTop="@dimen/spacing_sm"
+                        android:text="🎤 Tap to Speak Product Details"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
             <!-- Name (English) -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilAddNameEn"
@@ -205,6 +285,64 @@
                     android:lines="4"
                     android:textColor="@color/moola_charcoal" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Ingredients -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilAddIngredients"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:hint="Ingredients (e.g. Wild Forest Honey, Cardamom)"
+                app:boxStrokeColor="@color/moola_forest_green">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etAddIngredients"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/moola_charcoal" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Origin & Shelf Life -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilAddOrigin"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Origin (e.g. Coorg, Sirsi)"
+                    app:boxStrokeColor="@color/moola_forest_green">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etAddOrigin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/moola_charcoal" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilAddShelfLife"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_sm"
+                    android:layout_weight="1"
+                    android:hint="Shelf Life (e.g. 12 months)"
+                    app:boxStrokeColor="@color/moola_forest_green">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etAddShelfLife"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/moola_charcoal" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
 
             <!-- Organic Checkbox -->
             <CheckBox

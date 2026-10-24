@@ -40,6 +40,10 @@ public class Product {
     private boolean isCertified = false;
     private String certificationDetails;
 
+    private List<String> ingredients = new ArrayList<>();
+    private String origin;
+    private String shelfLife;
+
     private boolean isActive = true;
     private boolean isApproved = true;
     private String moderationNote;
@@ -152,6 +156,15 @@ public class Product {
 
     public String getCategoryName() { return categoryName; }
     public void setCategoryName(String categoryName) { this.categoryName = categoryName; }
+
+    public List<String> getIngredients() { return ingredients; }
+    public void setIngredients(List<String> ingredients) { this.ingredients = ingredients; }
+
+    public String getOrigin() { return origin; }
+    public void setOrigin(String origin) { this.origin = origin; }
+
+    public String getShelfLife() { return shelfLife; }
+    public void setShelfLife(String shelfLife) { this.shelfLife = shelfLife; }
 
     public Instant getCreatedAt() { return createdAt; }
     public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }

@@ -136,18 +136,27 @@ public class ProductDetailActivity extends AppCompatActivity {
                 progressBarDetail.setVisibility(View.GONE);
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                     Map<String, Object> data = response.body().getData();
-                    if (data != null && data.containsKey("product")) {
+                    if (data != null) {
                         Gson gson = new Gson();
-                        Product p = gson.fromJson(gson.toJson(data.get("product")), Product.class);
-                        bindProductData(p);
+                        Product p = null;
+                        if (data.containsKey("product")) {
+                            p = gson.fromJson(gson.toJson(data.get("product")), Product.class);
+                        } else if (data.containsKey("id") || data.containsKey("title") || data.containsKey("name")) {
+                            p = gson.fromJson(gson.toJson(data), Product.class);
+                        }
+                        if (p != null) {
+                            bindProductData(p);
+                        }
                     }
+                } else {
+                    Toast.makeText(ProductDetailActivity.this, "Product listing unavailable (HTTP " + response.code() + ")", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ApiResponse<Map<String, Object>>> call, Throwable t) {
                 progressBarDetail.setVisibility(View.GONE);
-                Toast.makeText(ProductDetailActivity.this, "Unable to load product details.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProductDetailActivity.this, "Connection error: Unable to load product details.", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -166,6 +175,41 @@ public class ProductDetailActivity extends AppCompatActivity {
         });
 
         btnWhatsAppEnquiry.setOnClickListener(v -> performWhatsAppEnquiry());
+
+        View btnShop = findViewById(R.id.btnDetailOpenShop);
+        if (btnShop != null) {
+            btnShop.setOnClickListener(v -> {
+                if (product != null && product.getSellerId() != null) {
+                    Intent shopIntent = new Intent(this, com.moola.app.ui.seller.SellerShopActivity.class);
+                    shopIntent.putExtra(com.moola.app.ui.seller.SellerShopActivity.EXTRA_SELLER_ID, product.getSellerId());
+                    shopIntent.putExtra(com.moola.app.ui.seller.SellerShopActivity.EXTRA_SELLER_NAME, product.getSellerName());
+                    startActivity(shopIntent);
+                }
+            });
+        }
+
+        View btnChat = findViewById(R.id.btnDetailChatMaker);
+        if (btnChat != null) {
+            btnChat.setOnClickListener(v -> {
+                if (product == null || product.getSellerId() == null) return;
+                Intent chatIntent = new Intent(this, com.moola.app.ui.chat.ChatActivity.class);
+                chatIntent.putExtra(com.moola.app.ui.chat.ChatActivity.EXTRA_OTHER_USER_ID, product.getSellerId());
+                chatIntent.putExtra(com.moola.app.ui.chat.ChatActivity.EXTRA_PARTNER_NAME, product.getSellerShopName() != null ? product.getSellerShopName() : product.getSellerName());
+                chatIntent.putExtra(com.moola.app.ui.chat.ChatActivity.EXTRA_PRODUCT_ID, product.getId());
+                chatIntent.putExtra(com.moola.app.ui.chat.ChatActivity.EXTRA_PRODUCT_NAME, product.getTitle());
+                chatIntent.putExtra(com.moola.app.ui.chat.ChatActivity.EXTRA_CONTEXT_TITLE, "🍯 Product: " + product.getTitle());
+                startActivity(chatIntent);
+            });
+        }
+
+        tvDetailSellerShop.setOnClickListener(v -> {
+            if (product != null && product.getSellerId() != null) {
+                Intent shopIntent = new Intent(this, com.moola.app.ui.seller.SellerShopActivity.class);
+                shopIntent.putExtra(com.moola.app.ui.seller.SellerShopActivity.EXTRA_SELLER_ID, product.getSellerId());
+                shopIntent.putExtra(com.moola.app.ui.seller.SellerShopActivity.EXTRA_SELLER_NAME, product.getSellerName());
+                startActivity(shopIntent);
+            }
+        });
 
         btnOrderNow.setOnClickListener(v -> {
             if (product == null) return;

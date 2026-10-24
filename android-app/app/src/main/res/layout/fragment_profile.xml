@@ -163,6 +163,32 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- Buyer Marketplace Shortcuts -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnProfileCustomRequests"
+            style="@style/Widget.MOOLA.Button.Outlined"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="@dimen/spacing_md"
+            android:text="📋 My Custom Product Demands" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnProfileSeasonalCampaigns"
+            style="@style/Widget.MOOLA.Button.Outlined"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="🍯 Seasonal Harvest &amp; Festival Hub" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnProfileServerUrl"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="⚙️ Backend Server Endpoint"
+            android:textColor="@color/moola_forest_green" />
+
         <!-- Customer Support Helplines -->
         <TextView
             android:layout_width="wrap_content"

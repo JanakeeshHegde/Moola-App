@@ -23,7 +23,12 @@ public class Order implements Serializable {
     private String consignmentNumber;
     private String trackingUrl;
     private String dispatchNotes;
+    private int currentStep = 1;
+    private Integer rating;
+    private String reviewNote;
+    private String deliveredAt;
     private String cancellationReason;
+    private List<StatusHistoryItem> statusHistory;
 
     private String buyerName;
     private String buyerPhone;
@@ -31,6 +36,17 @@ public class Order implements Serializable {
     private String sellerShopName;
     private String sellerWhatsApp;
     private String sellerUpiId;
+
+    public static class StatusHistoryItem implements Serializable {
+        private String status;
+        private String updatedAt;
+        private String note;
+
+        public StatusHistoryItem() {}
+        public String getStatus() { return status; }
+        public String getUpdatedAt() { return updatedAt; }
+        public String getNote() { return note; }
+    }
 
     public static class OrderItem implements Serializable {
         private String productId;
@@ -106,4 +122,13 @@ public class Order implements Serializable {
     public String getSellerWhatsApp() { return sellerWhatsApp; }
     public String getSellerUpiId() { return sellerUpiId; }
     public String getDeliveryAddress() { return shippingAddress != null ? shippingAddress.getFormattedAddress() : null; }
+
+    public int getCurrentStep() { return currentStep; }
+    public void setCurrentStep(int currentStep) { this.currentStep = currentStep; }
+    public Integer getRating() { return rating; }
+    public void setRating(Integer rating) { this.rating = rating; }
+    public String getReviewNote() { return reviewNote; }
+    public void setReviewNote(String reviewNote) { this.reviewNote = reviewNote; }
+    public String getDeliveredAt() { return deliveredAt; }
+    public List<StatusHistoryItem> getStatusHistory() { return statusHistory; }
 }

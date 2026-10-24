@@ -73,6 +73,54 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/ordersErrorView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_2xl"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvOrdersTitle">
+
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/ic_orders"
+                app:tint="@color/moola_terracotta" />
+
+            <TextView
+                android:id="@+id/tvOrdersErrorTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_base"
+                android:text="Unable to load orders"
+                android:textColor="@color/moola_charcoal"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvOrdersErrorMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:text="Check your network connection and server status."
+                android:textColor="@color/moola_charcoal_secondary"
+                android:textSize="@dimen/text_base" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRetryOrders"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_base"
+                android:text="@string/retry"
+                app:backgroundTint="@color/moola_forest_green" />
+
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

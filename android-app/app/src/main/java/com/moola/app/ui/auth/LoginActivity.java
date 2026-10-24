@@ -130,7 +130,14 @@ public class LoginActivity extends AppCompatActivity {
                             data.getSellerProfile()
                     );
                     Toast.makeText(LoginActivity.this, "Welcome to MOOLA, " + data.getUser().getName(), Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    String role = data.getUser() != null ? data.getUser().getRole() : "buyer";
+                    if ("seller".equalsIgnoreCase(role)) {
+                        startActivity(new Intent(LoginActivity.this, com.moola.app.ui.seller.SellerDashboardActivity.class));
+                    } else if ("admin".equalsIgnoreCase(role)) {
+                        startActivity(new Intent(LoginActivity.this, com.moola.app.ui.admin.AdminDashboardActivity.class));
+                    } else {
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    }
                     finish();
                 } else {
                     String msg = "Invalid mobile number or password.";

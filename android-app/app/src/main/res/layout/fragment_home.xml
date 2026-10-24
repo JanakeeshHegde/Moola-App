@@ -53,6 +53,82 @@
                         android:textStyle="bold" />
                 </LinearLayout>
 
+                <!-- Notifications button -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/btnHeaderNotifications"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="@dimen/spacing_sm"
+                    app:cardBackgroundColor="@color/moola_white"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="1dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btnHeaderMessages"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:strokeColor="@color/moola_sandstone_border"
+                    app:strokeWidth="1dp">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_orders"
+                            app:tint="@color/moola_forest_green" />
+
+                        <View
+                            android:id="@+id/viewNotificationBadge"
+                            android:layout_width="8dp"
+                            android:layout_height="8dp"
+                            android:layout_gravity="top|end"
+                            android:layout_margin="6dp"
+                            android:background="@drawable/bg_tag_organic"
+                            android:backgroundTint="@color/moola_terracotta"
+                            android:visibility="gone" />
+                    </FrameLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Messages button -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/btnHeaderMessages"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="@dimen/spacing_sm"
+                    app:cardBackgroundColor="@color/moola_white"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="1dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btnHeaderProfile"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:strokeColor="@color/moola_sandstone_border"
+                    app:strokeWidth="1dp">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_chat"
+                            app:tint="@color/moola_forest_green" />
+
+                        <View
+                            android:id="@+id/viewChatBadge"
+                            android:layout_width="8dp"
+                            android:layout_height="8dp"
+                            android:layout_gravity="top|end"
+                            android:layout_margin="6dp"
+                            android:background="@drawable/bg_tag_organic"
+                            android:backgroundTint="@color/moola_terracotta"
+                            android:visibility="gone" />
+                    </FrameLayout>
+                </com.google.android.material.card.MaterialCardView>
+
                 <!-- Profile avatar button -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/btnHeaderProfile"
@@ -166,6 +242,243 @@
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+
+            <!-- 1. Primary Profile-First Discovery: Artisan Makers & Village Kitchens -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_lg"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/spacing_base">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Artisan Makers &amp; Kitchens"
+                            android:textColor="@color/moola_charcoal"
+                            android:textSize="@dimen/text_lg"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Discover verified family recipes and small-batch makers"
+                            android:textColor="@color/moola_charcoal_secondary"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvViewAllSellers"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/view_all"
+                        android:textColor="@color/moola_forest_green"
+                        android:textSize="@dimen/text_sm"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <ProgressBar
+                    android:id="@+id/pbSellers"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/spacing_base"
+                    android:indeterminateTint="@color/moola_forest_green"
+                    android:visibility="gone" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvSellers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_sm"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="@dimen/spacing_base" />
+            </LinearLayout>
+
+            <!-- Feature Banners: Seasonal Pre-Booking & Custom Requests -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_base"
+                android:layout_marginTop="@dimen/spacing_md"
+                android:orientation="vertical">
+
+                <!-- Seasonal Pre-Booking Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardSeasonalEntry"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_sm"
+                    app:cardBackgroundColor="#F5EFE6"
+                    app:cardCornerRadius="@dimen/radius_md"
+                    app:cardElevation="1dp"
+                    app:strokeColor="@color/moola_terracotta"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/spacing_md">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_seasonal"
+                                app:tint="@color/moola_terracotta" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/spacing_xs"
+                                android:layout_weight="1"
+                                android:text="SEASONAL &amp; FESTIVAL PRE-BOOKING"
+                                android:textColor="@color/moola_terracotta"
+                                android:textSize="11sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/bg_tag_organic"
+                                android:paddingHorizontal="6dp"
+                                android:paddingVertical="2dp"
+                                android:text="LIMITED"
+                                android:textColor="@color/moola_forest_green"
+                                android:textSize="9sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Fresh Wild Forest Honey &amp; Festival Sweets"
+                            android:textColor="@color/moola_charcoal"
+                            android:textSize="@dimen/text_base"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="Reserve verified small-batch harvest allocations before capacity sells out."
+                            android:textColor="@color/moola_charcoal_secondary"
+                            android:textSize="@dimen/text_sm" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnOpenSeasonalHub"
+                            style="@style/Widget.MOOLA.Button.Secondary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="38dp"
+                            android:layout_marginTop="@dimen/spacing_sm"
+                            android:text="View Seasonal Campaigns"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Reverse Marketplace Request Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardCustomRequestEntry"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/moola_white"
+                    app:cardCornerRadius="@dimen/radius_md"
+                    app:cardElevation="1dp"
+                    app:strokeColor="@color/moola_sandstone_border"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/spacing_md">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_requests"
+                                app:tint="@color/moola_forest_green" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/spacing_xs"
+                                android:layout_weight="1"
+                                android:text="REVERSE MARKETPLACE"
+                                android:textColor="@color/moola_forest_green"
+                                android:textSize="11sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/bg_tag_artisan"
+                                android:paddingHorizontal="6dp"
+                                android:paddingVertical="2dp"
+                                android:text="BUYER DEMAND"
+                                android:textColor="@color/moola_terracotta"
+                                android:textSize="9sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Can't find a specific homemade delicacy?"
+                            android:textColor="@color/moola_charcoal"
+                            android:textSize="@dimen/text_base"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="Post a custom product request and receive direct offers from verified makers across India."
+                            android:textColor="@color/moola_charcoal_secondary"
+                            android:textSize="@dimen/text_sm" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnOpenCustomRequests"
+                            style="@style/Widget.MOOLA.Button.Primary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="38dp"
+                            android:layout_marginTop="@dimen/spacing_sm"
+                            android:text="My Requests &amp; Offers"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
 
             <!-- Categories Section -->
             <LinearLayout

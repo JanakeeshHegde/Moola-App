@@ -262,6 +262,33 @@
                             android:textColor="@color/moola_charcoal_secondary"
                             android:textSize="@dimen/text_sm" />
 
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_sm"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnDetailOpenShop"
+                                style="@style/Widget.MOOLA.Button.Outlined"
+                                android:layout_width="0dp"
+                                android:layout_height="38dp"
+                                android:layout_marginEnd="@dimen/spacing_xs"
+                                android:layout_weight="1"
+                                android:textSize="12sp"
+                                android:text="🏪 View Shop" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnDetailChatMaker"
+                                style="@style/Widget.MOOLA.Button.Secondary"
+                                android:layout_width="0dp"
+                                android:layout_height="38dp"
+                                android:layout_marginStart="@dimen/spacing_xs"
+                                android:layout_weight="1"
+                                android:textSize="12sp"
+                                android:text="💬 Message Maker" />
+                        </LinearLayout>
+
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 

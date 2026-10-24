@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/spacing_base"
+    android:layout_marginVertical="4dp"
+    app:cardBackgroundColor="@color/moola_white"
+    app:cardCornerRadius="@dimen/radius_sm"
+    app:cardElevation="1dp"
+    app:strokeColor="@color/moola_sandstone_border"
+    app:strokeWidth="1dp">
+
+    <LinearLayout
+        android:id="@+id/llNotificationRoot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/spacing_md">
+
+        <ImageView
+            android:id="@+id/ivNotificationIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_category_circle"
+            android:padding="8dp"
+            android:src="@drawable/ic_orders"
+            app:tint="@color/moola_forest_green" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_md"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvNotificationTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/moola_charcoal"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    tools:text="Order Dispatched #ORD-12345" />
+
+                <View
+                    android:id="@+id/viewUnreadDot"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_marginStart="6dp"
+                    android:background="@drawable/bg_tag_organic"
+                    android:backgroundTint="@color/moola_terracotta" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvNotificationMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:textColor="@color/moola_charcoal_secondary"
+                android:textSize="12sp"
+                tools:text="Your order has been handed over to India Post Speed Post with consignment number ED123456789IN." />
+
+            <TextView
+                android:id="@+id/tvNotificationTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/moola_charcoal_secondary"
+                android:textSize="10sp"
+                tools:text="Today, 2:30 PM" />
+        </LinearLayout>
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

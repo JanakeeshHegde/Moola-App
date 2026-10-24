@@ -64,6 +64,13 @@
             app:singleSelection="true">
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/chipMakers"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🏡 Artisan Makers" />
+
+            <com.google.android.material.chip.Chip
                 android:id="@+id/chipAll"
                 style="@style/Widget.Material3.Chip.Filter"
                 android:layout_width="wrap_content"

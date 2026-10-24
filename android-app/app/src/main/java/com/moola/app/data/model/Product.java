@@ -20,6 +20,9 @@ public class Product implements Serializable {
     private boolean isOrganic;
     private boolean isCertified;
     private String certificationDetails;
+    private List<String> ingredients;
+    private String origin;
+    private String shelfLife;
     private boolean isActive;
     private boolean isApproved;
     private double averageRating;
@@ -85,4 +88,8 @@ public class Product implements Serializable {
     public String getFormattedMrp() {
         return mrp > 0 ? String.format("₹%.0f", mrp) : "";
     }
+
+    public List<String> getIngredients() { return ingredients; }
+    public String getOrigin() { return origin; }
+    public String getShelfLife() { return shelfLife; }
 }

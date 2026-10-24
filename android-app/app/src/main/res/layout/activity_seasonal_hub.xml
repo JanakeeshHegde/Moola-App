@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/moola_cream">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/headerSeasonal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/header_height"
+        android:paddingHorizontal="@dimen/spacing_base"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/btnBackSeasonal"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Back"
+            android:src="@drawable/ic_arrow_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/moola_charcoal" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_sm"
+            android:text="Seasonal &amp; Festival Pre-Booking"
+            android:textColor="@color/moola_charcoal"
+            android:textSize="@dimen/text_lg"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btnBackSeasonal"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/bannerSeasonalInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#EFEBE4"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/spacing_base"
+        android:paddingVertical="@dimen/spacing_sm"
+        app:layout_constraintTop_toBottomOf="@+id/headerSeasonal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fresh Harvests &amp; Festival Delicacies"
+            android:textColor="@color/moola_forest_green"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pre-order wild forest honey batches and Diwali sweets weeks prior to ensure small-batch allocation with zero food wastage."
+            android:textColor="@color/moola_charcoal_secondary"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/pbSeasonal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bannerSeasonalInfo" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvSeasonalCampaigns"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:padding="@dimen/spacing_base"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bannerSeasonalInfo" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

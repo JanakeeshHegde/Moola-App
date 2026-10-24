@@ -177,6 +177,33 @@
                         </LinearLayout>
                     </LinearLayout>
 
+                    <!-- Public Shop Management Buttons -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_md"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnPreviewPublicShop"
+                            style="@style/Widget.MOOLA.Button.Secondary"
+                            android:layout_width="0dp"
+                            android:layout_height="38dp"
+                            android:layout_weight="1"
+                            android:text="🏪 Preview Shop"
+                            android:textSize="12sp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnEditShopProfile"
+                            style="@style/Widget.MOOLA.Button.Outlined"
+                            android:layout_width="0dp"
+                            android:layout_height="38dp"
+                            android:layout_marginStart="@dimen/spacing_sm"
+                            android:layout_weight="1"
+                            android:text="✏️ Edit Shop"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -197,6 +224,33 @@
                 android:layout_height="@dimen/button_height"
                 android:layout_marginTop="@dimen/spacing_sm"
                 android:text="View Received Orders &amp; Dispatches" />
+
+            <!-- Buyer Requests Board Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSellerRequestsBoard"
+                style="@style/Widget.MOOLA.Button.Secondary"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:text="📋 Buyer Requests Board (Quotes)" />
+
+            <!-- Direct Chats Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSellerDirectChats"
+                style="@style/Widget.MOOLA.Button.Outlined"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:text="💬 Direct Buyer Messages" />
+
+            <!-- Seasonal & Festival Hub Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSellerFestivalCampaigns"
+                style="@style/Widget.MOOLA.Button.Outlined"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:text="🍯 Seasonal &amp; Festival Campaigns" />
 
             <!-- Product Listings Heading -->
             <TextView

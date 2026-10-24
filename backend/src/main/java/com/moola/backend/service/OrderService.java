@@ -25,15 +25,18 @@ public class OrderService {
     private final ProductRepository productRepository;
     private final SellerProfileRepository sellerProfileRepository;
     private final UserRepository userRepository;
+    private final NotificationService notificationService;
 
     public OrderService(OrderRepository orderRepository,
                         ProductRepository productRepository,
                         SellerProfileRepository sellerProfileRepository,
-                        UserRepository userRepository) {
+                        UserRepository userRepository,
+                        NotificationService notificationService) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.sellerProfileRepository = sellerProfileRepository;
         this.userRepository = userRepository;
+        this.notificationService = notificationService;
     }
 
     public Order directOrderRequest(String buyerId, OrderDto.DirectOrderRequest req) {
@@ -75,6 +78,19 @@ public class OrderService {
 
         order = orderRepository.save(order);
         enrichOrder(order);
+
+        // Notify seller about incoming order
+        try {
+            notificationService.createNotification(
+                    order.getSellerId(),
+                    "New Order Request #" + order.getOrderNumber(),
+                    "Order request placed by " + (order.getBuyerName() != null ? order.getBuyerName() : "Customer") + " for ₹" + order.getTotal() + ".",
+                    "ORDER_STATUS",
+                    order.getId(),
+                    "ORDER"
+            );
+        } catch (Exception ignored) {}
+
         return order;
     }
 
@@ -106,6 +122,19 @@ public class OrderService {
 
         order = orderRepository.save(order);
         enrichOrder(order);
+
+        // Notify seller about incoming order
+        try {
+            notificationService.createNotification(
+                    order.getSellerId(),
+                    "New Order Request #" + order.getOrderNumber(),
+                    "Order placed via cart for ₹" + order.getTotal() + ".",
+                    "ORDER_STATUS",
+                    order.getId(),
+                    "ORDER"
+            );
+        } catch (Exception ignored) {}
+
         return order;
     }
 
@@ -166,6 +195,18 @@ public class OrderService {
         order.setUpdatedAt(Instant.now());
         order = orderRepository.save(order);
         enrichOrder(order);
+
+        try {
+            notificationService.createNotification(
+                    order.getBuyerId(),
+                    "Order Confirmed #" + order.getOrderNumber(),
+                    "The maker confirmed your order. Fresh preparation in progress.",
+                    "ORDER_STATUS",
+                    order.getId(),
+                    "ORDER"
+            );
+        } catch (Exception ignored) {}
+
         return order;
     }
 
@@ -184,6 +225,49 @@ public class OrderService {
         order.setUpdatedAt(Instant.now());
         order = orderRepository.save(order);
         enrichOrder(order);
+
+        try {
+            notificationService.createNotification(
+                    order.getBuyerId(),
+                    "Order Declined #" + order.getOrderNumber(),
+                    "Seller could not fulfill order: " + reason,
+                    "ORDER_STATUS",
+                    order.getId(),
+                    "ORDER"
+            );
+        } catch (Exception ignored) {}
+
+        return order;
+    }
+
+    public Order markPacked(String orderId, String sellerId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found"));
+
+        if (!order.getSellerId().equals(sellerId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied");
+        }
+
+        order.setStatus("PACKED");
+        order.setOrderStatus("PACKED");
+        order.setShipmentStatus("PACKED");
+        order.setCurrentStep(2);
+        order.getStatusHistory().add(new Order.StatusHistoryItem("PACKED", "Order prepared and packed in kitchen"));
+        order.setUpdatedAt(Instant.now());
+        order = orderRepository.save(order);
+        enrichOrder(order);
+
+        try {
+            notificationService.createNotification(
+                    order.getBuyerId(),
+                    "Order Packed Fresh #" + order.getOrderNumber(),
+                    "Your batch has been packed and is ready for courier pickup.",
+                    "ORDER_STATUS",
+                    order.getId(),
+                    "ORDER"
+            );
+        } catch (Exception ignored) {}
+
         return order;
     }
 
@@ -195,14 +279,97 @@ public class OrderService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied");
         }
 
-        order.setCarrierName(req.getCarrierName());
+        order.setCarrierName(req.getCarrierName() != null ? req.getCarrierName() : "India Post Speed Post");
         order.setConsignmentNumber(req.getConsignmentNumber());
-        order.setTrackingUrl(req.getTrackingUrl());
+        order.setTrackingUrl(req.getTrackingUrl() != null && !req.getTrackingUrl().isBlank()
+                ? req.getTrackingUrl()
+                : "https://www.indiapost.gov.in/_layouts/15/dop.portal.tracking/trackconsignment.aspx");
         order.setDispatchNotes(req.getDispatchNotes());
         order.setDispatchDate(Instant.now());
-        order.setStatus("SHIPPED");
-        order.setShipmentStatus("SHIPPED");
-        order.getStatusHistory().add(new Order.StatusHistoryItem("SHIPPED", "Dispatched via " + req.getCarrierName() + " (" + req.getConsignmentNumber() + ")"));
+        order.setStatus("HANDED_TO_COURIER");
+        order.setOrderStatus("HANDED_TO_COURIER");
+        order.setShipmentStatus("HANDED_TO_COURIER");
+        order.setCurrentStep(3);
+        order.getStatusHistory().add(new Order.StatusHistoryItem("HANDED_TO_COURIER",
+                "Consignment handed over to " + order.getCarrierName() + " (AWB: " + req.getConsignmentNumber() + ")"));
+        order.setUpdatedAt(Instant.now());
+        order = orderRepository.save(order);
+        enrichOrder(order);
+
+        try {
+            notificationService.createNotification(
+                    order.getBuyerId(),
+                    "Parcel Dispatched #" + order.getOrderNumber(),
+                    "Handed over to " + order.getCarrierName() + " (AWB: " + req.getConsignmentNumber() + "). Track your parcel in app.",
+                    "ORDER_STATUS",
+                    order.getId(),
+                    "ORDER"
+            );
+        } catch (Exception ignored) {}
+
+        return order;
+    }
+
+    public Order updateFulfillmentStatus(String orderId, String userId, boolean isAdmin, String newStatus, String note) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found"));
+
+        if (!isAdmin && !order.getSellerId().equals(userId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied");
+        }
+
+        String st = newStatus.toUpperCase();
+        order.setStatus(st);
+        order.setOrderStatus(st);
+        order.setShipmentStatus(st);
+
+        if ("PACKED".equals(st)) {
+            order.setCurrentStep(2);
+        } else if ("HANDED_TO_COURIER".equals(st) || "SHIPPED".equals(st)) {
+            order.setCurrentStep(3);
+        } else if ("IN_TRANSIT".equals(st)) {
+            order.setCurrentStep(4);
+        } else if ("OUT_FOR_DELIVERY".equals(st)) {
+            order.setCurrentStep(4);
+        } else if ("DELIVERED".equals(st)) {
+            order.setCurrentStep(5);
+            order.setDeliveredAt(Instant.now());
+        }
+
+        order.getStatusHistory().add(new Order.StatusHistoryItem(st, note != null ? note : "Shipment status updated to " + st));
+        order.setUpdatedAt(Instant.now());
+        order = orderRepository.save(order);
+        enrichOrder(order);
+
+        try {
+            notificationService.createNotification(
+                    order.getBuyerId(),
+                    "Shipment Update #" + order.getOrderNumber(),
+                    "Your parcel status has been updated to: " + st + (note != null ? " (" + note + ")" : "") + ".",
+                    "ORDER_STATUS",
+                    order.getId(),
+                    "ORDER"
+            );
+        } catch (Exception ignored) {}
+
+        return order;
+    }
+
+    public Order submitReview(String orderId, String buyerId, int rating, String reviewNote) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found"));
+
+        if (!order.getBuyerId().equals(buyerId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied");
+        }
+
+        if (!"DELIVERED".equalsIgnoreCase(order.getStatus())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Reviews can only be submitted for delivered orders");
+        }
+
+        order.setRating(Math.max(1, Math.min(5, rating)));
+        order.setReviewNote(reviewNote != null ? reviewNote.trim() : "");
+        order.getStatusHistory().add(new Order.StatusHistoryItem("REVIEWED", "Customer submitted " + rating + "★ review"));
         order.setUpdatedAt(Instant.now());
         order = orderRepository.save(order);
         enrichOrder(order);

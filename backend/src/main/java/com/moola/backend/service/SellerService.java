@@ -39,12 +39,24 @@ public class SellerService {
 
     public SellerProfile updateProfile(String userId, SellerProfile req) {
         SellerProfile profile = getProfile(userId);
-        if (req.getShopName() != null && !req.getShopName().isBlank()) profile.setShopName(req.getShopName());
-        if (req.getDescription() != null) profile.setDescription(req.getDescription());
-        if (req.getWhatsappNumber() != null) profile.setWhatsappNumber(req.getWhatsappNumber());
-        if (req.getUpiId() != null) profile.setUpiId(req.getUpiId());
-        if (req.getPaymentInstructions() != null) profile.setPaymentInstructions(req.getPaymentInstructions());
-        if (req.getLogo() != null) profile.setLogo(req.getLogo());
+        if (req.getShopName() != null && !req.getShopName().isBlank()) {
+            String name = req.getShopName().trim();
+            if (name.length() < 3 || name.length() > 60) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Shop name must be between 3 and 60 characters");
+            }
+            profile.setShopName(name);
+        }
+        if (req.getDescription() != null) {
+            String desc = req.getDescription().trim();
+            if (desc.length() > 500) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Description must not exceed 500 characters");
+            }
+            profile.setDescription(desc);
+        }
+        if (req.getWhatsappNumber() != null) profile.setWhatsappNumber(req.getWhatsappNumber().trim());
+        if (req.getUpiId() != null) profile.setUpiId(req.getUpiId().trim());
+        if (req.getPaymentInstructions() != null) profile.setPaymentInstructions(req.getPaymentInstructions().trim());
+        if (req.getLogo() != null) profile.setLogo(req.getLogo().trim());
 
         profile.setUpdatedAt(Instant.now());
         return sellerProfileRepository.save(profile);

@@ -24,6 +24,8 @@ public class DataSeedService implements CommandLineRunner {
     private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
     private final ComplaintRepository complaintRepository;
+    private final CustomRequestRepository customRequestRepository;
+    private final SeasonalCampaignRepository seasonalCampaignRepository;
     private final PasswordEncoder passwordEncoder;
 
     public DataSeedService(UserRepository userRepository,
@@ -32,6 +34,8 @@ public class DataSeedService implements CommandLineRunner {
                            ProductRepository productRepository,
                            OrderRepository orderRepository,
                            ComplaintRepository complaintRepository,
+                           CustomRequestRepository customRequestRepository,
+                           SeasonalCampaignRepository seasonalCampaignRepository,
                            PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.sellerProfileRepository = sellerProfileRepository;
@@ -39,6 +43,8 @@ public class DataSeedService implements CommandLineRunner {
         this.productRepository = productRepository;
         this.orderRepository = orderRepository;
         this.complaintRepository = complaintRepository;
+        this.customRequestRepository = customRequestRepository;
+        this.seasonalCampaignRepository = seasonalCampaignRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -50,8 +56,10 @@ public class DataSeedService implements CommandLineRunner {
             if (userRepository.count() == 0) {
                 seedAll();
             } else {
-                log.info("MOOLA database already contains data. Skipping initial seed.");
+                log.info("MOOLA database already contains core data.");
             }
+            seedSeasonalCampaignsIfEmpty();
+            seedCustomRequestsIfEmpty();
         } catch (Exception e) {
             log.warn("Database connection notice: {} (will operate in memory or await connection)", e.getMessage());
         }
@@ -292,5 +300,105 @@ public class DataSeedService implements CommandLineRunner {
 
         log.info("Database seeding complete. {} categories, {} products created.",
                 categoryRepository.count(), productRepository.count());
+    }
+
+    private void seedSeasonalCampaignsIfEmpty() {
+        try {
+            if (seasonalCampaignRepository.count() == 0) {
+                log.info("Seeding authentic seasonal & festival pre-booking campaigns...");
+                User seller1 = userRepository.findByPhone("9000000001").orElse(null);
+                User seller2 = userRepository.findByPhone("9000000002").orElse(null);
+
+                SeasonalCampaign c1 = new SeasonalCampaign();
+                c1.setTitle("Western Ghats Raw Multifloral Wild Forest Honey (Harvest 2026)");
+                c1.setDescription("Unheated, unfiltered wild honey gathered by traditional tribal collectors in the high canopies of Kodagu and Western Ghats. Pre-booking guarantees small-batch glass jar allocation before open market dispatch.");
+                c1.setBannerImageUrl("https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=800");
+                c1.setProductName("Pure Raw Forest Honey");
+                c1.setUnit("500g Jar");
+                c1.setPrice(420.0);
+                c1.setMaxBookingCapacity(100);
+                c1.setBookedQuantity(24);
+                c1.setMaxQtyPerBuyer(4);
+                c1.setExpectedDeliveryWindow("Dispatches Nov 01 – Nov 08, 2026 (Fresh Harvest Batch)");
+                c1.setStartDate(Instant.now().minus(5, java.time.temporal.ChronoUnit.DAYS));
+                c1.setBookingDeadline(Instant.now().plus(25, java.time.temporal.ChronoUnit.DAYS));
+                c1.setExpectedHarvestDate(Instant.now().plus(28, java.time.temporal.ChronoUnit.DAYS));
+                c1.setStatus("ACTIVE");
+                c1.setActive(true);
+                c1.setSellerId(seller1 != null ? seller1.getId() : "seller-001");
+                c1.setSellerName(seller1 != null ? seller1.getName() : "Ramesh Kumar");
+                c1.setSellerShopName("Kodagu Forest Honey & Spices");
+                seasonalCampaignRepository.save(c1);
+
+                SeasonalCampaign c2 = new SeasonalCampaign();
+                c2.setTitle("Diwali Special: Pure Cow Ghee Holige & Malnad Crisps");
+                c2.setDescription("Authentic Karnataka festive gift hampers containing traditional chana dal holige prepared with A2 cow ghee and jackfruit crisps fried in pure wood-pressed coconut oil.");
+                c2.setBannerImageUrl("https://images.unsplash.com/photo-1601050690597-df0568f70950?w=800");
+                c2.setProductName("Heritage Festival Delicacy Box");
+                c2.setUnit("1 kg Box");
+                c2.setPrice(650.0);
+                c2.setMaxBookingCapacity(60);
+                c2.setBookedQuantity(16);
+                c2.setMaxQtyPerBuyer(2);
+                c2.setExpectedDeliveryWindow("Dispatches Oct 28 – Nov 02, 2026 (Fresh Diwali Batch)");
+                c2.setStartDate(Instant.now().minus(2, java.time.temporal.ChronoUnit.DAYS));
+                c2.setBookingDeadline(Instant.now().plus(20, java.time.temporal.ChronoUnit.DAYS));
+                c2.setExpectedHarvestDate(Instant.now().plus(24, java.time.temporal.ChronoUnit.DAYS));
+                c2.setStatus("ACTIVE");
+                c2.setActive(true);
+                c2.setSellerId(seller2 != null ? seller2.getId() : "seller-002");
+                c2.setSellerName(seller2 != null ? seller2.getName() : "Lakshmi Devi");
+                c2.setSellerShopName("Lakshmi Amma's Malnad Kitchen");
+                seasonalCampaignRepository.save(c2);
+
+                log.info("Seeded 2 seasonal campaigns.");
+            }
+        } catch (Exception e) {
+            log.warn("Notice seeding seasonal campaigns: {}", e.getMessage());
+        }
+    }
+
+    private void seedCustomRequestsIfEmpty() {
+        try {
+            if (customRequestRepository.count() == 0) {
+                log.info("Seeding sample reverse marketplace custom request...");
+                User buyer = userRepository.findByPhone("9000000003").orElse(null);
+                User seller = userRepository.findByPhone("9000000001").orElse(null);
+
+                CustomRequest req = new CustomRequest();
+                req.setBuyerId(buyer != null ? buyer.getId() : "buyer-001");
+                req.setBuyerName(buyer != null ? buyer.getName() : "Arjun Sharma");
+                req.setBuyerPhone(buyer != null ? buyer.getPhone() : "9000000003");
+                req.setTitle("5 kg Pure Homemade Organic Sugarcane Jaggery (Naati Bella)");
+                req.setCategoryName("Homemade Pantry");
+                req.setQuantity(5.0);
+                req.setUnit("kg");
+                req.setBudget(450.0);
+                req.setDeliveryLocation("Indiranagar, Bengaluru, Karnataka");
+                req.setDescription("Need 100% pure chemical-free, unbleached jaggery prepared from traditional sugarcane juice without artificial sodium hydrosulphite. Fresh small-batch harvest preferred.");
+                req.setExpiresAt(Instant.now().plus(10, java.time.temporal.ChronoUnit.DAYS));
+                req.setStatus("OFFERS_RECEIVED");
+
+                CustomRequest.Offer offer1 = new CustomRequest.Offer();
+                offer1.setId("off-demo-001");
+                offer1.setSellerId(seller != null ? seller.getId() : "seller-001");
+                offer1.setSellerName("Ramesh Kumar");
+                offer1.setSellerShopName("Kodagu Forest Honey & Spices");
+                offer1.setSellerRating(4.9);
+                offer1.setPrice(425.0);
+                offer1.setQuantity(5.0);
+                offer1.setUnit("kg");
+                offer1.setDeliveryEstimateDays(3);
+                offer1.setMessage("We prepare unbleached jaggery blocks directly on our organic farm in Kodagu. Can dispatch within 48 hours via Speed Post.");
+                offer1.setStatus("PENDING");
+                offer1.setCreatedAt(Instant.now().minus(2, java.time.temporal.ChronoUnit.HOURS));
+
+                req.getOffers().add(offer1);
+                customRequestRepository.save(req);
+                log.info("Seeded sample reverse marketplace request with seller offer.");
+            }
+        } catch (Exception e) {
+            log.warn("Notice seeding custom requests: {}", e.getMessage());
+        }
     }
 }

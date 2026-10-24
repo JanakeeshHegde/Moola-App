@@ -3,10 +3,12 @@ package com.moola.backend.service;
 import com.moola.backend.dto.ProductDto;
 import com.moola.backend.model.Category;
 import com.moola.backend.model.Product;
+import com.moola.backend.model.SellerFollow;
 import com.moola.backend.model.SellerProfile;
 import com.moola.backend.model.User;
 import com.moola.backend.repository.CategoryRepository;
 import com.moola.backend.repository.ProductRepository;
+import com.moola.backend.repository.SellerFollowRepository;
 import com.moola.backend.repository.SellerProfileRepository;
 import com.moola.backend.repository.UserRepository;
 import org.springframework.http.HttpStatus;
@@ -24,15 +26,21 @@ public class ProductService {
     private final SellerProfileRepository sellerProfileRepository;
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
+    private final SellerFollowRepository sellerFollowRepository;
+    private final NotificationService notificationService;
 
     public ProductService(ProductRepository productRepository,
                           SellerProfileRepository sellerProfileRepository,
                           CategoryRepository categoryRepository,
-                          UserRepository userRepository) {
+                          UserRepository userRepository,
+                          SellerFollowRepository sellerFollowRepository,
+                          NotificationService notificationService) {
         this.productRepository = productRepository;
         this.sellerProfileRepository = sellerProfileRepository;
         this.categoryRepository = categoryRepository;
         this.userRepository = userRepository;
+        this.sellerFollowRepository = sellerFollowRepository;
+        this.notificationService = notificationService;
     }
 
     public List<Product> listProducts(String q, String categoryId, Double minPrice, Double maxPrice, Boolean isOrganic, String sort) {
@@ -138,11 +146,31 @@ public class ProductService {
         product.setOrganic(Boolean.TRUE.equals(req.getIsOrganic()));
         product.setCertified(Boolean.TRUE.equals(req.getIsCertified()));
         product.setCertificationDetails(req.getCertificationDetails());
+        if (req.getIngredients() != null) product.setIngredients(req.getIngredients());
+        if (req.getOrigin() != null) product.setOrigin(req.getOrigin());
+        if (req.getShelfLife() != null) product.setShelfLife(req.getShelfLife());
         product.setActive(true);
         product.setApproved(true); // Auto-approved or approved by admin
 
         product = productRepository.save(product);
         enrichProduct(product);
+
+        // Notify followers of new product batch
+        try {
+            List<SellerFollow> followers = sellerFollowRepository.findBySellerIdOrderByCreatedAtDesc(sellerId);
+            String shopName = sellerProfile.getShopName() != null ? sellerProfile.getShopName() : "Artisan Kitchen";
+            for (SellerFollow sf : followers) {
+                notificationService.createNotification(
+                        sf.getBuyerId(),
+                        "New Batch from " + shopName,
+                        shopName + " just prepared fresh: " + product.getName().getEn() + " (₹" + product.getPrice() + ").",
+                        "NEW_PRODUCT",
+                        product.getId(),
+                        "PRODUCT"
+                );
+            }
+        } catch (Exception ignored) {}
+
         return product;
     }
 
@@ -162,6 +190,9 @@ public class ProductService {
         if (req.getUnit() != null) product.setUnit(req.getUnit());
         if (req.getQuantityAvailable() != null) product.setQuantityAvailable(req.getQuantityAvailable());
         if (req.getTags() != null) product.setTags(req.getTags());
+        if (req.getIngredients() != null) product.setIngredients(req.getIngredients());
+        if (req.getOrigin() != null) product.setOrigin(req.getOrigin());
+        if (req.getShelfLife() != null) product.setShelfLife(req.getShelfLife());
         if (req.getImages() != null && !req.getImages().isEmpty()) {
             product.setImages(req.getImages());
             product.setThumbnailUrl(req.getImages().get(0));

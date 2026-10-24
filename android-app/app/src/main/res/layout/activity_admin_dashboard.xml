@@ -33,8 +33,21 @@
             android:textSize="@dimen/text_lg"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnAdminHeaderLogout"
             app:layout_constraintStart_toEndOf="@+id/btnBackAdmin"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAdminHeaderLogout"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Logout"
+            android:textColor="@color/moola_terracotta"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -220,6 +233,32 @@
                 android:layout_height="@dimen/button_height"
                 android:layout_marginTop="@dimen/spacing_sm"
                 android:text="Account Deletion Request Queue" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAdminProductModeration"
+                style="@style/Widget.MOOLA.Button.Outlined"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:text="🛡️ Product Moderation &amp; Safety Review" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAdminUserAccounts"
+                style="@style/Widget.MOOLA.Button.Outlined"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:text="👥 Registered User Accounts &amp; Security" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAdminLogout"
+                style="@style/Widget.MOOLA.Button.Outlined"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginTop="@dimen/spacing_xl"
+                android:strokeColor="@color/moola_terracotta"
+                android:textColor="@color/moola_terracotta"
+                android:text="🚪 Sign Out of Admin Operations" />
 
             <ProgressBar
                 android:id="@+id/pbAdmin"

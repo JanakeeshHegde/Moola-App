@@ -29,14 +29,27 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_sm"
+            android:layout_marginEnd="@dimen/spacing_sm"
             android:text="Order Details"
             android:textColor="@color/moola_charcoal"
             android:textSize="@dimen/text_lg"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnOrderChat"
             app:layout_constraintStart_toEndOf="@+id/btnBackOrder"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/btnOrderChat"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Chat about order"
+            android:src="@drawable/ic_chat"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/moola_forest_green" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -53,7 +66,7 @@
             android:paddingHorizontal="@dimen/spacing_base"
             android:paddingBottom="@dimen/spacing_3xl">
 
-            <!-- Status Card -->
+            <!-- 5-Step Fulfillment Stepper Card -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -70,32 +83,177 @@
                     android:orientation="vertical"
                     android:padding="@dimen/spacing_base">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="STATUS"
-                        android:textColor="@color/moola_charcoal_secondary"
-                        android:textSize="10sp"
-                        android:textStyle="bold" />
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/tvDetailOrderStatus"
-                        android:layout_width="wrap_content"
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="FULFILLMENT TIMELINE"
+                            android:textColor="@color/moola_charcoal_secondary"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvDetailOrderStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_tag_organic"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="3dp"
+                            android:text="ORDER_CONFIRMED"
+                            android:textColor="@color/moola_forest_green"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <!-- 5-Step Visual Stepper -->
+                    <LinearLayout
+                        android:id="@+id/layoutTimelineSteps"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:text="ORDER_REQUESTED"
-                        android:textColor="@color/moola_forest_green"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:layout_marginTop="@dimen/spacing_md"
+                        android:orientation="vertical">
+
+                        <!-- Step 1 -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/ivStep1"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_check_circle"
+                                app:tint="@color/moola_forest_green" />
+
+                            <TextView
+                                android:id="@+id/tvStep1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:text="1. Order Confirmed by Maker"
+                                android:textColor="@color/moola_charcoal"
+                                android:textSize="@dimen/text_sm"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <!-- Step 2 -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/ivStep2"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_check_circle"
+                                app:tint="@color/moola_sandstone_border" />
+
+                            <TextView
+                                android:id="@+id/tvStep2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:text="2. Packed Fresh at Source"
+                                android:textColor="@color/moola_charcoal_secondary"
+                                android:textSize="@dimen/text_sm" />
+                        </LinearLayout>
+
+                        <!-- Step 3 -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/ivStep3"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_check_circle"
+                                app:tint="@color/moola_sandstone_border" />
+
+                            <TextView
+                                android:id="@+id/tvStep3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:text="3. Handed to Courier / Postal Carrier"
+                                android:textColor="@color/moola_charcoal_secondary"
+                                android:textSize="@dimen/text_sm" />
+                        </LinearLayout>
+
+                        <!-- Step 4 -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/ivStep4"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_check_circle"
+                                app:tint="@color/moola_sandstone_border" />
+
+                            <TextView
+                                android:id="@+id/tvStep4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:text="4. In Transit to Destination"
+                                android:textColor="@color/moola_charcoal_secondary"
+                                android:textSize="@dimen/text_sm" />
+                        </LinearLayout>
+
+                        <!-- Step 5 -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/ivStep5"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_check_circle"
+                                app:tint="@color/moola_sandstone_border" />
+
+                            <TextView
+                                android:id="@+id/tvStep5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:text="5. Delivered &amp; Verified"
+                                android:textColor="@color/moola_charcoal_secondary"
+                                android:textSize="@dimen/text_sm" />
+                        </LinearLayout>
+
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/tvDetailOrderTimelineNote"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_xs"
+                        android:layout_marginTop="@dimen/spacing_sm"
                         android:text="Seller will confirm product batch availability shortly."
-                        android:textColor="@color/moola_charcoal_secondary"
-                        android:textSize="@dimen/text_sm" />
+                        android:textColor="@color/moola_forest_green"
+                        android:textSize="12sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -121,28 +279,153 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="CONSIGNMENT DISPATCH"
+                        android:text="VERIFIED COURIER CONSIGNMENT"
                         android:textColor="@color/moola_terracotta"
                         android:textSize="10sp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/tvCarrierAndAwb"
+                        android:id="@+id/tvCarrierName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="India Post Speed Post: EK982341902IN"
+                        android:text="Carrier: India Post Speed Post"
                         android:textColor="@color/moola_charcoal"
                         android:textSize="@dimen/text_base"
                         android:textStyle="bold" />
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvTrackingNumber"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Consignment #: EK982341902IN"
+                            android:textColor="@color/moola_forest_green"
+                            android:textSize="@dimen/text_sm"
+                            android:textStyle="bold" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnCopyTracking"
+                            style="@style/Widget.MOOLA.Button.Outlined"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:text="Copy"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvDispatchDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Dispatched: Oct 24, 2026"
+                        android:textColor="@color/moola_charcoal_secondary"
+                        android:textSize="11sp" />
+
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnTrackShipment"
-                        style="@style/Widget.MOOLA.Button.Outlined"
-                        android:layout_width="wrap_content"
+                        style="@style/Widget.MOOLA.Button.Primary"
+                        android:layout_width="match_parent"
                         android:layout_height="44dp"
                         android:layout_marginTop="@dimen/spacing_md"
-                        android:text="Track on Postal Portal" />
+                        android:text="Open Carrier Tracking Portal" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Completed Order Rating & Review Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardOrderReview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_md"
+                android:visibility="gone"
+                app:cardBackgroundColor="@color/moola_white"
+                app:cardCornerRadius="@dimen/radius_md"
+                app:cardElevation="1dp"
+                app:strokeColor="@color/moola_forest_green"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_base">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TASTE &amp; QUALITY REVIEW"
+                        android:textColor="@color/moola_forest_green"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="How was your homemade delicacy?"
+                        android:textColor="@color/moola_charcoal"
+                        android:textSize="@dimen/text_base"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/layoutReviewInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_sm"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Select Rating (1 to 5 Stars):"
+                            android:textColor="@color/moola_charcoal_secondary"
+                            android:textSize="11sp" />
+
+                        <Spinner
+                            android:id="@+id/spReviewRating"
+                            android:layout_width="match_parent"
+                            android:layout_height="44dp"
+                            android:layout_marginTop="2dp" />
+
+                        <EditText
+                            android:id="@+id/etReviewNote"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/bg_search_bar"
+                            android:hint="Share your experience (taste, packaging, freshness)..."
+                            android:inputType="textCapSentences|textMultiLine"
+                            android:maxLines="3"
+                            android:padding="10dp"
+                            android:textSize="@dimen/text_sm" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnSubmitReview"
+                            style="@style/Widget.MOOLA.Button.Primary"
+                            android:layout_width="match_parent"
+                            android:layout_height="42dp"
+                            android:layout_marginTop="@dimen/spacing_sm"
+                            android:text="Submit Product Review" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvSubmittedReview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_sm"
+                        android:textColor="@color/moola_forest_green"
+                        android:textSize="@dimen/text_sm"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 

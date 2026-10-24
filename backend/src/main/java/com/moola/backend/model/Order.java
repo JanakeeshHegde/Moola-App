@@ -50,6 +50,10 @@ public class Order {
     private Instant dispatchDate;
     private String trackingUrl;
     private String dispatchNotes;
+    private int currentStep = 1; // 1: Confirmed, 2: Packed, 3: Handed to Courier, 4: In Transit, 5: Delivered
+    private Instant deliveredAt;
+    private Integer rating;
+    private String reviewNote;
 
     private String cancellationReason;
     private List<StatusHistoryItem> statusHistory = new ArrayList<>();
@@ -248,6 +252,18 @@ public class Order {
 
     public String getSellerUpiId() { return sellerUpiId; }
     public void setSellerUpiId(String sellerUpiId) { this.sellerUpiId = sellerUpiId; }
+
+    public int getCurrentStep() { return currentStep; }
+    public void setCurrentStep(int currentStep) { this.currentStep = currentStep; }
+
+    public Instant getDeliveredAt() { return deliveredAt; }
+    public void setDeliveredAt(Instant deliveredAt) { this.deliveredAt = deliveredAt; }
+
+    public Integer getRating() { return rating; }
+    public void setRating(Integer rating) { this.rating = rating; }
+
+    public String getReviewNote() { return reviewNote; }
+    public void setReviewNote(String reviewNote) { this.reviewNote = reviewNote; }
 
     public Instant getCreatedAt() { return createdAt; }
     public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }

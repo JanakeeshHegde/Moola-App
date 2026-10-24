@@ -106,7 +106,13 @@ public class RegisterActivity extends AppCompatActivity {
                             data.getSellerProfile()
                     );
                     Toast.makeText(RegisterActivity.this, "Account created! Welcome to MOOLA.", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                    String userRole = data.getUser() != null ? data.getUser().getRole() : role;
+                    Intent intent;
+                    if ("seller".equalsIgnoreCase(userRole)) {
+                        intent = new Intent(RegisterActivity.this, com.moola.app.ui.seller.SellerDashboardActivity.class);
+                    } else {
+                        intent = new Intent(RegisterActivity.this, MainActivity.class);
+                    }
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();

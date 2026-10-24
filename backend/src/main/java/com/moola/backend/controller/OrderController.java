@@ -86,6 +86,15 @@ public class OrderController {
         return ResponseEntity.ok(ApiResponse.ok(order, "Order declined"));
     }
 
+    @PostMapping("/{id}/packed")
+    @PreAuthorize("hasAnyRole('SELLER', 'ADMIN')")
+    public ResponseEntity<ApiResponse<Order>> markPacked(Authentication authentication,
+                                                         @PathVariable String id) {
+        String sellerId = (String) authentication.getPrincipal();
+        Order order = orderService.markPacked(id, sellerId);
+        return ResponseEntity.ok(ApiResponse.ok(order, "Order marked as PACKED"));
+    }
+
     @PostMapping("/{id}/shipment")
     @PreAuthorize("hasAnyRole('SELLER', 'ADMIN')")
     public ResponseEntity<ApiResponse<Order>> recordShipment(Authentication authentication,
@@ -94,6 +103,37 @@ public class OrderController {
         String sellerId = (String) authentication.getPrincipal();
         Order order = orderService.recordShipment(id, sellerId, req);
         return ResponseEntity.ok(ApiResponse.ok(order, "Shipment recorded successfully"));
+    }
+
+    @PostMapping("/{id}/fulfillment-step")
+    @PreAuthorize("hasAnyRole('SELLER', 'ADMIN')")
+    public ResponseEntity<ApiResponse<Order>> updateFulfillmentStep(Authentication authentication,
+                                                                    @PathVariable String id,
+                                                                    @RequestBody Map<String, String> body) {
+        String userId = (String) authentication.getPrincipal();
+        boolean isAdmin = authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+        String status = "IN_TRANSIT";
+        if (body != null) {
+            if (body.containsKey("status") && body.get("status") != null) {
+                status = body.get("status");
+            } else if (body.containsKey("step") && body.get("step") != null) {
+                status = body.get("step");
+            }
+        }
+        String note = body != null ? body.get("note") : null;
+        Order order = orderService.updateFulfillmentStatus(id, userId, isAdmin, status, note);
+        return ResponseEntity.ok(ApiResponse.ok(order, "Fulfillment step updated to " + status));
+    }
+
+    @PostMapping("/{id}/review")
+    public ResponseEntity<ApiResponse<Order>> submitReview(Authentication authentication,
+                                                           @PathVariable String id,
+                                                           @RequestBody Map<String, Object> body) {
+        String buyerId = (String) authentication.getPrincipal();
+        int rating = body.containsKey("rating") ? ((Number) body.get("rating")).intValue() : 5;
+        String note = (String) body.get("reviewNote");
+        Order order = orderService.submitReview(id, buyerId, rating, note);
+        return ResponseEntity.ok(ApiResponse.ok(order, "Review submitted successfully"));
     }
 
     @PatchMapping("/{id}/verify-payment")

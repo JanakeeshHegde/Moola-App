@@ -151,4 +151,119 @@ public interface MoolaApiService {
     @PATCH("api/v1/account-deletion/admin/{requestId}/process")
     Call<ApiResponse<AccountDeletionRequest>> adminProcessDeletionRequest(
             @Path("requestId") String requestId, @Body Map<String, String> body);
+
+    // Reverse Marketplace (Custom Requests & Offers)
+    @POST("api/v1/custom-requests")
+    Call<ApiResponse<CustomRequest>> createCustomRequest(@Body Map<String, Object> req);
+
+    @GET("api/v1/custom-requests/my")
+    Call<ApiResponse<List<CustomRequest>>> getMyCustomRequests();
+
+    @GET("api/v1/custom-requests/board")
+    Call<ApiResponse<List<CustomRequest>>> getCustomRequestsBoard();
+
+    @GET("api/v1/custom-requests/{id}")
+    Call<ApiResponse<CustomRequest>> getCustomRequestById(@Path("id") String id);
+
+    @POST("api/v1/custom-requests/{id}/offers")
+    Call<ApiResponse<CustomRequest>> submitCustomOffer(@Path("id") String id, @Body Map<String, Object> body);
+
+    @POST("api/v1/custom-requests/{id}/offers/{offerId}/accept")
+    Call<ApiResponse<CustomRequest>> acceptCustomOffer(@Path("id") String id, @Path("offerId") String offerId);
+
+    @POST("api/v1/custom-requests/{id}/cancel")
+    Call<ApiResponse<CustomRequest>> cancelCustomRequest(@Path("id") String id);
+
+    // Seasonal & Festival Pre-Booking
+    @GET("api/v1/campaigns")
+    Call<ApiResponse<List<SeasonalCampaign>>> getSeasonalCampaigns();
+
+    @GET("api/v1/campaigns/{id}")
+    Call<ApiResponse<SeasonalCampaign>> getSeasonalCampaignById(@Path("id") String id);
+
+    @POST("api/v1/campaigns")
+    Call<ApiResponse<SeasonalCampaign>> createSeasonalCampaign(@Body Map<String, Object> body);
+
+    @POST("api/v1/campaigns/{id}/pre-book")
+    Call<ApiResponse<PreBooking>> preBookCampaign(@Path("id") String id, @Body Map<String, Object> body);
+
+    @GET("api/v1/campaigns/my-bookings")
+    Call<ApiResponse<List<PreBooking>>> getMyPreBookings();
+
+    @GET("api/v1/campaigns/seller-bookings")
+    Call<ApiResponse<List<PreBooking>>> getSellerPreBookings();
+
+    // Direct In-App Chat
+    @GET("api/v1/conversations")
+    Call<ApiResponse<List<Conversation>>> getConversations();
+
+    @POST("api/v1/conversations")
+    Call<ApiResponse<Conversation>> startConversation(@Body Map<String, Object> body);
+
+    @GET("api/v1/conversations/{id}/messages")
+    Call<ApiResponse<List<ChatMessage>>> getMessages(@Path("id") String id);
+
+    @POST("api/v1/conversations/{id}/messages")
+    Call<ApiResponse<ChatMessage>> sendMessage(@Path("id") String id, @Body Map<String, Object> body);
+
+    @PATCH("api/v1/conversations/{id}/read")
+    Call<ApiResponse<String>> markConversationRead(@Path("id") String id);
+
+    @GET("api/v1/conversations/unread-count")
+    Call<ApiResponse<Map<String, Long>>> getUnreadChatCount();
+
+    // Order Fulfillment Stepper & Review
+    @POST("api/v1/orders/{id}/packed")
+    Call<ApiResponse<Order>> markOrderPacked(@Path("id") String id);
+
+    @POST("api/v1/orders/{id}/fulfillment-step")
+    Call<ApiResponse<Order>> updateFulfillmentStep(@Path("id") String id, @Body Map<String, String> body);
+
+    @POST("api/v1/orders/{id}/review")
+    Call<ApiResponse<Order>> submitOrderReview(@Path("id") String id, @Body Map<String, Object> body);
+
+    // Dedicated Seller Shop & Social Follow
+    @GET("api/v1/sellers")
+    Call<ApiResponse<List<com.moola.app.data.model.PublicSellerProfile>>> getPublicSellers(@Query("search") String search);
+
+    @GET("api/v1/sellers/search")
+    Call<ApiResponse<List<com.moola.app.data.model.PublicSellerProfile>>> searchPublicSellers(@Query("q") String q);
+
+    @GET("api/v1/sellers/{id}/shop")
+    Call<ApiResponse<SellerShop>> getSellerShop(@Path("id") String id);
+
+    @POST("api/v1/sellers/{id}/follow")
+    Call<ApiResponse<Map<String, Object>>> followSeller(@Path("id") String id);
+
+    @DELETE("api/v1/sellers/{id}/follow")
+    Call<ApiResponse<Map<String, Object>>> unfollowSeller(@Path("id") String id);
+
+    @POST("api/v1/sellers/{id}/unfollow")
+    Call<ApiResponse<Map<String, Object>>> unfollowSellerPost(@Path("id") String id);
+
+    @GET("api/v1/sellers/{id}/follow-status")
+    Call<ApiResponse<Map<String, Object>>> getFollowStatus(@Path("id") String id);
+
+    @GET("api/v1/sellers/following")
+    Call<ApiResponse<List<SellerProfile>>> getFollowedSellers();
+
+    @GET("api/v1/sellers/feed/followed")
+    Call<ApiResponse<List<Product>>> getFollowedFeed();
+
+    // Persistent Notification Centre
+    @GET("api/v1/notifications")
+    Call<ApiResponse<List<Notification>>> getNotifications();
+
+    @GET("api/v1/notifications/unread-count")
+    Call<ApiResponse<Map<String, Long>>> getUnreadNotificationCount();
+
+    @PATCH("api/v1/notifications/{id}/read")
+    Call<ApiResponse<Notification>> markNotificationRead(@Path("id") String id);
+
+    @POST("api/v1/notifications/read-all")
+    Call<ApiResponse<String>> markAllNotificationsRead();
+
+    // Global Commerce & Regional Settings
+    @GET("api/v1/config/commerce")
+    Call<ApiResponse<Map<String, Object>>> getCommerceConfig();
 }

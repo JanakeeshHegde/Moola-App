@@ -1,6 +1,7 @@
 package com.moola.app.data.api;
 
 import android.content.Context;
+import android.os.Build;
 import com.moola.app.data.storage.SessionManager;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -15,12 +16,31 @@ import java.util.concurrent.TimeUnit;
 
 public class ApiClient {
 
-    // Default development API URL for POCO M4 Pro physical device over Wi-Fi
-    // Can also be dynamically updated via SessionManager or ApiClient.setCustomBaseUrl()
-    public static final String DEFAULT_BASE_URL = "http://192.168.1.40:5000/";
+    public static final String DEFAULT_PHYSICAL_URL = "http://192.168.1.40:5000/";
+    public static final String DEFAULT_EMULATOR_URL = "http://10.0.2.2:5000/";
+    public static final String DEFAULT_BASE_URL = DEFAULT_PHYSICAL_URL;
 
     private static Retrofit retrofit = null;
     private static MoolaApiService apiService = null;
+
+    public static boolean isEmulator() {
+        return (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic"))
+                || Build.FINGERPRINT.startsWith("generic")
+                || Build.FINGERPRINT.startsWith("unknown")
+                || Build.HARDWARE.contains("goldfish")
+                || Build.HARDWARE.contains("ranchu")
+                || Build.MODEL.contains("google_sdk")
+                || Build.MODEL.contains("Emulator")
+                || Build.MODEL.contains("Android SDK built for x86")
+                || Build.MANUFACTURER.contains("Genymotion")
+                || Build.PRODUCT.contains("sdk_google")
+                || Build.PRODUCT.contains("google_sdk")
+                || Build.PRODUCT.contains("sdk")
+                || Build.PRODUCT.contains("sdk_x86")
+                || Build.PRODUCT.contains("vbox86p")
+                || Build.PRODUCT.contains("emulator")
+                || Build.PRODUCT.contains("simulator");
+    }
 
     public static String getBaseUrl(Context context) {
         if (context != null) {
@@ -30,7 +50,10 @@ public class ApiClient {
                 return trimmed.endsWith("/") ? trimmed : trimmed + "/";
             }
         }
-        return DEFAULT_BASE_URL;
+        if (isEmulator()) {
+            return DEFAULT_EMULATOR_URL;
+        }
+        return DEFAULT_PHYSICAL_URL;
     }
 
     public static synchronized void setCustomBaseUrl(Context context, String newBaseUrl) {

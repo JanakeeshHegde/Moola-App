@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/spacing_md"
+    app:cardBackgroundColor="@color/moola_white"
+    app:cardCornerRadius="@dimen/radius_md"
+    app:cardElevation="1dp"
+    app:strokeColor="@color/moola_sandstone_border"
+    app:strokeWidth="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_base">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvBookingNumber"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Booking #PB-841920"
+                android:textColor="@color/moola_charcoal"
+                android:textSize="@dimen/text_base"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvBookingStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_tag_organic"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="3dp"
+                android:text="CONFIRMED"
+                android:textColor="@color/moola_forest_green"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvBookingCampaignTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="Western Ghats Raw Multifloral Wild Forest Honey"
+            android:textColor="@color/moola_terracotta"
+            android:textSize="@dimen/text_sm"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvBookingSeller"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="Maker: Kodagu Forest Honey &amp; Spices"
+            android:textColor="@color/moola_charcoal_secondary"
+            android:textSize="11sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_xs"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvBookingQuantity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Pre-Booked: 2 x 500g Jar"
+                android:textColor="@color/moola_charcoal"
+                android:textSize="@dimen/text_sm" />
+
+            <TextView
+                android:id="@+id/tvBookingTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="₹840"
+                android:textColor="@color/moola_charcoal"
+                android:textSize="@dimen/text_base"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

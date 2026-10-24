@@ -44,10 +44,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // Public endpoints
                         .requestMatchers("/api/v1/auth/login", "/api/v1/auth/register", "/api/v1/auth/refresh").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/v1/products/**", "/api/v1/categories/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/sellers/following", "/api/v1/sellers/feed/followed").hasRole("BUYER")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/products/**", "/api/v1/categories/**", "/api/v1/campaigns/**", "/api/v1/sellers", "/api/v1/sellers/*", "/api/v1/sellers/*/shop", "/api/v1/sellers/search").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/account-deletion/public-request").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/enquiries").permitAll()
-                        .requestMatchers("/api/v1/health", "/api/health", "/error", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/api/v1/config/**", "/api/v1/health", "/api/health", "/error", "/swagger-ui/**", "/v3/api-docs/**", "/ws/**").permitAll()
 
                         // Role-specific endpoints
                         .requestMatchers("/api/v1/seller/**").hasAnyRole("SELLER", "ADMIN")

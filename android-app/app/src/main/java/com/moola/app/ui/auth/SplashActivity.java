@@ -19,7 +19,14 @@ public class SplashActivity extends AppCompatActivity {
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             SessionManager sessionManager = SessionManager.getInstance(this);
             if (sessionManager.isLoggedIn()) {
-                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                String role = sessionManager.getUserRole();
+                if ("seller".equalsIgnoreCase(role)) {
+                    startActivity(new Intent(SplashActivity.this, com.moola.app.ui.seller.SellerDashboardActivity.class));
+                } else if ("admin".equalsIgnoreCase(role)) {
+                    startActivity(new Intent(SplashActivity.this, com.moola.app.ui.admin.AdminDashboardActivity.class));
+                } else {
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                }
             } else {
                 startActivity(new Intent(SplashActivity.this, LoginActivity.class));
             }

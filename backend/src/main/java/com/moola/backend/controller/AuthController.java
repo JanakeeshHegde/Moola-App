@@ -33,6 +33,12 @@ public class AuthController {
         return ResponseEntity.ok(ApiResponse.ok(data, "Login successful"));
     }
 
+    @PostMapping("/refresh")
+    public ResponseEntity<ApiResponse<AuthDto.Tokens>> refreshToken(@Valid @RequestBody AuthDto.RefreshTokenRequest req) {
+        AuthDto.Tokens tokens = authService.refreshToken(req.getRefreshToken());
+        return ResponseEntity.ok(ApiResponse.ok(tokens, "Token refreshed successfully"));
+    }
+
     @GetMapping("/me")
     public ResponseEntity<ApiResponse<User>> getMe(Authentication authentication) {
         String userId = (String) authentication.getPrincipal();

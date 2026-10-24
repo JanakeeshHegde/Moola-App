@@ -57,14 +57,25 @@ public class OrdersFragment extends Fragment {
     }
 
     private void loadOrders() {
+        binding.btnRetryOrders.setOnClickListener(v -> loadOrders());
+
         if (!sessionManager.isLoggedIn()) {
-            binding.ordersEmptyView.setVisibility(View.VISIBLE);
             binding.rvOrders.setVisibility(View.GONE);
+            binding.ordersEmptyView.setVisibility(View.GONE);
+            binding.ordersErrorView.setVisibility(View.VISIBLE);
+            binding.tvOrdersErrorTitle.setText("Authentication Required");
+            binding.tvOrdersErrorMessage.setText("Please sign in with your customer account to view your order history.");
+            binding.btnRetryOrders.setText("Sign In");
+            binding.btnRetryOrders.setOnClickListener(v -> {
+                startActivity(new Intent(requireContext(), com.moola.app.ui.auth.LoginActivity.class));
+            });
             binding.swipeRefreshOrders.setRefreshing(false);
             return;
         }
 
         binding.pbOrders.setVisibility(View.VISIBLE);
+        binding.ordersErrorView.setVisibility(View.GONE);
+
         ApiClient.getService(requireContext()).getBuyerOrders().enqueue(new Callback<ApiResponse<List<Order>>>() {
             @Override
             public void onResponse(@NonNull Call<ApiResponse<List<Order>>> call, @NonNull Response<ApiResponse<List<Order>>> response) {
@@ -74,6 +85,7 @@ public class OrdersFragment extends Fragment {
 
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                     List<Order> orders = response.body().getData();
+                    binding.ordersErrorView.setVisibility(View.GONE);
                     if (orders != null && !orders.isEmpty()) {
                         adapter.setOrders(orders);
                         binding.rvOrders.setVisibility(View.VISIBLE);
@@ -84,7 +96,25 @@ public class OrdersFragment extends Fragment {
                     }
                 } else {
                     binding.rvOrders.setVisibility(View.GONE);
-                    binding.ordersEmptyView.setVisibility(View.VISIBLE);
+                    binding.ordersEmptyView.setVisibility(View.GONE);
+                    binding.ordersErrorView.setVisibility(View.VISIBLE);
+                    String msg;
+                    if (response.code() == 401) {
+                        msg = "Your session has expired. Please log in again.";
+                        binding.btnRetryOrders.setText("Log In");
+                        binding.btnRetryOrders.setOnClickListener(v -> {
+                            sessionManager.clear();
+                            startActivity(new Intent(requireContext(), com.moola.app.ui.auth.LoginActivity.class));
+                        });
+                    } else if (response.code() == 403) {
+                        msg = "Access restricted for this user role.";
+                        binding.btnRetryOrders.setText("Retry");
+                    } else {
+                        msg = "Server error (HTTP " + response.code() + "). Please try again shortly.";
+                        binding.btnRetryOrders.setText("Retry");
+                    }
+                    binding.tvOrdersErrorTitle.setText("Could not load orders");
+                    binding.tvOrdersErrorMessage.setText(msg);
                 }
             }
 
@@ -93,7 +123,12 @@ public class OrdersFragment extends Fragment {
                 if (!isAdded()) return;
                 binding.pbOrders.setVisibility(View.GONE);
                 binding.swipeRefreshOrders.setRefreshing(false);
-                Toast.makeText(requireContext(), "Unable to load orders: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                binding.rvOrders.setVisibility(View.GONE);
+                binding.ordersEmptyView.setVisibility(View.GONE);
+                binding.ordersErrorView.setVisibility(View.VISIBLE);
+                binding.tvOrdersErrorTitle.setText("Connection Unavailable");
+                binding.tvOrdersErrorMessage.setText("Could not reach MOOLA server (" + ApiClient.getBaseUrl(requireContext()) + "). Check Wi-Fi or emulator setup.");
+                binding.btnRetryOrders.setText("Retry");
             }
         });
     }

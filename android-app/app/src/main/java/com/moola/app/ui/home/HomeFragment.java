@@ -21,8 +21,11 @@ import com.moola.app.data.api.ApiClient;
 import com.moola.app.data.model.ApiResponse;
 import com.moola.app.data.model.Category;
 import com.moola.app.data.model.Product;
+import com.moola.app.ui.chat.ConversationsActivity;
 import com.moola.app.ui.product.ProductDetailActivity;
+import com.moola.app.ui.request.CustomRequestsActivity;
 import com.moola.app.ui.search.SearchActivity;
+import com.moola.app.ui.seasonal.SeasonalHubActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,11 +38,14 @@ import java.util.Map;
 public class HomeFragment extends Fragment implements CategoryAdapter.OnCategoryClickListener, ProductAdapter.OnProductClickListener {
 
     private SwipeRefreshLayout swipeRefreshLayout;
+    private RecyclerView rvSellers;
+    private ProgressBar pbSellers;
     private RecyclerView rvCategories;
     private RecyclerView rvFeaturedProducts;
     private RecyclerView rvNewArrivals;
     private ProgressBar pbFeatured;
 
+    private SellerCardAdapter sellerCardAdapter;
     private CategoryAdapter categoryAdapter;
     private ProductAdapter featuredAdapter;
     private ProductAdapter newArrivalsAdapter;
@@ -52,12 +58,20 @@ public class HomeFragment extends Fragment implements CategoryAdapter.OnCategory
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        rvSellers = view.findViewById(R.id.rvSellers);
+        pbSellers = view.findViewById(R.id.pbSellers);
         rvCategories = view.findViewById(R.id.rvCategories);
         rvFeaturedProducts = view.findViewById(R.id.rvFeaturedProducts);
         rvNewArrivals = view.findViewById(R.id.rvNewArrivals);
         pbFeatured = view.findViewById(R.id.pbFeatured);
 
         setupRecyclerViews();
+
+        view.findViewById(R.id.tvViewAllSellers).setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), SearchActivity.class);
+            intent.putExtra("SEARCH_MODE", "MAKERS");
+            startActivity(intent);
+        });
 
         // Search bar entry
         view.findViewById(R.id.searchEntryBar).setOnClickListener(v -> {
@@ -74,6 +88,28 @@ public class HomeFragment extends Fragment implements CategoryAdapter.OnCategory
             startActivity(new Intent(getActivity(), SearchActivity.class));
         });
 
+        // Notifications button
+        viewNotificationBadge = view.findViewById(R.id.viewNotificationBadge);
+        view.findViewById(R.id.btnHeaderNotifications).setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), com.moola.app.ui.notification.NotificationsActivity.class));
+        });
+
+        // Messages button
+        viewChatBadge = view.findViewById(R.id.viewChatBadge);
+        view.findViewById(R.id.btnHeaderMessages).setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), ConversationsActivity.class));
+        });
+
+        // Seasonal Hub button
+        view.findViewById(R.id.btnOpenSeasonalHub).setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), SeasonalHubActivity.class));
+        });
+
+        // Custom Requests button
+        view.findViewById(R.id.btnOpenCustomRequests).setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), CustomRequestsActivity.class));
+        });
+
         // Profile avatar
         view.findViewById(R.id.btnHeaderProfile).setOnClickListener(v -> {
             if (getActivity() != null) {
@@ -88,11 +124,64 @@ public class HomeFragment extends Fragment implements CategoryAdapter.OnCategory
         swipeRefreshLayout.setOnRefreshListener(this::loadHomeData);
 
         loadHomeData();
+        loadUnreadBadges();
 
         return view;
     }
 
+    private View viewNotificationBadge;
+    private View viewChatBadge;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadUnreadBadges();
+    }
+
+    private void loadUnreadBadges() {
+        if (getContext() == null) return;
+        ApiClient.getService(getContext()).getUnreadNotificationCount().enqueue(new Callback<ApiResponse<Map<String, Long>>>() {
+            @Override
+            public void onResponse(@NonNull Call<ApiResponse<Map<String, Long>>> call, @NonNull Response<ApiResponse<Map<String, Long>>> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
+                    Long count = response.body().getData().get("unreadCount");
+                    if (viewNotificationBadge != null) {
+                        viewNotificationBadge.setVisibility(count != null && count > 0 ? View.VISIBLE : View.GONE);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ApiResponse<Map<String, Long>>> call, @NonNull Throwable t) {}
+        });
+
+        ApiClient.getService(getContext()).getUnreadChatCount().enqueue(new Callback<ApiResponse<Map<String, Long>>>() {
+            @Override
+            public void onResponse(@NonNull Call<ApiResponse<Map<String, Long>>> call, @NonNull Response<ApiResponse<Map<String, Long>>> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
+                    Long count = response.body().getData().get("unreadCount");
+                    if (viewChatBadge != null) {
+                        viewChatBadge.setVisibility(count != null && count > 0 ? View.VISIBLE : View.GONE);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ApiResponse<Map<String, Long>>> call, @NonNull Throwable t) {}
+        });
+    }
+
     private void setupRecyclerViews() {
+        // 0. Primary Profile Discovery: Artisan Makers
+        rvSellers.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        sellerCardAdapter = new SellerCardAdapter(seller -> {
+            Intent intent = new Intent(getActivity(), com.moola.app.ui.seller.SellerShopActivity.class);
+            intent.putExtra(com.moola.app.ui.seller.SellerShopActivity.EXTRA_SELLER_ID, seller.getSellerId());
+            intent.putExtra(com.moola.app.ui.seller.SellerShopActivity.EXTRA_SELLER_NAME, seller.getShopName());
+            startActivity(intent);
+        });
+        rvSellers.setAdapter(sellerCardAdapter);
+
         // Categories horizontal
         rvCategories.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         categoryAdapter = new CategoryAdapter(this);
@@ -112,6 +201,25 @@ public class HomeFragment extends Fragment implements CategoryAdapter.OnCategory
     private void loadHomeData() {
         if (getContext() == null) return;
         pbFeatured.setVisibility(View.VISIBLE);
+
+        // 0. Primary Discovery: Load Artisan Makers & Kitchens
+        pbSellers.setVisibility(View.VISIBLE);
+        ApiClient.getService(getContext()).getPublicSellers(null)
+                .enqueue(new Callback<ApiResponse<List<com.moola.app.data.model.PublicSellerProfile>>>() {
+                    @Override
+                    public void onResponse(@NonNull Call<ApiResponse<List<com.moola.app.data.model.PublicSellerProfile>>> call,
+                                           @NonNull Response<ApiResponse<List<com.moola.app.data.model.PublicSellerProfile>>> response) {
+                        pbSellers.setVisibility(View.GONE);
+                        if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
+                            sellerCardAdapter.setSellers(response.body().getData());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<ApiResponse<List<com.moola.app.data.model.PublicSellerProfile>>> call, @NonNull Throwable t) {
+                        pbSellers.setVisibility(View.GONE);
+                    }
+                });
 
         // 1. Load Categories
         ApiClient.getService(getContext()).getCategories().enqueue(new Callback<ApiResponse<Map<String, Object>>>() {

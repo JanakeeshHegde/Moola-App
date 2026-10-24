@@ -47,6 +47,25 @@ public class OrderDetailActivity extends AppCompatActivity {
         binding.btnSubmitUtr.setOnClickListener(v -> showUtrSubmissionDialog());
         binding.btnCancelOrder.setOnClickListener(v -> showCancelOrderDialog());
 
+        binding.btnOrderChat.setOnClickListener(v -> {
+            if (currentOrder == null) return;
+            com.moola.app.data.model.User currentUser = com.moola.app.data.storage.SessionManager.getInstance(this).getUser();
+            String currentUserId = currentUser != null ? currentUser.getId() : "";
+
+            Intent chatIntent = new Intent(this, com.moola.app.ui.chat.ChatActivity.class);
+            if (currentUserId.equals(currentOrder.getSellerId())) {
+                chatIntent.putExtra(com.moola.app.ui.chat.ChatActivity.EXTRA_OTHER_USER_ID, currentOrder.getBuyerId());
+                chatIntent.putExtra(com.moola.app.ui.chat.ChatActivity.EXTRA_PARTNER_NAME, currentOrder.getBuyerName() != null ? currentOrder.getBuyerName() : "Customer");
+            } else {
+                chatIntent.putExtra(com.moola.app.ui.chat.ChatActivity.EXTRA_OTHER_USER_ID, currentOrder.getSellerId());
+                chatIntent.putExtra(com.moola.app.ui.chat.ChatActivity.EXTRA_PARTNER_NAME, currentOrder.getSellerShopName() != null ? currentOrder.getSellerShopName() : "Artisan Maker");
+            }
+            chatIntent.putExtra(com.moola.app.ui.chat.ChatActivity.EXTRA_ORDER_ID, currentOrder.getId());
+            chatIntent.putExtra(com.moola.app.ui.chat.ChatActivity.EXTRA_ORDER_NUMBER, currentOrder.getOrderNumber());
+            chatIntent.putExtra(com.moola.app.ui.chat.ChatActivity.EXTRA_CONTEXT_TITLE, "📦 Order #" + (currentOrder.getOrderNumber() != null ? currentOrder.getOrderNumber() : currentOrder.getId()));
+            startActivity(chatIntent);
+        });
+
         loadOrderDetail();
     }
 
@@ -58,13 +77,21 @@ public class OrderDetailActivity extends AppCompatActivity {
                     currentOrder = response.body().getData();
                     renderOrderDetails(currentOrder);
                 } else {
-                    Toast.makeText(OrderDetailActivity.this, "Failed to load order details", Toast.LENGTH_SHORT).show();
+                    String msg = "Unable to load order details";
+                    if (response.code() == 401) {
+                        msg = "Session expired. Please log in again.";
+                    } else if (response.code() == 403) {
+                        msg = "Access denied: You do not have permission to view this order.";
+                    } else if (response.code() == 404) {
+                        msg = "Order not found.";
+                    }
+                    Toast.makeText(OrderDetailActivity.this, msg, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<ApiResponse<Order>> call, @NonNull Throwable t) {
-                Toast.makeText(OrderDetailActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(OrderDetailActivity.this, "Network error: Unable to reach server. Please check your connection.", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -96,27 +123,63 @@ public class OrderDetailActivity extends AppCompatActivity {
         }
         binding.tvDetailOrderTimelineNote.setText(timelineNote);
 
-        // Consignment & Postal Tracking
+        // Update fulfillment stepper
+        int step = order.getCurrentStep() > 0 ? order.getCurrentStep() : 1;
+        if ("DELIVERED".equals(order.getStatus())) step = 5;
+        else if ("SHIPPED".equals(order.getStatus()) || "DISPATCHED".equals(order.getStatus())) step = Math.max(step, 3);
+        else if ("PACKED".equals(order.getStatus())) step = Math.max(step, 2);
+
+        updateStepperView(step);
+
+        // Consignment & Courier Tracking
         if (order.getConsignmentNumber() != null && !order.getConsignmentNumber().isBlank()) {
             binding.cardConsignment.setVisibility(View.VISIBLE);
             String carrier = order.getCarrierName() != null ? order.getCarrierName() : "India Post Speed Post";
-            binding.tvCarrierAndAwb.setText(carrier + ": " + order.getConsignmentNumber());
+            binding.tvCarrierName.setText("Carrier: " + carrier);
+            binding.tvTrackingNumber.setText("Consignment #: " + order.getConsignmentNumber());
+            binding.tvDispatchDate.setText("Dispatched: Direct Maker Handover Recorded");
+
+            final String awb = order.getConsignmentNumber();
+            binding.btnCopyTracking.setOnClickListener(v -> {
+                android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                android.content.ClipData clip = android.content.ClipData.newPlainText("AWB Tracking Number", awb);
+                if (clipboard != null) {
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(this, "Tracking number " + awb + " copied!", Toast.LENGTH_SHORT).show();
+                }
+            });
 
             binding.btnTrackShipment.setOnClickListener(v -> {
                 String trackingUrl = order.getConsignmentUrl();
                 if (trackingUrl == null || trackingUrl.isBlank()) {
-                    // Default to India Post track consignment portal
                     trackingUrl = "https://www.indiapost.gov.in/_layouts/15/dop.portal.tracking/trackconsignment.aspx";
                 }
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(trackingUrl));
                 try {
                     startActivity(browserIntent);
                 } catch (Exception e) {
-                    Toast.makeText(this, "Could not open tracking browser", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Could not open tracking portal", Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
             binding.cardConsignment.setVisibility(View.GONE);
+        }
+
+        // Review & Rating Section
+        if ("DELIVERED".equals(order.getStatus())) {
+            binding.cardOrderReview.setVisibility(View.VISIBLE);
+            if (order.getRating() != null && order.getRating() > 0) {
+                binding.layoutReviewInput.setVisibility(View.GONE);
+                binding.tvSubmittedReview.setVisibility(View.VISIBLE);
+                binding.tvSubmittedReview.setText("You rated this order: " + order.getRating() + " ★\n\"" +
+                        (order.getReviewNote() != null ? order.getReviewNote() : "Fresh & Authentic") + "\"");
+            } else {
+                binding.layoutReviewInput.setVisibility(View.VISIBLE);
+                binding.tvSubmittedReview.setVisibility(View.GONE);
+                setupReviewSubmission();
+            }
+        } else {
+            binding.cardOrderReview.setVisibility(View.GONE);
         }
 
         // Payment status & UPI
@@ -145,6 +208,68 @@ public class OrderDetailActivity extends AppCompatActivity {
         } else {
             binding.btnCancelOrder.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void updateStepperView(int activeStep) {
+        int colorActive = getResources().getColor(R.color.moola_forest_green);
+        int colorInactive = getResources().getColor(R.color.moola_sandstone_border);
+        int colorTextActive = getResources().getColor(R.color.moola_charcoal);
+        int colorTextInactive = getResources().getColor(R.color.moola_charcoal_secondary);
+
+        binding.ivStep1.setColorFilter(activeStep >= 1 ? colorActive : colorInactive);
+        binding.tvStep1.setTextColor(activeStep >= 1 ? colorTextActive : colorTextInactive);
+
+        binding.ivStep2.setColorFilter(activeStep >= 2 ? colorActive : colorInactive);
+        binding.tvStep2.setTextColor(activeStep >= 2 ? colorTextActive : colorTextInactive);
+
+        binding.ivStep3.setColorFilter(activeStep >= 3 ? colorActive : colorInactive);
+        binding.tvStep3.setTextColor(activeStep >= 3 ? colorTextActive : colorTextInactive);
+
+        binding.ivStep4.setColorFilter(activeStep >= 4 ? colorActive : colorInactive);
+        binding.tvStep4.setTextColor(activeStep >= 4 ? colorTextActive : colorTextInactive);
+
+        binding.ivStep5.setColorFilter(activeStep >= 5 ? colorActive : colorInactive);
+        binding.tvStep5.setTextColor(activeStep >= 5 ? colorTextActive : colorTextInactive);
+    }
+
+    private void setupReviewSubmission() {
+        String[] ratingOptions = {
+                "5 Stars - Outstanding Homemade Taste & Freshness",
+                "4 Stars - Great Artisan Quality",
+                "3 Stars - Good & Natural",
+                "2 Stars - Average Quality",
+                "1 Star - Unsatisfactory"
+        };
+        android.widget.ArrayAdapter<String> ratingAdapter = new android.widget.ArrayAdapter<>(
+                this, android.R.layout.simple_spinner_dropdown_item, ratingOptions);
+        binding.spReviewRating.setAdapter(ratingAdapter);
+
+        binding.btnSubmitReview.setOnClickListener(v -> {
+            int selectedIndex = binding.spReviewRating.getSelectedItemPosition();
+            int stars = 5 - selectedIndex; // 0 index -> 5 stars
+            String note = binding.etReviewNote.getText().toString().trim();
+
+            Map<String, Object> body = new HashMap<>();
+            body.put("rating", stars);
+            body.put("reviewNote", note);
+
+            ApiClient.getService(this).submitOrderReview(orderId, body).enqueue(new Callback<ApiResponse<Order>>() {
+                @Override
+                public void onResponse(@NonNull Call<ApiResponse<Order>> call, @NonNull Response<ApiResponse<Order>> response) {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(OrderDetailActivity.this, "Thank you! Your review has been published.", Toast.LENGTH_LONG).show();
+                        loadOrderDetail();
+                    } else {
+                        Toast.makeText(OrderDetailActivity.this, "Failed to submit review", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<ApiResponse<Order>> call, @NonNull Throwable t) {
+                    Toast.makeText(OrderDetailActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
     }
 
     private void showUtrSubmissionDialog() {

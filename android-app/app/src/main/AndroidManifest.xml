@@ -78,6 +78,43 @@
             android:name=".ui.account.AccountDeletionActivity"
             android:exported="false" />
 
+        <!-- Reverse Marketplace (Custom Requests & Offers) -->
+        <activity
+            android:name=".ui.request.CustomRequestsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.request.NewCustomRequestActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.request.CustomRequestDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.request.SellerRequestsBoardActivity"
+            android:exported="false" />
+
+        <!-- Seasonal & Festival Pre-Booking -->
+        <activity
+            android:name=".ui.seasonal.SeasonalHubActivity"
+            android:exported="false" />
+
+        <!-- Direct 1-to-1 In-App Chat -->
+        <activity
+            android:name=".ui.chat.ConversationsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.chat.ChatActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Social Marketplace: Seller Shop & Notification Centre -->
+        <activity
+            android:name=".ui.seller.SellerShopActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.notification.NotificationsActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>
