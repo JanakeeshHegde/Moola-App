@@ -1,0 +1,24 @@
+#Backend
+.\gradlew.bat bootRun
+
+#Build
+cd D:\Moola-App\android-app
+.\gradlew.bat assembleDebug
+
+#App install(path set)
+$adb = "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe"
+
+#Adb file check
+Test-Path $adb
+
+#Phone connected check
+& $adb devices
+
+#Apk file check
+Test-Path "D:\Moola-App\android-app\app\build\outputs\apk\debug\app-debug.apk"
+
+#New apk install/update
+& $adb install -r "D:\Moola-App\android-app\app\build\outputs\apk\debug\app-debug.apk"
+
+#show app real application id
+& $adb shell monkey -p com.moola.app 1
