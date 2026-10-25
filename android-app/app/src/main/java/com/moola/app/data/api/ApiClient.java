@@ -16,8 +16,8 @@ import java.util.concurrent.TimeUnit;
 
 public class ApiClient {
 
-    public static final String DEFAULT_PHYSICAL_URL = "http://192.168.1.40:5000/";
-    public static final String DEFAULT_EMULATOR_URL = "http://10.0.2.2:5000/";
+    public static final String DEFAULT_PHYSICAL_URL = "http://localhost:5000";
+    public static final String DEFAULT_EMULATOR_URL = "http://localhost:5000";
     public static final String DEFAULT_BASE_URL = DEFAULT_PHYSICAL_URL;
 
     private static Retrofit retrofit = null;
