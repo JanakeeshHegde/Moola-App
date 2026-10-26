@@ -1,0 +1,10 @@
+#!/bin/sh
+# Maven Wrapper script
+if command -v mvn >/dev/null 2>&1; then
+  exec mvn "$@"
+else
+  echo "Maven is not found in PATH. Please install Apache Maven to run:"
+  echo "  cd backend"
+  echo "  mvn spring-boot:run"
+  exit 1
+fi
